@@ -17,7 +17,7 @@ wget -O- /tmp/build-mini-stack-profile.sh https://git.io/fjcFg | bash
 ```
 #### 03. Replace limited root bashrc
 ```sh
-cp -f /etc/skel/.bashrc /root/.bashrc && source ~/.bashrc
+cp -f /etc/skel/.bashrc ~/.bashrc && source ~/.bashrc
 ```
 #### 04. Import your ssh pub key
 ```sh
@@ -32,7 +32,7 @@ systemctl restart sshd
 #### 06. Enable PCI Passthrough && Nested Virtual Machines && Revert NIC Interface Naming
 ```sh
 mkdir /etc/default/grub.d
-wget -O /etc/default/grub.d/99-libvirt.cfg https://git.io/fjtnT
+wget -O /etc/default/grub.d/99-libvirt.cfg https://git.io/fjcFo
 update-grub
 ```
 #### 07. Change network device name in /etc/netplan/*.yaml to eth0
