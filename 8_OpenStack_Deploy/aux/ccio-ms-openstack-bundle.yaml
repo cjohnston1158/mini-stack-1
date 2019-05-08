@@ -1,21 +1,48 @@
 ﻿series: bionic
 applications:
-  ceph-mon:
-    charm: 'cs:ceph-mon-31'
-    num_units: 3
+  neutron-gateway:
+    charm: 'cs:neutron-gateway-256'
+    num_units: 1
     options:
-      ceph-cluster-network: 10.10.0.0/24
-      ceph-public-network: 10.10.0.0/24
-      expected-osd-count: 3
-      source: 'cloud:bionic-rocky'
+      bridge-mappings: 'physnet1:br-ex'
+      data-port: 'br-ex:ens4'
+      debug: true
+      dns-servers: '10.10.0.10,10.10.0.1,10.0.0.1'
+      enable-isolated-metadata: true
+      ha-bindiface: ens2
+      instance-mtu: 1500
+      openstack-origin: 'cloud:bionic-rocky'
+      os-data-network: 10.10.0.0/24
+      verbose: true
+      worker-multiplier: 0.25
     series: bionic
     annotations:
-      gui-x: '750'
-      gui-y: '500'
+      gui-x: '0'
+      gui-y: '0'
     to:
-      - 'lxd:2'
-      - 'lxd:2'
-      - 'lxd:2'
+      - '0'
+  nova-compute:
+    charm: 'cs:nova-compute-290'
+    num_units: 2
+    options:
+      action-managed-upgrade: true
+      bridge-ip: 10.10.0.61
+      ceph-osd-replication-count: 1
+      config-flags: default_ephemeral_format=ext4
+      cpu-mode: host-passthrough
+      enable-live-migration: true
+      enable-resize: true
+      flat-interface: ens3
+      openstack-origin: 'cloud:bionic-rocky'
+      os-internal-network: 10.10.0.0/24
+      resume-guests-state-on-host-boot: true
+    series: bionic
+    annotations:
+      gui-x: '250'
+      gui-y: '250'
+    to:
+      - '1'
+      - '2'
   ceph-osd:
     charm: 'cs:ceph-osd-273'
     num_units: 3
@@ -33,6 +60,22 @@ applications:
       - '0'
       - '1'
       - '2'
+  ceph-mon:
+    charm: 'cs:ceph-mon-31'
+    num_units: 3
+    options:
+      ceph-cluster-network: 10.10.0.0/24
+      ceph-public-network: 10.10.0.0/24
+      expected-osd-count: 3
+      source: 'cloud:bionic-rocky'
+    series: bionic
+    annotations:
+      gui-x: '750'
+      gui-y: '500'
+    to:
+      - 'lxd:0'
+      - 'lxd:1'
+      - 'lxd:2'
   ceph-radosgw:
     charm: 'cs:ceph-radosgw-262'
     num_units: 1
@@ -47,7 +90,7 @@ applications:
       gui-x: '1000'
       gui-y: '250'
     to:
-      - 'lxd:2'
+      - 'lxd:0'
   cinder:
     charm: 'cs:cinder-276'
     num_units: 1
@@ -66,7 +109,7 @@ applications:
       gui-x: '750'
       gui-y: '0'
     to:
-      - 'lxd:2'
+      - 'lxd:0'
   cinder-ceph:
     charm: 'cs:cinder-ceph-238'
     options:
@@ -91,7 +134,7 @@ applications:
       gui-x: '250'
       gui-y: '0'
     to:
-      - 'lxd:2'
+      - 'lxd:0'
   keystone:
     charm: 'cs:keystone-288'
     num_units: 1
@@ -107,7 +150,7 @@ applications:
       gui-x: '500'
       gui-y: '0'
     to:
-      - 'lxd:2'
+      - 'lxd:0'
   mysql:
     charm: 'cs:percona-cluster-272'
     num_units: 1
@@ -121,7 +164,7 @@ applications:
       gui-x: '0'
       gui-y: '250'
     to:
-      - 'lxd:2'
+      - 'lxd:0'
   neutron-api:
     charm: 'cs:neutron-api-266'
     num_units: 1
@@ -142,28 +185,7 @@ applications:
       gui-x: '500'
       gui-y: '500'
     to:
-      - 'lxd:2'
-  neutron-gateway:
-    charm: 'cs:neutron-gateway-256'
-    num_units: 1
-    options:
-      bridge-mappings: 'physnet1:br-ex'
-      data-port: 'br-ex:ens4'
-      debug: true
-      dns-servers: '10.10.0.10,10.10.0.1,10.0.0.1'
-      enable-isolated-metadata: true
-      ha-bindiface: ens2
-      instance-mtu: 1500
-      openstack-origin: 'cloud:bionic-rocky'
-      os-data-network: 10.10.0.0/24
-      verbose: true
-      worker-multiplier: 0.25
-    series: bionic
-    annotations:
-      gui-x: '0'
-      gui-y: '0'
-    to:
-      - '0'
+      - 'lxd:0'
   neutron-openvswitch:
     charm: 'cs:neutron-openvswitch-255'
     options:
@@ -198,29 +220,7 @@ applications:
       gui-x: '0'
       gui-y: '500'
     to:
-      - 'lxd:2'
-  nova-compute:
-    charm: 'cs:nova-compute-290'
-    num_units: 2
-    options:
-      action-managed-upgrade: true
-      bridge-ip: 10.10.0.61
-      ceph-osd-replication-count: 1
-      config-flags: default_ephemeral_format=ext4
-      cpu-mode: host-passthrough
-      enable-live-migration: true
-      enable-resize: true
-      flat-interface: ens3
-      openstack-origin: 'cloud:bionic-rocky'
-      os-internal-network: 10.10.0.0/24
-      resume-guests-state-on-host-boot: true
-    series: bionic
-    annotations:
-      gui-x: '250'
-      gui-y: '250'
-    to:
-      - '1'
-      - '2'
+      - 'lxd:0'
   ntp:
     charm: 'cs:ntp-31'
     options:
@@ -244,7 +244,7 @@ applications:
       gui-x: '500'
       gui-y: '-250'
     to:
-      - 'lxd:2'
+      - 'lxd:0'
   rabbitmq-server:
     charm: 'cs:rabbitmq-server-82'
     num_units: 1
@@ -258,7 +258,7 @@ applications:
       gui-x: '500'
       gui-y: '250'
     to:
-      - 'lxd:2'
+      - 'lxd:0'
 relations:
   - - 'nova-compute:amqp'
     - 'rabbitmq-server:amqp'
