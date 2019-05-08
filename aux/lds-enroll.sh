@@ -1,7 +1,7 @@
 #!/bin/bash
 sys_TYTLE=$(hostname -f)
 
-#apt-get update && apt-get install landscape-client
+apt-get update && apt-get install landscape-client
 
 #sudo cat <<EOF >>/etc/hosts
 #10.0.0.12 lds.corp.braincraft.io lds
