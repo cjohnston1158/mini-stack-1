@@ -13,9 +13,9 @@ applications:
       gui-x: '750'
       gui-y: '500'
     to:
-      - 'lxd:3'
-      - 'lxd:3'
-      - 'lxd:3'
+      - 'lxd:2'
+      - 'lxd:2'
+      - 'lxd:2'
   ceph-osd:
     charm: 'cs:ceph-osd-273'
     num_units: 3
@@ -47,7 +47,7 @@ applications:
       gui-x: '1000'
       gui-y: '250'
     to:
-      - 'lxd:3'
+      - 'lxd:2'
   cinder:
     charm: 'cs:cinder-276'
     num_units: 1
@@ -66,7 +66,7 @@ applications:
       gui-x: '750'
       gui-y: '0'
     to:
-      - 'lxd:3'
+      - 'lxd:2'
   cinder-ceph:
     charm: 'cs:cinder-ceph-238'
     options:
@@ -91,7 +91,7 @@ applications:
       gui-x: '250'
       gui-y: '0'
     to:
-      - 'lxd:3'
+      - 'lxd:2'
   keystone:
     charm: 'cs:keystone-288'
     num_units: 1
@@ -107,7 +107,7 @@ applications:
       gui-x: '500'
       gui-y: '0'
     to:
-      - 'lxd:3'
+      - 'lxd:2'
   mysql:
     charm: 'cs:percona-cluster-272'
     num_units: 1
@@ -121,7 +121,7 @@ applications:
       gui-x: '0'
       gui-y: '250'
     to:
-      - 'lxd:3'
+      - 'lxd:2'
   neutron-api:
     charm: 'cs:neutron-api-266'
     num_units: 1
@@ -142,7 +142,7 @@ applications:
       gui-x: '500'
       gui-y: '500'
     to:
-      - 'lxd:3'
+      - 'lxd:2'
   neutron-gateway:
     charm: 'cs:neutron-gateway-256'
     num_units: 1
@@ -198,7 +198,7 @@ applications:
       gui-x: '0'
       gui-y: '500'
     to:
-      - 'lxd:3'
+      - 'lxd:2'
   nova-compute:
     charm: 'cs:nova-compute-290'
     num_units: 2
@@ -244,7 +244,7 @@ applications:
       gui-x: '500'
       gui-y: '-250'
     to:
-      - 'lxd:3'
+      - 'lxd:2'
   rabbitmq-server:
     charm: 'cs:rabbitmq-server-82'
     num_units: 1
@@ -258,7 +258,7 @@ applications:
       gui-x: '500'
       gui-y: '250'
     to:
-      - 'lxd:3'
+      - 'lxd:2'
 relations:
   - - 'nova-compute:amqp'
     - 'rabbitmq-server:amqp'
