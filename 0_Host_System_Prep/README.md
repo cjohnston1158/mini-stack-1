@@ -13,8 +13,7 @@ apt-get update && apt-get install -y whois vim lnav openssh-server linux-generic
 ```
 #### 02. Create host CCIO Profile Configuration && add to bashrc
 ```sh
-wget -O /tmp/build-mini-stack-profile.sh https://git.io/fjLhZ
-source /tmp/build-mini-stack-profile.sh
+wget -O- /tmp/build-mini-stack-profile.sh https://git.io/fjcFg | bash
 ```
 #### 03. Replace limited root bashrc
 ```sh
