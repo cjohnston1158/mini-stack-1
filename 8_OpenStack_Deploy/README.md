@@ -23,7 +23,7 @@ source /tmp/virt-inst-stack.sh
 
 #### 02. Discover new KVM VIrtual Machines via PODS Refresh  (on host)
 ```
-lxc exec maasctl -- /bin/bash -c "wget -O- https://git.io/fjLpv 2>/dev/null | bash"
+lxc exec maasctl -- /bin/bash -c "wget -O- https://git.io/fjCef 2>/dev/null | bash"
 ```
 
 #### 03. Tag new mini-stack nodes (on host)
