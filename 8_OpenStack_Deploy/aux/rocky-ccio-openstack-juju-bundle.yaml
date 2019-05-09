@@ -1,231 +1,241 @@
 ﻿series: bionic
-applications:
+services:
   neutron-gateway:
-    charm: 'cs:neutron-gateway-256'
-    num_units: 1
+    charm: 'cs:neutron-gateway-262'
     options:
+      openstack-origin: 'cloud:bionic-stein'
       bridge-mappings: 'physnet1:br-ex'
       data-port: 'br-ex:ens4'
-      debug: true
       dns-servers: '10.10.0.10,10.10.0.1,10.0.0.1'
       enable-isolated-metadata: true
-      ha-bindiface: ens2
       instance-mtu: 1500
-      openstack-origin: 'cloud:bionic-rocky'
-      os-data-network: 10.10.0.0/24
-      verbose: true
       worker-multiplier: 0.25
-    series: bionic
+      verbose: true
+      debug: true
     annotations:
       gui-x: '0'
       gui-y: '0'
+    num_units: 1
     to:
       - '0'
   nova-compute:
-    charm: 'cs:nova-compute-290'
-    num_units: 2
+    charm: 'cs:nova-compute-300'
     options:
-      action-managed-upgrade: true
-      bridge-ip: 10.10.0.61
-      ceph-osd-replication-count: 1
+      openstack-origin: 'cloud:bionic-stein'
+      migration-auth-type: ssh
+      enable-live-migration: True
+      live-migration-permit-post-copy: True
+      live-migration-permit-auto-converge: True
       config-flags: default_ephemeral_format=ext4
+      resume-guests-state-on-host-boot: false
+      action-managed-upgrade: true
+      ceph-osd-replication-count: 1
+      libvirt-image-backend: rbd
       cpu-mode: host-passthrough
-      enable-live-migration: true
       enable-resize: true
-      flat-interface: ens3
-      openstack-origin: 'cloud:bionic-rocky'
-      os-internal-network: 10.10.0.0/24
-      resume-guests-state-on-host-boot: true
-    series: bionic
     annotations:
       gui-x: '250'
       gui-y: '250'
+    num_units: 2
     to:
       - '1'
       - '2'
   ceph-osd:
-    charm: 'cs:ceph-osd-273'
-    num_units: 3
-    options:
-      autotune: true
-      ceph-cluster-network: 10.10.0.0/24
-      ceph-public-network: 10.10.0.0/24
-      osd-devices: '/dev/vdb /dev/vdc'
-      source: 'cloud:bionic-rocky'
     series: bionic
+    charm: 'cs:ceph-osd-284'
+    options:
+      source: 'cloud:bionic-stein'
+      osd-devices: '/dev/vdb /dev/vdc'
+      autotune: true
+    bindings:
+      ? ''
+      : lan
     annotations:
       gui-x: '1000'
       gui-y: '500'
+    num_units: 3
     to:
       - '0'
       - '1'
       - '2'
   ceph-mon:
-    charm: 'cs:ceph-mon-31'
-    num_units: 3
+    series: bionic
+    charm: 'cs:ceph-mon-38'
+    options:
+      source: 'cloud:bionic-stein'
+      expected-osd-count: 3
+      monitor-count: 3
     bindings:
       public: lan
       cluster: lan
-    options:
-      ceph-cluster-network: 10.10.0.0/24
-      ceph-public-network: 10.10.0.0/24
-      expected-osd-count: 3
-      source: 'cloud:bionic-rocky'
-    series: bionic
     annotations:
       gui-x: '750'
       gui-y: '500'
+    num_units: 3
     to:
       - 'lxd:0'
       - 'lxd:1'
       - 'lxd:2'
   ceph-radosgw:
-    charm: 'cs:ceph-radosgw-262'
-    num_units: 1
-    options:
-      ceph-osd-replication-count: 1
-      os-admin-network: 10.10.0.0/24
-      os-internal-network: 10.10.0.0/24
-      os-public-network: 10.10.0.0/24
-      source: 'cloud:bionic-rocky'
     series: bionic
+    charm: 'cs:ceph-radosgw-270'
+    options:
+      source: 'cloud:bionic-stein'
+      ceph-osd-replication-count: 1
+    bindings:
+      ? ''
+      : lan
     annotations:
       gui-x: '1000'
       gui-y: '250'
+    num_units: 1
     to:
       - 'lxd:0'
   cinder:
-    charm: 'cs:cinder-276'
-    num_units: 1
-    options:
-      action-managed-upgrade: true
-      block-device: None
-      ceph-osd-replication-count: 1
-      glance-api-version: 2
-      openstack-origin: 'cloud:bionic-rocky'
-      os-admin-network: 10.10.0.0/24
-      os-internal-network: 10.10.0.0/24
-      os-public-network: 10.10.0.0/24
-      worker-multiplier: 0.25
     series: bionic
+    charm: 'cs:cinder-284'
+    options:
+      openstack-origin: 'cloud:bionic-stein'
+      worker-multiplier: 0.25
+      block-device: None
+      glance-api-version: 2
+      action-managed-upgrade: true
+      ceph-osd-replication-count: 1
+    bindings:
+      ? ''
+      : lan
     annotations:
       gui-x: '750'
       gui-y: '0'
+    num_units: 1
     to:
       - 'lxd:0'
   cinder-ceph:
-    charm: 'cs:cinder-ceph-238'
+    charm: 'cs:cinder-ceph-242'
     options:
       ceph-osd-replication-count: 1
-    series: bionic
     annotations:
       gui-x: '750'
       gui-y: '250'
+    num_units: 0
   glance:
-    charm: 'cs:glance-271'
-    num_units: 1
+    series: bionic
+    charm: 'cs:glance-279'
     options:
+      openstack-origin: 'cloud:bionic-stein'
       action-managed-upgrade: true
       ceph-osd-replication-count: 1
-      openstack-origin: 'cloud:bionic-rocky'
-      os-admin-network: 10.10.0.0/24
-      os-internal-network: 10.10.0.0/24
-      os-public-network: 10.10.0.0/24
       worker-multiplier: 0.25
-    series: bionic
+    bindings:
+      ? ''
+      : lan
     annotations:
       gui-x: '250'
       gui-y: '0'
+    num_units: 1
+    to:
+      - 'lxd:0'
+  glance-simplestreams-sync:
+    charm: cs:glance-simplestreams-sync:21
+    options:
+      cloud_name: maasctl
+      mirror_list: |
+        [{url: 'http://cloud-images.ubuntu.com/releases/',
+          name_prefix: 'ubuntu:released',
+          path: 'streams/v1/index.sjson', max: 1,
+          item_filters: ['release~(trusty|xenial|bionic|cosmic)',
+                         'arch~(x86_64|amd64)',
+                         'ftype~(disk1.img|disk.img)']},
+        ]
+      use_swift: true
+    bindings:
+      ? ''
+      : lan
+    num_units: 1
     to:
       - 'lxd:0'
   keystone:
-    charm: 'cs:keystone-288'
-    num_units: 1
-    options:
-      admin-password: admin
-      openstack-origin: 'cloud:bionic-rocky'
-      os-admin-network: 10.10.0.0/24
-      os-internal-network: 10.10.0.0/24
-      os-public-network: 10.10.0.0/24
-      worker-multiplier: 0.25
     series: bionic
+    charm: 'cs:keystone-299'
+    options:
+      openstack-origin: 'cloud:bionic-stein'
+      admin-password: admin
+      worker-multiplier: 0.25
+    bindings:
+      ? ''
+      : lan
     annotations:
       gui-x: '500'
       gui-y: '0'
+    num_units: 1
     to:
       - 'lxd:0'
   mysql:
-    charm: 'cs:percona-cluster-272'
-    num_units: 1
+    series: bionic
+    charm: 'cs:percona-cluster-276'
     options:
-      access-network: 10.10.0.0/24
-      cluster-network: 10.10.0.0/24
+      root-password: admin
+      sst-password: admin
       innodb-buffer-pool-size: 256M
       max-connections: 1000
-    series: bionic
+      performance-schema: true
+    bindings:
+      ? ''
+      : lan
     annotations:
       gui-x: '0'
       gui-y: '250'
+    num_units: 1
     to:
       - 'lxd:0'
   neutron-api:
-    charm: 'cs:neutron-api-266'
-    num_units: 1
+    series: bionic
+    charm: 'cs:neutron-api-273'
     options:
+      openstack-origin: 'cloud:bionic-stein'
+      worker-multiplier: 0.25
+      neutron-security-groups: true
       action-managed-upgrade: true
-      dns-domain: mini.stack.
+      dns-domain: mini-stack.maas.
       enable-ml2-dns: true
       enable-vlan-trunking: true
+      global-physnet-mtu: 1500
       flat-network-providers: physnet1
-      neutron-security-groups: true
-      openstack-origin: 'cloud:bionic-rocky'
-      os-admin-network: 10.10.0.0/24
-      os-internal-network: 10.10.0.0/24
-      os-public-network: 10.10.0.0/24
-      worker-multiplier: 0.25
-    series: bionic
+    bindings:
+      ? ''
+      : lan
     annotations:
       gui-x: '500'
       gui-y: '500'
+    num_units: 1
     to:
       - 'lxd:0'
   neutron-openvswitch:
     charm: 'cs:neutron-openvswitch-259'
+    num_units: 0
     options:
       debug: true
-      dns-servers: '10.10.0.10,10.10.0.1,10.0.0.1'
-      ext-port: ens3
-      firewall-driver: openvswitch
-      instance-mtu: 1500
-      os-data-network: 10.10.0.0/24
       verbose: true
-      worker-multiplier: .nan
-    series: bionic
     annotations:
       gui-x: '250'
       gui-y: '500'
   nova-cloud-controller:
-    charm: 'cs:nova-cloud-controller-316'
-    num_units: 1
+    charm: 'cs:nova-cloud-controller-328'
     options:
+      openstack-origin: 'cloud:bionic-stein'
       action-managed-upgrade: true
-      bridge-ip: 10.10.0.61
-      console-access-protocol: vnc
-      ha-bindiface: ens2
+      console-access-protocol: spice
       network-manager: Neutron
-      openstack-origin: 'cloud:bionic-rocky'
-      os-admin-network: 10.10.0.0/24
-      os-internal-network: 10.10.0.0/24
-      os-public-network: 10.10.0.0/24
       worker-multiplier: 0.25
     series: bionic
     annotations:
       gui-x: '0'
       gui-y: '500'
+    num_units: 1
     to:
       - 'lxd:0'
   ntp:
-    charm: 'cs:ntp-31'
+    charm: 'cs:ntp-32'
     options:
       pools: >-
         0.ubuntu.pool.ntp.org 1.ubuntu.pool.ntp.org 2.ubuntu.pool.ntp.org
@@ -235,31 +245,37 @@ applications:
       gui-x: '1000'
       gui-y: '0'
   openstack-dashboard:
-    charm: 'cs:openstack-dashboard-271'
-    num_units: 1
+    series: bionic
+    charm: 'cs:openstack-dashboard-280'
     options:
+      openstack-origin: 'cloud:bionic-stein'
       action-managed-upgrade: true
       allow-password-autocompletion: true
-      openstack-origin: 'cloud:bionic-rocky'
       password-retrieve: true
-    series: bionic
+      default-create-volume: true
+      webroot: '/'
+    bindings:
+      ? ''
+      : lan
     annotations:
       gui-x: '500'
       gui-y: '-250'
+    num_units: 1
     to:
       - 'lxd:0'
   rabbitmq-server:
-    charm: 'cs:rabbitmq-server-82'
-    num_units: 1
-    options:
-      access-network: 10.10.0.0/24
-      ceph-osd-replication-count: 1
-      cluster-network: 10.10.0.0/24
-      management_plugin: true
     series: bionic
+    charm: 'cs:rabbitmq-server-89'
+    options:
+      ceph-osd-replication-count: 1
+      management_plugin: true
+    bindings:
+      ? ''
+      : lan
     annotations:
       gui-x: '500'
       gui-y: '250'
+    num_units: 1
     to:
       - 'lxd:0'
 relations:
