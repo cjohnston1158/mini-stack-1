@@ -18,7 +18,7 @@ Prerequisites:
 NOTE: sane defaults set in script hardware profile section, adjust if required
 ```
 wget -O /tmp/virt-inst-stack-nodes.sh https://git.io/fjcjp
-source /tmp/virt-inst-stack.sh
+source /tmp/virt-inst-stack-nodes.sh
 ```
 
 #### 02. Discover new KVM VIrtual Machines via PODS Refresh  (on host)
