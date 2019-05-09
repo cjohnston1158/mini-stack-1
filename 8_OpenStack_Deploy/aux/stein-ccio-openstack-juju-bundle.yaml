@@ -136,7 +136,7 @@ services:
     to:
       - 'lxd:0'
   glance-simplestreams-sync:
-    charm: cs:glance-simplestreams-sync:21
+    charm: cs:glance-simplestreams-sync
     options:
       cloud_name: maasctl
       mirror_list: |
