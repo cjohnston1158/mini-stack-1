@@ -28,7 +28,7 @@ lxc exec maasctl -- /bin/bash -c "wget -O- https://git.io/fjCef 2>/dev/null | ba
 
 #### 03. Tag new mini-stack nodes (on host)
 ```
-lxc exec maasctl -- /bin/bash -c "wget -O- https://git.io/fjLpJ 2>/dev/null | bash"
+lxc exec maasctl -- /bin/bash -c "wget -O- https://git.io/fjCe3 2>/dev/null | bash"
 ```
 
 #### 04. Create Juju Model
