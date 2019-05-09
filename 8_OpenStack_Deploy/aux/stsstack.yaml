@@ -1,0 +1,581 @@
+# Description:
+#   STS STSStack Openstack Cloud Deployent Bundle
+#
+# Format: Juju 2.x
+
+## Variables
+# Common
+debug:                      &debug                     True
+verbose:                    &verbose                   True
+loglevel:                   &loglevel                  'DEBUG'
+openstack_origin:           &openstack_origin          
+source:                     &source                    
+region:                     &region                    'stsstack'
+metal_worker_multiplier:    &metal_worker_multiplier   0.25
+lxc_worker_multiplier:      &lxc_worker_multiplier
+erl_thread_multiplier:      &erl_thread_multiplier       # make this equivalent to 12/(0.25 * num_cpus)
+
+# Compute
+cpu_allocation_ratio:       &cpu_allocation_ratio      '8.0'
+ram_allocation_ratio:       &ram_allocation_ratio      '1.0'
+disk_allocation_ratio:      &disk_allocation_ratio     '1.0'
+reserved_host_memory:       &reserved_host_memory      '16184'
+schedulable_instance_size:  &schedulable_instance_size '2, 4096, 40'  # flavor m1.medium
+
+# Network
+oam_space:                  &oam_space                 'oam'
+cluster_space:              &cluster_space             'ceph-cluster'
+dns_domain:                 &dns_domain                'cloud.sts.'
+use_internal_endpoints:     &use_internal_endpoints    True
+data_ports:                 &data_ports                >
+                                                       br-data:8c:dc:d4:0a:47:ec
+                                                       br-data:8c:dc:d4:b3:c8:c1
+                                                       br-data:8c:dc:d4:b3:cb:e5
+physnet_mtu:                &physnet_mtu               9000
+instance_mtu:               &instance_mtu              
+dns_servers:                &dns_servers               '10.198.200.1'
+vip_cinder:                 &vip_cinder                '10.230.19.51'
+vip_glance:                 &vip_glance                '10.230.19.52'
+vip_keystone:               &vip_keystone              '10.230.19.53'
+vip_neutron_api:            &vip_neutron_api           '10.230.19.54'
+vip_nova_cloud_controller:  &vip_nova_cloud_controller '10.230.19.55'
+vip_openstack_dashboard:    &vip_openstack_dashboard   '10.230.19.56'
+vip_mysql:                  &vip_mysql                 '10.230.19.57'
+vip_ceph_radosgw:           &vip_ceph_radosgw          '10.230.19.58'
+
+# Storage
+ceph_num_osds:              &ceph_num_osds             9
+ceph_mon_secret:            &ceph_mon_secret           AQCXrnZQwI7KGBAAiPofmKEXKxu5bUzoYLVkbQ==
+ceph_devices:               &ceph_devices              >-
+                                                       /dev/sdb
+                                                       /dev/sdc
+                                                       /dev/sdd
+                                                       /dev/sde
+
+## Deployment
+series: bionic
+machines:
+  '0':
+    constraints: tags=control
+  '1':
+    constraints: tags=control
+  '2':
+    constraints: tags=kermath  # this node has less cpu and disk than the other two control nodes so don't overload it
+  '3':
+    constraints: tags=compute
+  '4':
+    constraints: tags=compute
+  '5':
+    constraints: tags=compute
+  '6':
+    constraints: tags=compute
+  '7':
+    constraints: tags=compute
+  '8':
+    constraints: tags=compute
+  '9':
+    constraints: tags=compute
+  '10':
+    constraints: tags=compute
+  '11':
+    constraints: tags=compute
+services:
+  # CONTROL
+  cinder:
+    charm: cs:cinder
+    num_units: 3
+    options:
+      debug: *debug
+      verbose: *verbose
+      region: *region
+      openstack-origin: *openstack_origin
+      worker-multiplier: *lxc_worker_multiplier
+      block-device: None
+      glance-api-version: 2
+      use-internal-endpoints: *use_internal_endpoints
+      vip: *vip_cinder
+    bindings:
+      '': *oam_space
+    to:
+      - 'lxd:0'
+      - 'lxd:1'
+      - 'lxd:2'
+  cinder-hacluster:
+    charm: cs:hacluster
+    num_units: 0
+    options:
+      debug: *debug
+      cluster_count: 3
+      corosync_key: "GYsPX1Lwc6TwZuIPi3oAzm32GsLMYDpEX3hHKf4uXttjUFwRS0VsrMKQR7anmfkqo3JUXtOdkj1V/C4aKiQQ0pVKqSFuZnCLpJC+To+5sZ1MEhcmgEm7VSksQe0VOD6krXfxy9XTtyN1jgieK08ytNWHru28L+uwM6i0PndRo1g="
+  cinder-ceph:
+    charm: cs:cinder-ceph
+    num_units: 0
+  glance:
+    charm: cs:glance
+    num_units: 3
+    options:
+      debug: *debug
+      verbose: *verbose
+      region: *region
+      openstack-origin: *openstack_origin
+      worker-multiplier: *lxc_worker_multiplier
+      use-internal-endpoints: *use_internal_endpoints
+      vip: *vip_glance
+    bindings:
+      '': *oam_space
+    to:
+      - 'lxd:0'
+      - 'lxd:1'
+      - 'lxd:2'
+  glance-hacluster:
+    charm: cs:hacluster
+    num_units: 0
+    options:
+      debug: *debug
+      cluster_count: 3
+      corosync_key: "oFCz0eJvxXeOrg6FeCas6sf/PmWwkUPAaVrqmY8v0v9Q/b40zlreUu43gBu+efDPXdrCWz3u3HBfE93qTdmxLUYnHKgy46oOLS92gnPvjK9ucA1/ySj51l6vxI9f1lFDKF7ixYqHcgnnnwi7TlqkHNCc935YpLI8W/BatvtA1oY="
+  glance-simplestreams-sync:
+    charm: cs:~hopem/glance-simplestreams-sync
+    num_units: 1
+    options:
+      cloud_name: stsstack
+      region: *region
+      mirror_list: |
+        [{url: 'http://cloud-images.ubuntu.com/releases/',
+          name_prefix: 'ubuntu:released',
+          path: 'streams/v1/index.sjson', max: 1,
+          item_filters: ['release~(trusty|xenial|bionic)',
+                         'arch~(x86_64|amd64)',
+                         'ftype~(disk1.img|disk.img)']},
+         {url: 'http://cloud-images.ubuntu.com/daily/',
+          name_prefix: 'ubuntu:daily',
+          path: 'streams/v1/index.sjson', max: 1,
+          item_filters: ['release~(trusty|xenial|bionic|cosmic|disco)',
+                         'arch~(x86_64|amd64)',
+                         'ftype~(disk1.img|disk.img)']}
+        ]
+      use_swift: true
+    bindings:
+      '': *oam_space
+    to:
+      - 'lxd:0'
+  keystone:
+    charm: cs:keystone
+    num_units: 3
+    options:
+      debug: *debug
+      verbose: *verbose
+      log-level: *loglevel
+      region: *region
+      openstack-origin: *openstack_origin
+      worker-multiplier: *lxc_worker_multiplier
+      admin-password: eeWiekohquaevik5
+      admin-token: ga6hoz8wieth2Aim
+      vip: *vip_keystone
+    bindings:
+      '': *oam_space
+    to:
+      - 'lxd:0'
+      - 'lxd:1'
+      - 'lxd:2'
+  keystone-hacluster:
+    charm: cs:hacluster
+    num_units: 0
+    options:
+      debug: *debug
+      cluster_count: 3
+      corosync_key: "BN+BMLnyRNhO3bxKod5KxxODTGRCBsk9kqKu3FlUX5XhfhGdbITyb/TTARd5EEO6KWqTKSjRLG+J0oYfPfUE05gDqIc0LvRvtdjzjtBwgfzZdXbXOGiseUFTOLckuHbVxBG0cIc3FW9UrQY/ mIzRHmCZyqgwS3a396QLnAIXPqc="
+  memcached:
+    charm: cs:memcached
+    num_units: 3
+    to:
+      - 'lxd:0'
+      - 'lxd:1'
+      - 'lxd:2'
+  neutron-api:
+    charm: cs:neutron-api
+    num_units: 3
+    options:
+      debug: *debug
+      verbose: *verbose
+      region: *region
+      openstack-origin: *openstack_origin
+      worker-multiplier: *lxc_worker_multiplier
+      neutron-security-groups: True
+      enable-ml2-port-security: True
+      l2-population: True
+      enable-l3ha: True
+      min-l3-agents-per-router: 3
+      max-l3-agents-per-router: 3
+      dhcp-agents-per-network: 2
+      use-internal-endpoints: *use_internal_endpoints
+      vip: *vip_neutron_api
+      vlan-ranges: ''  # prevent creating defaults since we don't need them
+      enable-ml2-dns: True
+      dns-domain: *dns_domain
+      global-physnet-mtu: *physnet_mtu
+      flat-network-providers: 'physnet1'
+    bindings:
+      '': *oam_space
+    to:
+      - 'lxd:0'
+      - 'lxd:1'
+      - 'lxd:2'
+  neutron-api-hacluster:
+    charm: cs:hacluster
+    num_units: 0
+    options:
+      debug: *debug
+      cluster_count: 3
+      corosync_key: "DbrM1qzkxnljmQaKmQ+1N/0OZW6IVrs2PO15ucESautEoNIrfYvSQejN9mHO0yQ2WLS/34vrn6gdByhrE8XMyREpti1xDRwZWJ2WeVWf255qHzMgG3vg9oL4YxmMMA9dF61T3NL0jTK0crSHxaUFxjGqxUTifUj7Sq7OTnUBoY4="
+  neutron-gateway:
+    charm: cs:neutron-gateway
+    num_units: 3
+    options:
+      debug: *debug
+      verbose: *verbose
+      openstack-origin: *openstack_origin
+      data-port: *data_ports
+      bridge-mappings: 'physnet1:br-data'
+      vlan-ranges: ''
+      instance-mtu: *instance_mtu
+      worker-multiplier: *metal_worker_multiplier
+      dns-servers: *dns_servers
+    bindings:
+      '': *oam_space
+    to:
+      - '0'
+      - '1'
+      - '2'
+  nova-cloud-controller:
+    charm: cs:nova-cloud-controller
+    num_units: 3
+    options:
+      debug: *debug
+      verbose: *verbose
+      region: *region
+      openstack-origin: *openstack_origin
+      worker-multiplier: *lxc_worker_multiplier
+      network-manager: Neutron
+      console-access-protocol: spice
+      cpu-allocation-ratio: *cpu_allocation_ratio
+      ram-allocation-ratio: *ram_allocation_ratio
+      disk-allocation-ratio: *disk_allocation_ratio
+      use-internal-endpoints: *use_internal_endpoints
+      vip: *vip_nova_cloud_controller
+    bindings:
+      '': *oam_space
+    to:
+      - 'lxd:0'
+      - 'lxd:1'
+      - 'lxd:2'
+  nova-cloud-controller-hacluster:
+    charm: cs:hacluster
+    num_units: 0
+    options:
+      debug: *debug
+      cluster_count: 3
+      corosync_key: "KHALq6gs1Q/tdi7okpOr532M43eVo4aHONh0ID+e1Me6u8R5xBKd6NDaLCGfSwHCYspcCts8cMWSXK+1asSzx+lutP1JqPLIM9RRgIg23rqKWEs1AmWWc8GkvhYEwwapeaG5GaYq8Boxt1EmjDEClZH4RMoiODfhyzj7YaxSl7E="
+  ntp:
+    charm: cs:ntp
+    num_units: 0
+  openstack-dashboard:
+    charm: cs:openstack-dashboard
+    num_units: 3
+    options:
+      openstack-origin: *openstack_origin
+      vip: *vip_openstack_dashboard
+      neutron-network-l3ha: True
+      webroot: '/'
+      default-create-volume: False
+      allow-password-autocompletion: True
+    bindings:
+      '': *oam_space
+    to:
+      - 'lxd:0'
+      - 'lxd:1'
+      - 'lxd:2'
+  openstack-dashboard-hacluster:
+    charm: cs:hacluster
+    num_units: 0
+    options:
+      debug: *debug
+      cluster_count: 3
+      corosync_key: "70QA9tMc5EUT0oSTyabq8a/Q9yhWjhp/r7HpYmSvj98AF1LgNnVqe7x8rK4xffXQp6kdNBwh4pt8JqjnGnMvzTJ4PWIe3AA5baxGE1omYHc0Z/T2Jl469AOhNUgB473L2MJzvI/U8SGrTeo52N4CAxyZ0ZyHNhs9zT4YEzZrQHc="
+  mysql:
+    charm: cs:percona-cluster
+    num_units: 3
+    options:
+      source: *source
+      root-password: stackadmin
+      sst-password: stackadmin
+      innodb-buffer-pool-size: 1G
+      max-connections: 2000
+      min-cluster-size: 3
+      vip: *vip_mysql
+    bindings:
+      '': *oam_space
+    to:
+      - 'lxd:0'
+      - 'lxd:1'
+      - 'lxd:2'
+  mysql-hacluster:
+    charm: cs:hacluster
+    num_units: 0
+    options:
+      debug: *debug
+      cluster_count: 3
+      corosync_key: "vmoI8AWH2YP2cQBYJ+j6b7qxZGx26dnrI+kRP+U/AustliyQQUgX/L4SGuMFOX+31gvELzlhTVPj8JrdbBGb5VaXREVymMieOeoZFfYLgLa4aG7lDDs7Sg1FrkO0GHJNak9XiUHQvH4JYQDTqDAsOmd+QbmfNj6NSzxamvh9Ey0="
+  rabbitmq-server:
+    charm: cs:rabbitmq-server
+    num_units: 3
+    options:
+      source: *source
+      min-cluster-size: 3
+      erl-vm-io-thread-multiplier: *erl_thread_multiplier
+      management_plugin: true
+    to:
+      - 'lxd:0'
+      - 'lxd:1'
+      - 'lxd:2'
+    bindings:
+      '': *oam_space
+  # Monitoring
+  grafana:
+    charm: cs:grafana
+    num_units: 1
+    options:
+      port: "3000"
+      install_method: snap
+      admin_password: StackAdmin
+    to:
+      - 'lxd:0'
+  prometheus:
+    charm: cs:prometheus2
+    num_units: 1
+    to:
+      - 'lxd:0'
+  prometheus-openstack-exporter:
+    charm: cs:prometheus-openstack-exporter
+    num_units: 1
+    options:
+      cpu-allocation-ratio: *cpu_allocation_ratio
+      ram-allocation-ratio: *ram_allocation_ratio
+      disk-allocation-ratio: *disk_allocation_ratio
+      schedulable-instance-size: *schedulable_instance_size
+    to:
+      - 'lxd:0'
+  prometheus-ceph-exporter:
+    charm: cs:prometheus-ceph-exporter
+    num_units: 1
+    to:
+      - 'lxd:0'
+  telegraf:
+    charm: cs:telegraf
+    expose: true
+    options:
+      prometheus_output_port: default
+  elasticsearch:
+    charm: cs:elasticsearch
+    num_units: 1
+    options:
+      firewall_enabled: false
+      es-heap-size: 4
+    to:
+      - 'lxd:1'
+  filebeat:
+    charm: filebeat
+    options:
+      logpath: >
+              /var/log/syslog
+              /var/log/*.log
+              /var/log/*/*.log
+  graylog:
+    charm: cs:graylog
+    num_units: 1
+    options:
+      index_replicas: 1
+      index_shards: 4
+      index_rotation_strategy: size
+      index_rotation_size: 10737418240
+      index_retention_count: 7
+    to:
+      - 'lxd:1'
+  mongodb:
+    charm: cs:mongodb
+    num_units: 1
+    options:
+      backups_enabled: true
+      bind_ip: 0.0.0.0
+    to:
+      - 'lxd:1'
+  # COMPUTE & STORAGE
+  ceph-mon:
+    charm: cs:ceph-mon
+    num_units: 3
+    options:
+      source: *source
+      monitor-secret: *ceph_mon_secret
+      expected-osd-count: *ceph_num_osds
+      monitor-count: 3
+    bindings:
+      '': *oam_space
+    to:
+      - 'lxd:0'
+      - 'lxd:1'
+      - 'lxd:2'
+  ceph-osd:
+    charm: ceph-osd
+    num_units: *ceph_num_osds
+    options:
+      source: *source
+      osd-devices: *ceph_devices 
+    bindings:
+      "": *oam_space
+      cluster: *cluster_space
+    to:
+      - '3'
+      - '4'
+      - '5'
+      - '6'
+      - '7'
+      - '8'
+      - '9'
+      - '10'
+      - '11'
+  ceph-radosgw:
+    charm: cs:ceph-radosgw
+    num_units: 3
+    options:
+      source: *source
+      region: *region
+      vip: *vip_ceph_radosgw
+    bindings:
+      '': *oam_space
+    to:
+      - 'lxd:0'
+      - 'lxd:1'
+      - 'lxd:2'
+  ceph-radosgw-hacluster:
+    charm: cs:hacluster
+    num_units: 0
+    options:
+      debug: *debug
+      cluster_count: 3
+      corosync_key: "jWHvbZTG226lYBwRANUirCfy6cKaDR7mO3z0bh1It/hWHW1ej5H9u5+NgC54Usv32aRMrDBm2RomDa6SYNmSQHdlFLBmXVm0W+cZEu+3G2gBOI9QH1pgVxqOQi96bjp+9YgFkpS+/S251AdHnv6EJ7sMg8DSywaAbcpiRb3Lvv8="
+  nova-compute:
+    charm: cs:nova-compute
+    num_units: 9
+    options:
+      debug: *debug
+      verbose: *verbose
+      openstack-origin: *openstack_origin
+      worker-multiplier: *metal_worker_multiplier
+      enable-resize: True
+      enable-live-migration: True
+      migration-auth-type: ssh
+      use-internal-endpoints: *use_internal_endpoints
+      resume-guests-state-on-host-boot: False
+      libvirt-image-backend: rbd
+      reserved-host-memory: *reserved_host_memory
+      live-migration-permit-post-copy: True
+      live-migration-permit-auto-converge: True
+      # LP 1780348 - can be removed once we upgrade to 19.04 since this is the default
+      sysctl: '{net.ipv4.neigh.default.gc_thresh1 : 128,
+                net.ipv4.neigh.default.gc_thresh2 : 28672,
+                net.ipv4.neigh.default.gc_thresh3 : 32768,
+                net.ipv6.neigh.default.gc_thresh1 : 128,
+                net.ipv6.neigh.default.gc_thresh2 : 28672,
+                net.ipv6.neigh.default.gc_thresh3 : 32768,
+                net.nf_conntrack_max : 1000000,
+                net.netfilter.nf_conntrack_buckets : 204800,
+                net.netfilter.nf_conntrack_max : 1000000 }'
+    to:
+      - '3'
+      - '4'
+      - '5'
+      - '6'
+      - '7'
+      - '8'
+      - '9'
+      - '10'
+      - '11'
+    bindings:
+      '': *oam_space
+  neutron-openvswitch:
+    charm: cs:neutron-openvswitch
+    num_units: 0
+    options:
+      debug: *debug
+      verbose: *verbose
+      worker-multiplier: *metal_worker_multiplier
+      vlan-ranges: ''
+relations:
+  - [ ceph-mon, ceph-osd ]
+  - [ ceph-mon, ntp ]
+  - [ cinder, cinder-hacluster ]
+  - [ ceph-radosgw, ceph-radosgw-hacluster ]
+  - [ neutron-api, neutron-api-hacluster ]
+  - [ glance, glance-hacluster ]
+  - [ keystone, keystone-hacluster ]
+  - [ mysql, mysql-hacluster ]
+  - [ openstack-dashboard, openstack-dashboard-hacluster ]
+  - [ nova-cloud-controller, nova-cloud-controller-hacluster ]
+  - [ keystone, mysql ]
+  - [ nova-cloud-controller, memcached ]
+  - [ 'nova-cloud-controller:shared-db', 'mysql:shared-db' ]
+  - [ 'nova-cloud-controller:amqp', 'rabbitmq-server:amqp' ]
+  - [ nova-cloud-controller, glance ]
+  - [ nova-cloud-controller, keystone ]
+  - [ nova-compute, nova-cloud-controller ]
+  - [ nova-compute, 'rabbitmq-server:amqp' ]
+  - [ nova-compute, glance ]
+  - [ nova-compute, ceph-mon ]
+  - [ 'nova-compute:ceph-access', 'cinder-ceph:ceph-access' ]
+  - [ nova-compute, ntp ]
+  - [ glance, mysql ]
+  - [ glance, keystone ]
+  - [ glance, ceph-mon ]
+  - [ glance, 'cinder:image-service' ]
+  - [ glance-simplestreams-sync, keystone ]
+  - [ cinder, mysql ]
+  - [ cinder, rabbitmq-server ]
+  - [ cinder, nova-cloud-controller ]
+  - [ cinder, keystone ]
+  - [ cinder, cinder-ceph ]
+  - [ cinder-ceph, ceph-mon ]
+  - [ 'neutron-gateway:amqp', 'rabbitmq-server:amqp' ]
+  - [ neutron-gateway, nova-cloud-controller ]
+  - [ 'openstack-dashboard:identity-service', 'keystone:identity-service' ]
+  - [ neutron-gateway, ntp ]
+  - [ ceph-radosgw, ceph-mon ]
+  - [ ceph-radosgw, keystone ]
+  - [ neutron-api, mysql ]
+  - [ neutron-api, rabbitmq-server ]
+  - [ neutron-api, nova-cloud-controller ]
+  - [ neutron-api, neutron-openvswitch ]
+  - [ neutron-api, keystone ]
+  - [ neutron-api, neutron-gateway ]
+  - [ neutron-openvswitch, nova-compute ]
+  - [ neutron-openvswitch, rabbitmq-server ]
+  - [ "prometheus:grafana-source", "grafana:grafana-source" ]
+  - [ "prometheus:target", "telegraf:prometheus-client" ]
+  - [ "prometheus-openstack-exporter:identity-credentials", "keystone:identity-credentials" ]
+  - [ "prometheus-openstack-exporter:prometheus-openstack-exporter-service", "prometheus:target" ]
+  - [ "prometheus-ceph-exporter:ceph-exporter", "prometheus:target" ]
+  - [ "prometheus-ceph-exporter:ceph", "ceph-mon:client" ]
+  - [ telegraf, nova-compute ]
+  - [ telegraf, neutron-gateway ]
+  - [ telegraf, rabbitmq-server ]
+  - ['graylog', 'filebeat']
+  - ['graylog', 'elasticsearch']
+  - ['graylog', 'mongodb:database']
+  - ['elasticsearch:juju-info', 'filebeat:beats-host']
+  - ['mongodb', 'filebeat']
+  - [ filebeat, cinder ]
+  - [ filebeat, glance ]
+  - [ filebeat, nova-compute ]
+  - [ filebeat, nova-cloud-controller ]
+  - [ filebeat, neutron-api ]
+  - [ filebeat, keystone ]
+  - [ filebeat, neutron-gateway ]
