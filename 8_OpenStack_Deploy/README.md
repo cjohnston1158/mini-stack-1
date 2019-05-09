@@ -38,7 +38,7 @@ juju add-model mini-stack
 #### 05. Add Juju Machines
 ```sh
 for n in 01 02 03; do juju add-machine --constraints tags=mini-stack; done
-for n in 01 02 03; do for c in 0 1 2 3; do juju add-machine lxd:${c} --constraints spaces=lan; done; done
+for n in 01 02 03; do for c in 0 1 2; do juju add-machine lxd:${c} --constraints spaces=lan; done; done
 ```
 #### 06. Deploy OpenStack from Juju Bundle YAML File
 ```sh
