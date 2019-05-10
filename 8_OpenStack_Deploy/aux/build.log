@@ -1,0 +1,101 @@
+  215  ls
+  216  mv ccio-openstack-rocky-juju-bundle.yaml rocky-ccio-openstack-juju-bundle.yaml 
+  217  ls
+  218  clear
+  219  ls
+  220  exit
+  221  juju debug log
+  222  juju debug-log
+  223  cl
+  224  clear
+  225  juju add-unit ceph-mon --to lxd:1 --constraints spaces=lan
+  226  juju add-unit ceph-mon --to lxd:1 --constraints "spaces=lan"
+  227  juju add-unit ceph-mon --to lxd:1 --constraints="spaces=lan"
+  228  juju add-unit ceph-mon --to lxd:1
+  229  juju add-unit ceph-mon --to lxd:1 --constraints spaces=lan
+  230  juju add-unit ceph-mon --to lxd:1 --bind "lan"
+  231  juju add-unit ceph-mon --constraints spaces=lan --to lxd:1
+  232  juju add-unit ceph-mon --bind lan --to lxd:1
+  233  juju add-unit ceph-mon --constraints spaces=lan --to lxd:1
+  234  juju add-unit ceph-mon --constraints spaces=undefined --to lxd:1
+  235  juju add-unit ceph-mon --constraints "spaces=lan" --to lxd:1
+  236  juju ssh 1
+  237  juju add-unit ceph-mon --constraints "spaces=lan" --to lxd:2
+  238  juju add-machine --constraints "spaces=lan" --to lxd:1
+  239  juju add-machine --constraints "spaces=lan" lxd:1
+  240  juju add-unit --constraints "spaces=lan" --to lxd:1 ceph-mon
+  241  juju add-unit --to 1/lxd/2 ceph-mon
+  242  juju destroy-machine 1/lxd/1
+  243  juju delete-machine 1/lxd/1
+  244  juju remove-machine 1/lxd/1
+  245  juju remove-unit ceph-mon/3
+  246  juju remove-machine 1/lxd/0
+  247  juju remove-unit ceph-mon/1
+  248  clear
+  249  juju debug-log
+  250  clear
+  251  juju status
+  252  juju ssh neutron-openvswitch/0
+  253  exit
+  254  exit
+  255  ls ~/.ssh
+  256  cat ~/.ssh/katamo_id_rsa
+  257  vim ~/.ssh/mini-stack-id_rsa
+  258  chmod 600 ~/.ssh/mini-stack-id_rsa
+  259  juju destroy model mini-stack
+  260  juju destroy-model mini-stack
+  261  clear
+  262  juju add-model mini-stack
+  263  history 50
+  264  history 50 >>build.log
+  228  juju add-unit ceph-mon --to lxd:1
+  229  juju add-unit ceph-mon --to lxd:1 --constraints spaces=lan
+  230  juju add-unit ceph-mon --to lxd:1 --bind "lan"
+  231  juju add-unit ceph-mon --constraints spaces=lan --to lxd:1
+  232  juju add-unit ceph-mon --bind lan --to lxd:1
+  233  juju add-unit ceph-mon --constraints spaces=lan --to lxd:1
+  234  juju add-unit ceph-mon --constraints spaces=undefined --to lxd:1
+  235  juju add-unit ceph-mon --constraints "spaces=lan" --to lxd:1
+  236  juju ssh 1
+  237  juju add-unit ceph-mon --constraints "spaces=lan" --to lxd:2
+  238  juju add-machine --constraints "spaces=lan" --to lxd:1
+  239  juju add-machine --constraints "spaces=lan" lxd:1
+  240  juju add-unit --constraints "spaces=lan" --to lxd:1 ceph-mon
+  241  juju add-unit --to 1/lxd/2 ceph-mon
+  242  juju destroy-machine 1/lxd/1
+  243  juju delete-machine 1/lxd/1
+  244  juju remove-machine 1/lxd/1
+  245  juju remove-unit ceph-mon/3
+  246  juju remove-machine 1/lxd/0
+  247  juju remove-unit ceph-mon/1
+  248  clear
+  249  juju debug-log
+  250  clear
+  251  juju status
+  252  juju ssh neutron-openvswitch/0
+  253  exit
+  254  juju ssh 0
+  255  clear
+  256  juju ssh 1
+  257  clear
+  258  juju ssh nova-compute/0
+  259  juju ssh nova-cloud-controller/0
+  260  clear
+  261  ls
+  262  ls ~
+  263  source ~/admin-openrc.sh 
+  264  openstack server list
+  265  clear
+  266  openstack image list
+  267  clear
+  268  openstack network create --enable --external --no-default --provider-network-type flat --provider-physical-network physnet1 ext_net
+  269  openstack subnet create --allocation-pool starts=10.10.0.60,end=10.10.0.69 --subnet-range 10.10.0.0/24 --no-dhcp --gateway 10.10.0.1 --ip-version 4 --network ext_net ext_net_subnet
+  270  openstack subnet create --allocation-pool start=10.10.0.60,end=10.10.0.69 --subnet-range 10.10.0.0/24 --no-dhcp --gateway 10.10.0.1 --ip-version 4 --network ext_net ext_net_subnet
+  271  openstack flavor create --public --ram 2048 --disk 8 --vcpus 2 --swqp 0 m2.small
+  272  openstack flavor create --public --ram 2048 --disk 8 --vcpus 2 --swap 0 m2.small
+  273  openstack flavor create --public --ram 4096 --disk 32 --vcpus 4 --swap 0 m4.med
+  274  openstack flavor create --public --ram 4096 --disk 32 --vcpus 2 --swap 0 m2.4med
+  275  wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img -P ~
+  276  openstack image create --public --disk-format raw --container-format bare --file /home/ubuntu/bionic-server-cloudimg-amd64.img generic-bionic
+  277  history 50 >> build.log 
+juju run --unit keystone/0 leader-get admin_passwd
