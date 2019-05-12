@@ -1,5 +1,55 @@
 series: bionic
 services:
+  neutron-gateway:
+    charm: cs:neutron-gateway-260
+    options:
+      bridge-mappings: physnet1:br-ex
+      data-port: br-ex:ens3
+      openstack-origin: cloud:bionic-stein
+      worker-multiplier: 0.25
+    annotations:
+      gui-x: '0'
+      gui-y: '0'
+    num_units: 1
+    bindings:
+      ? ''
+      : lan
+    to:
+    - '0'
+  nova-compute:
+    charm: cs:nova-compute-298
+    options:
+      config-flags: default_ephemeral_format=ext4
+      enable-live-migration: true
+      enable-resize: true
+      migration-auth-type: ssh
+      openstack-origin: cloud:bionic-stein
+    bindings:
+      ? ''
+      : lan
+    annotations:
+      gui-x: '250'
+      gui-y: '250'
+    num_units: 2
+    to:
+    - '1'
+    - '2'
+  ceph-osd:
+    annotations:
+      gui-x: '1000'
+      gui-y: '500'
+    bindings:
+      ? ''
+      : lan
+    charm: cs:ceph-osd-280
+    num_units: 3
+    options:
+      osd-devices: /dev/vdb /dev/vdc
+      source: cloud:bionic-stein
+    to:
+    - '0'
+    - '1'
+    - '2'
   ceph-mon:
     annotations:
       gui-x: '750'
@@ -17,22 +67,6 @@ services:
     - lxd:0
     - lxd:1
     - lxd:2
-  ceph-osd:
-    annotations:
-      gui-x: '1000'
-      gui-y: '500'
-    bindings:
-      ? ''
-      : lan
-    charm: cs:ceph-osd-280
-    num_units: 3
-    options:
-      osd-devices: /dev/vdb /dev/vdc
-      source: cloud:bionic-stein
-    to:
-    - '0'
-    - '1'
-    - '2'
   ceph-radosgw:
     annotations:
       gui-x: '1000'
@@ -127,22 +161,6 @@ services:
       worker-multiplier: 0.25
     to:
     - lxd:1
-  neutron-gateway:
-    annotations:
-      gui-x: '0'
-      gui-y: '0'
-    bindings:
-      ? ''
-      : lan
-    charm: cs:neutron-gateway-260
-    num_units: 1
-    options:
-      bridge-mappings: physnet1:br-ex
-      data-port: br-ex:ens3
-      openstack-origin: cloud:bionic-stein
-      worker-multiplier: 0.25
-    to:
-    - '0'
   neutron-openvswitch:
     annotations:
       gui-x: '250'
@@ -164,24 +182,6 @@ services:
       worker-multiplier: 0.25
     to:
     - lxd:2
-  nova-compute:
-    charm: cs:nova-compute-298
-    options:
-      config-flags: default_ephemeral_format=ext4
-      enable-live-migration: true
-      enable-resize: true
-      migration-auth-type: ssh
-      openstack-origin: cloud:bionic-stein
-    bindings:
-      ? ''
-      : lan
-    annotations:
-      gui-x: '250'
-      gui-y: '250'
-    num_units: 2
-    to:
-    - '1'
-    - '2'
   ntp:
     annotations:
       gui-x: '1000'
