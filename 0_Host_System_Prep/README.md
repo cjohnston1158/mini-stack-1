@@ -9,7 +9,7 @@
 
 #### 01. Install helper packages
 ```sh
-apt-get update && apt-get install -y whois vim lnav openssh-server linux-generic-hwe-18.04
+apt-get update && apt-get install -y whois neovim lnav openssh-server ssh-import-id snapd
 ```
 #### 02. Create host CCIO Profile Configuration && add to bashrc
 ```sh

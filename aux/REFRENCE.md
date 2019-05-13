@@ -3,4 +3,5 @@ https://www.devtech101.com/2018/10/23/deploying-helm-tiller-prometheus-alertmana
 
 # fstab
 UUID=c1f88e1b-b700-4a03-9239-0196d1fbfa92 /var/lib/libvirt/images ext4 defaults 0 1
+UUID=c1f88e1b-b700-4a03-9239-0196d1fbfa92 /var/lib/libvirt/maas-images ext4 defaults 0 1
 
