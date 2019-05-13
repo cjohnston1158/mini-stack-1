@@ -13,7 +13,8 @@ apt-get update && apt-get install -y whois neovim lnav openssh-server ssh-import
 ```
 #### 02. Create host CCIO Profile Configuration && add to bashrc
 ```sh
-wget -O- /tmp/build-mini-stack-profile.sh https://git.io/fjcFg | bash
+wget -O /tmp/build-mini-stack-profile.sh https://git.io/fjcFg
+source /tmp/build-mini-stack-profile.sh
 ```
 #### 03. Replace limited root bashrc
 ```sh
