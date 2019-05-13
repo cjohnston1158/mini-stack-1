@@ -9,3 +9,4 @@ openstack flavor create --public --ram 4096 --disk 32 --vcpus 2 --swap 0 m2.4med
 openstack flavor create --public --ram 4096 --disk 32 --vcpus 4 --swap 0 m4.4med
 wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img -P ~
 openstack image create --public --disk-format raw --container-format bare --file /home/ubuntu/bionic-server-cloudimg-amd64.img generic-bionic
+openstack keypair create admin_default > ~/.ssh/mini-stack-id_rsa
