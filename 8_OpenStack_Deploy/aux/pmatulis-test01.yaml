@@ -14,9 +14,9 @@ services:
       monitor-count: 3
       source: cloud:bionic-stein
     to:
+    - lxd:0
     - lxd:1
     - lxd:2
-    - lxd:3
   ceph-osd:
     annotations:
       gui-x: '1000'
@@ -27,12 +27,12 @@ services:
     charm: cs:ceph-osd-280
     num_units: 3
     options:
-      osd-devices: /dev/sdb /dev/vdb
+      osd-devices: /dev/vdb /dev/vdc
       source: cloud:bionic-stein
     to:
+    - '0'
     - '1'
     - '2'
-    - '3'
   ceph-radosgw:
     annotations:
       gui-x: '1000'
@@ -61,7 +61,7 @@ services:
       openstack-origin: cloud:bionic-stein
       worker-multiplier: 0.25
     to:
-    - lxd:1
+    - lxd:0
   cinder-ceph:
     annotations:
       gui-x: '750'
@@ -81,7 +81,7 @@ services:
       gui-y: '0'
     num_units: 1
     to:
-    - lxd:2
+    - lxd:1
   keystone:
     annotations:
       gui-x: '500'
@@ -95,7 +95,7 @@ services:
       openstack-origin: cloud:bionic-stein
       worker-multiplier: 0.25
     to:
-    - lxd:3
+    - lxd:2
   mysql:
     annotations:
       gui-x: '0'
@@ -138,7 +138,7 @@ services:
     num_units: 1
     options:
       bridge-mappings: physnet1:br-ex
-      data-port: br-ex:eno2
+      data-port: br-ex:ens3
       openstack-origin: cloud:bionic-stein
       worker-multiplier: 0.25
     to:
@@ -178,11 +178,10 @@ services:
     annotations:
       gui-x: '250'
       gui-y: '250'
-    num_units: 3
+    num_units: 2
     to:
     - '1'
     - '2'
-    - '3'
   ntp:
     annotations:
       gui-x: '1000'
@@ -201,7 +200,7 @@ services:
     options:
       openstack-origin: cloud:bionic-stein
     to:
-    - lxd:3
+    - lxd:0
   rabbitmq-server:
     annotations:
       gui-x: '500'
@@ -214,7 +213,7 @@ services:
     to:
     - lxd:0
 variables:
-  data-port: br-ex:eth1
+  data-port: br-ex:ens4
   #data-port: br-ex:eno2
   expected-mon-count: 3
   expected-osd-count: 3
@@ -229,8 +228,6 @@ machines:
   '1':
     series: bionic
   '2':
-    series: bionic
-  '3':
     series: bionic
 relations:
 - - nova-compute:amqp

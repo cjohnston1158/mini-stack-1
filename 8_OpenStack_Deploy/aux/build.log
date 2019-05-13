@@ -1,0 +1,12 @@
+juju add-model mini-stack
+juju run --unit keystone/0 leader-get admin_passwd
+source ~/admin-openrc.sh 
+openstack server list
+openstack network create --enable --external --no-default --provider-network-type flat --provider-physical-network physnet1 ext_net
+openstack subnet create --allocation-pool start=10.10.0.60,end=10.10.0.69 --subnet-range 10.10.0.0/24 --no-dhcp --gateway 10.10.0.1 --ip-version 4 --network ext_net ext_net_subnet
+openstack flavor create --public --ram 2048 --disk 8 --vcpus 2 --swap 0 m2.2small
+openstack flavor create --public --ram 4096 --disk 32 --vcpus 2 --swap 0 m2.4med
+openstack flavor create --public --ram 4096 --disk 32 --vcpus 4 --swap 0 m4.4med
+wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img -P ~
+openstack image create --public --disk-format raw --container-format bare --file /home/ubuntu/bionic-server-cloudimg-amd64.img generic-bionic
+openstack keypair create admin_default > ~/.ssh/mini-stack-id_rsa
