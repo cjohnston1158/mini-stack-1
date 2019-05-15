@@ -71,23 +71,26 @@ lxc launch bcio:openwrt gateway -p openwrt
 lxc exec gateway -- /bin/bash -c "sed -i 's/192.168.1/10.10.0/g' /etc/config/network" && lxc stop gateway && sleep 3 && lxc start gateway
 lxc exec gateway -- /bin/bash -c "wget -O- https://git.io/fjlrC | bash" && sleep 8 && lxc start gateway
 ````
-#### 08. Test OpenWRT WebUI Login on 'WAN' IP Address    
+#### 08. Reboot Host
+````
+reboot
+````
+#### 09. Test OpenWRT WebUI Login on 'WAN' IP Address    
 ###### CREDENTIALS: [USER:PASS] [root:admin] -- [http://gateway_wan_ip_addr:8080/](http://gateway_wan_ip_addr:8080/)
 
-#### 09. Remove mgmt0 default route && Reload host network configuration
+#### 10. Remove mgmt0 default route && Reload host network configuration
 ````sh
 sed -i -e :a -e '$d;N;2,4ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
 systemctl restart systemd-networkd.service && netplan apply --debug
 ````
-#### 10. Copy LXD 'default' profile to 'wan'
+#### 11. Copy LXD 'default' profile to 'wan'
 ````sh
 lxc profile copy default wan
 ````
-#### 11. Set LXD 'default' profile to use the 'lan' network
+#### 12. Set LXD 'default' profile to use the 'lan' network
 ````sh
 lxc profile device set default eth0 parent lan
 ````
-#### 12. Reboot
 
 -------
 #### OPTIONAL: Enable your new 'lan' network on a physical port. (EG: eth1)
