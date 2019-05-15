@@ -99,7 +99,7 @@ source /tmp/net_restart.sh
 #### 06. Add OVS Orphan Port Cleaning Utility
 NOTE: Use command `ovs-clear` to remove orphaned 'not found' ports as needed
 ````sh
-wget -O /usr/bin/ovs-clear https://git.io/fjtnB && chmod +x /usr/bin/ovs-clear 
+wget -O /usr/bin/ovs-clear https://git.io/fjlw2 && chmod +x /usr/bin/ovs-clear 
 
 ````
 -------
