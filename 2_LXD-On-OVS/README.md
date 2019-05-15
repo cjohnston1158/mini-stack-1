@@ -56,7 +56,7 @@ sed -i 's/aliases: {}/aliases:\n  ubuntu: exec @ARGS@ -- sudo --login --user ubu
 ##### Exhibit(A) Add cloud-init user-data to your default profile
 ###### 01. Download the profile template
 ````sh
-wget -O- https://git.io/fjmSw | bash
+wget -O- https://git.io/fjlrv | bash
 ````
 ###### 02. Edit default profile template
 ````sh
@@ -70,7 +70,6 @@ lxc profile edit default < /tmp/lxd-profile-default.yaml
 ````sh
 lxc launch ubuntu:bionic c01
 lxc launch images:centos/7 test-centos
-lxc launch images:fedora/28 test-fedora
 
 lxc list
 
@@ -79,7 +78,6 @@ exit
 
 lxc delete c01 --force
 lxc delete test-centos --force
-lxc delete test-fedora --force
 ````
 ###### Exhibit(C) Check LXD Configurations
 ````sh
