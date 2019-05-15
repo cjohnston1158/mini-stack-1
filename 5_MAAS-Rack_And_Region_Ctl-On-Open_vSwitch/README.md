@@ -12,11 +12,6 @@ Prerequisites:
 ![CCIO_Hypervisor - KVM-On-Open-vSwitch](web/drawio/MAAS-Region-And-Rack-Ctl-on-OVS-Sandbox.svg)
 
 -------
-#### 00. Source CCIO Profile
-````sh
-source /etc/ccio/mini-stack/profile 
-
-````
 #### 01. Create maas container profile
 ````sh
 lxc profile create maasctl
