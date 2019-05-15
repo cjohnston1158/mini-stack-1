@@ -9,7 +9,7 @@
 
 #### 01. Install helper packages
 ```sh
-apt-get update && apt-get install -y whois neovim lnav openssh-server ssh-import-id snapd
+apt-get update && apt-get install -y whois neovim lnav openssh-server ssh-import-id snapd pastebinit
 ```
 #### 02. Create host CCIO Profile Configuration && add to bashrc
 ```sh
@@ -34,14 +34,20 @@ update-grub
 ```
 #### 06. Change network device name in /etc/netplan/*.yaml to eth0
 ```sh
-sed -i "s/$(ip r | head -n 1 | awk '{print $5}')/eth0/g" /etc/netplan/*.yaml
+#sed -i "s/$(ip r | head -n 1 | awk '{print $5}')/eth0/g" /etc/netplan/*.yaml
+network:
+  version: 2
+  ethernets:
+    eth0:
+      dhcp4: yes
+EOF
 ```
 #### 07. Reboot
 -------
 ## OPTIONAL (DESKTOP OS) 
 #### OPTIONAL 01. Switch default editor from nano to vim
 ```sh
-update-alternatives --set editor /usr/bin/vim.basic
+update-alternatives --set editor /usr/bin/vim.tiny
 ```
 ##### OPTIONAL 02. Disable default GUI startup on Desktop OS
   NOTE: Use command `startx` to manually start full GUI environment at will
