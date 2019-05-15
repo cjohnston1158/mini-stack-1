@@ -19,7 +19,6 @@ maas admin maas set-config name=upstream_dns value=8.8.8.8
 maas admin maas set-config name=enable_third_party_drivers value=true
 maas admin maas set-config name=disk_erase_with_secure_erase value=false
 maas admin maas set-config name=kernel_opts value='debug console=ttyS0,38400n8 console=tty0 intel_iommu=on iommu=pt kvm_intel.nested=1 net.ifnames=0 biosdevname=0 pci=noaer'
-maas admin tag update virtual kernel_opts='debug console=ttyS0,38400n8 console=tty0 intel_iommu=on iommu=pt kvm_intel.nested=1 net.ifnames=0 biosdevname=0 pci=noaer'
 maas admin fabric update 0 name=lan-ovs-bridge
 maas admin spaces create name=lan
 maas admin subnet update 1 name=untagged-lan gateway_ip="10.10.0.1" dns_servers="10.10.0.10"
