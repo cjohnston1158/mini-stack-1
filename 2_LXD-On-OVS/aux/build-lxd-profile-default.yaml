@@ -12,11 +12,11 @@ config:
       - squashfuse
     ssh_import_id: ${ccio_SSH_UNAME}
     users:
-      - name: ${ccio_SSH_UNAME}
+      - name: ubuntu
         shell: /bin/bash
         sudo: ['ALL=(ALL) NOPASSWD:ALL']
         ssh_import_id: ${ccio_SSH_UNAME}
-      - name: ubuntu
+      - name: ${ccio_SSH_UNAME}
         shell: /bin/bash
         sudo: ['ALL=(ALL) NOPASSWD:ALL']
         ssh_import_id: ${ccio_SSH_UNAME}
