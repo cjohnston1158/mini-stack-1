@@ -46,11 +46,11 @@ config:
       - [virsh, pool-autostart, default]
       - [virsh, pool-start, default]
       - [apt-get, autoremove, "-y"]
-      - [wget, -O, /root/login-maas-cli, "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli"]
+      - [wget, -O, /root/login-maas-cli, "https://raw.githubusercontent.com/containercraft/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli"]
       - [chmod, "+x", "/root/login-maas-cli"]
       - [ln, -f, -s, "/root/login-maas-cli", /usr/bin/login-maas-cli]
       - [login-maas-cli]
-      - [wget, "-O", "/usr/bin/run_maas_setup", "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/run_maas_setup"]
+      - [wget, "-O", "/usr/bin/run_maas_setup", "https://raw.githubusercontent.com/containercraft/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/run_maas_setup"]
       - [chmod, "+x", "/usr/bin/run_maas_setup"]
       - [run_maas_setup]
 description: ccio mini-stack maasctl container profile
