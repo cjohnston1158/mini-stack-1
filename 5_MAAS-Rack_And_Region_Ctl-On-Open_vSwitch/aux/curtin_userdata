@@ -30,6 +30,7 @@ late_commands:
   maas: [wget, '--no-proxy', {{node_disable_pxe_url|escape.json}}, '--post-data', {{node_disable_pxe_data|escape.json}}, '-O', '/dev/null']
   add_user: ["curtin", "in-target", "--", "useradd", "-s", "/bin/bash", "-m", "-d", "/home/${ccio_SSH_UNAME}", "-p", "${ccio_PWD_SALT}", "${ccio_SSH_UNAME}"]
   add_user_sudoer: ["curtin", "in-target", "--", "/usr/sbin/usermod", "-aG", "sudo", "${ccio_SSH_UNAME}"]
+  add_user_keys: ["curtin", "in-target", "--", "su", "-l", "/bin/bash", "-c", "ssh-import-id ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
   add_user_keys: ["curtin", "in-target", "--", "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
 {{if third_party_drivers and driver}}
   {{if driver['key_binary'] and driver['repository'] and driver['package']}}
