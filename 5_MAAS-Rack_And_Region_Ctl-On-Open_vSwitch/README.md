@@ -34,6 +34,13 @@ NOTE: dhcp services are dependent on completion of full image sync. Please wait 
 
 #### 04. Reboot and confirm MAAS WebUI & MAAS Region+Rack controller services are all healthy again
 
+#### 05. Write Custom Userdata
+````sh
+wget -O- https://git.io/fjl6z | bash
+lxc exec maasctl -- /bin/bash -c "mkdir /root/bak && cp /etc/maas/preseeds/curtin_userdata /root/bak/"
+lxc file push /tmp/curtin_userdata maasctl/etc/maas/preseeds/curtin_userdata
+````
+
 -------
 ## Next sections
 - [Part 6 MAAS Connect POD on KVM Provider]
