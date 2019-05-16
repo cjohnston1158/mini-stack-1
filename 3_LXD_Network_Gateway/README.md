@@ -69,7 +69,9 @@ lxc launch bcio:openwrt gateway -p openwrt
 ###### WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
 ````sh
 lxc exec gateway -- /bin/bash -c "sed -i 's/192.168.1/10.10.0/g' /etc/config/network" && lxc stop gateway && sleep 3 && lxc start gateway
+````
 #### 08. Reboot Host
+````sh
 reboot
 ````
 #### 09. Import Mini-Stack Gateway Configuration
