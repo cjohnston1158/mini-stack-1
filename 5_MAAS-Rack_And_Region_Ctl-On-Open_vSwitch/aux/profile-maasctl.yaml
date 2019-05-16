@@ -1,5 +1,7 @@
 cat <<EOF >/tmp/lxd-profile-maasctl.yaml
 config:
+  boot.autostart: "true"
+  boot.autostart.delay: "5"
   raw.lxc: |-
     lxc.cgroup.devices.allow = c 10:237 rwm
     lxc.apparmor.profile = unconfined
