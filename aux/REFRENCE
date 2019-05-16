@@ -5,3 +5,5 @@ https://www.devtech101.com/2018/10/23/deploying-helm-tiller-prometheus-alertmana
 UUID=c1f88e1b-b700-4a03-9239-0196d1fbfa92 /var/lib/libvirt/images ext4 defaults 0 1
 UUID=c1f88e1b-b700-4a03-9239-0196d1fbfa92 /var/lib/libvirt/maas-images ext4 defaults 0 1
 
+#Netplan
+sed -i "s/$(ip r | head -n 1 | awk '{print $5}')/eth0/g" /etc/netplan/*.yaml

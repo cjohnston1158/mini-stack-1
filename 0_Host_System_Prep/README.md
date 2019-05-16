@@ -32,9 +32,9 @@ mkdir /etc/default/grub.d
 wget -O /etc/default/grub.d/99-libvirt.cfg https://git.io/fjcFo
 update-grub
 ```
-#### 06. Change network device name in /etc/netplan/*.yaml to eth0
+#### 06. Write eth0 netplan config
 ```sh
-#sed -i "s/$(ip r | head -n 1 | awk '{print $5}')/eth0/g" /etc/netplan/*.yaml
+cat <<EOF >/etc/netplan/99-eth0.yaml
 network:
   version: 2
   ethernets:
