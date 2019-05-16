@@ -9,7 +9,7 @@
 
 #### 01. Install helper packages
 ```sh
-apt-get update && apt-get install -y whois neovim lnav openssh-server ssh-import-id snapd pastebinit
+apt-get update && apt-get install --install-recommends -y whois neovim lnav openssh-server ssh-import-id snapd pastebinit linux-generic-hwe-18.04-edge
 ```
 #### 02. Create host CCIO Profile Configuration && add to bashrc
 ```sh
