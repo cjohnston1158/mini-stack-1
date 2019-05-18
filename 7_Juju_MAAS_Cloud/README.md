@@ -16,7 +16,7 @@
 -------
 #### 01. Build CloudCTL Profile && Build CloudCTL Container
 `export maasctl_api_key=$(lxc exec maasctl -- maas-region apikey --username=admin)`    
-`wget -O- https://git.io/fjLp4 2>/dev/null | bash`      
+`wget -O- https://git.io/fj8lR 2>/dev/null | bash`      
 `lxc launch ubuntu:bionic cloudctl -p cloudctl`    
 `lxc exec cloudctl -- tail -f /var/log/cloud-init-output.log`
   - NOTE: wait for cloud-init to finish configuring the container
