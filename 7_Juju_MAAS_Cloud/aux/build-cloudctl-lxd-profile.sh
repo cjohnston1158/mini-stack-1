@@ -28,16 +28,14 @@ config:
       - python-pip
     ssh_import_id: ${ccio_SSH_UNAME}
     users:
-      - name: ${ccio_SSH_UNAME}
-        shell: /bin/bash
-        sudo: ['ALL=(ALL) NOPASSWD:ALL']
-        ssh_import_id: ${ccio_SSH_UNAME}
-        groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
       - name: ubuntu
         shell: /bin/bash
         sudo: ['ALL=(ALL) NOPASSWD:ALL']
         ssh_import_id: ${ccio_SSH_UNAME}
-        groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
+      - name: ${ccio_SSH_UNAME}
+        shell: /bin/bash
+        sudo: ['ALL=(ALL) NOPASSWD:ALL']
+        ssh_import_id: ${ccio_SSH_UNAME}
     write_files:
       - content: |
           clouds:
@@ -68,7 +66,7 @@ config:
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
       - [su, -l, "${ccio_SSH_UNAME}", /bin/bash, -c, "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
-      - [wget, "-O", "/usr/bin/login-maas-cli", "https://git.io/fjLpC"]
+      - [wget, "-O", "/usr/bin/login-maas-cli", "https://raw.githubusercontent.com/containercraft/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli"]
       - [chmod, "+x", "/usr/bin/login-maas-cli"]
       - [virsh, net-destroy, default]
       - [virsh, net-undefine, default]
