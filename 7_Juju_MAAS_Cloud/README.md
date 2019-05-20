@@ -66,6 +66,7 @@ lxc exec maasctl -- /bin/bash -c 'wget -O- https://git.io/fj87E | bash'
 ````sh
 lxc exec maasctl -- /bin/bash -c 'wget -O- https://git.io/fj87u | bash'
 ````
+  - NOTE: JujuCtl Deploy/Configure may take some time, wait till complete to continue
 
 #### 09. Find juju WebGUI
 ````sh
