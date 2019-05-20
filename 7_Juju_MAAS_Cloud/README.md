@@ -64,7 +64,7 @@ exit
 ````
   - NOTE: JujuCtl Comissioning may take some time, wait till complete to continue
 
-#### 09. Find juju WebGUI
+#### 08. Find juju WebGUI
 ````sh
 lxc exec cloudctl -- su -l ${ccio_SSH_UNAME} -c 'juju gui'
 ````
