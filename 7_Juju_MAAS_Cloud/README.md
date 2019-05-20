@@ -64,7 +64,7 @@ lxc exec maasctl -- /bin/bash -c 'wget -O- https://git.io/fj87u | bash'
 
 #### 08. Find juju WebGUI
 ````sh
-lxc exec cloudctl -- /bin/bash -c 'juju gui'
+lxc exec cloudctl -- su -l ${ccio_SSH_UNAME} -c 'juju gui'
 ````
 
 -------
