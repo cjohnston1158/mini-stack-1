@@ -62,6 +62,7 @@ wget -O- https://git.io/fjlrv | bash
 lxc profile edit default < /tmp/lxd-profile-default.yaml
 ````
 -------
+## PRACTICE
 ##### Exhibit(A) Launch && Acquire Shell / Exit Shell && Delete Containers
 ````sh
 lxc launch ubuntu:bionic c01
