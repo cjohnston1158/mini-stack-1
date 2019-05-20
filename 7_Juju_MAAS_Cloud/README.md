@@ -52,9 +52,9 @@ wget -O- https://git.io/fj87R | bash
 
 #### 06. Import && Tag JujuCtl Virsh Node
 ````sh
-lxc exec cloudctl -- /bin/bash -c 'login-maas-cli'
-lxc exec cloudctl -- /bin/bash -c 'wget -O- https://git.io/fj87E | bash'
-lxc exec cloudctl -- /bin/bash -c 'wget -O- https://git.io/fj87u | bash'
+lxc exec maasctl -- /bin/bash -c 'login-maas-cli'
+lxc exec maasctl -- /bin/bash -c 'wget -O- https://git.io/fj87E | bash'
+lxc exec maasctl -- /bin/bash -c 'wget -O- https://git.io/fj87u | bash'
 ````
 
 #### 07. Bootstrap a Juju controller
