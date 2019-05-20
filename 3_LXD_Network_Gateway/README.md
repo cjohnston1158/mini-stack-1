@@ -67,7 +67,7 @@ lxc profile device add openwrt eth1 nic nictype=bridged parent=lan
 lxc launch bcio:openwrt gateway -p openwrt
 ````
 #### 07. Apply CCIO Configuration + http squid cache proxy
-###### WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
+  - WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
 ````sh
 lxc exec gateway -- /bin/bash -c "sed -i 's/192.168.1/10.10.0/g' /etc/config/network" && lxc stop gateway && sleep 3 && lxc start gateway
 ````
