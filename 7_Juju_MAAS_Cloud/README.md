@@ -47,13 +47,12 @@ wget -O- https://git.io/fj87R | bash
 lxc exec maasctl -- /bin/bash -c 'login-maas-cli'
 lxc exec maasctl -- /bin/bash -c 'wget -O- https://git.io/fj87E | bash'
 ````
-  - NOTE: wait for jujuctl.maas node to show as 'ready' in maasctl webui indicating 'comissioning' is complete
 
 #### 06. Tag JujuCtl Virsh Node
 ````sh
 lxc exec maasctl -- /bin/bash -c 'wget -O- https://git.io/fj87u | bash'
 ````
-  - NOTE: JujuCtl Deploy/Configure may take some time, wait till complete to continue
+  - NOTE: wait for jujuctl.maas node to show as 'ready' in maasctl webui indicating 'comissioning' is complete
 
 #### 07. Check CloudCtl MaasCtl Cloud && Bootstrap JujuCtl Controller Node
 ````sh
@@ -63,6 +62,7 @@ juju credentials
 juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "tags=jujuctl" maasctl jujuctl
 exit
 ````
+  - NOTE: JujuCtl Comissioning may take some time, wait till complete to continue
 
 #### 09. Find juju WebGUI
 ````sh
