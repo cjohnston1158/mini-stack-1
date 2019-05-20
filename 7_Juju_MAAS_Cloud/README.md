@@ -44,6 +44,17 @@ juju clouds maasctl
 juju credential maasctl
 ````
 
+#### 05. Virsh Build MAAS Cloud JujuCtl Node
+````sh
+wget -O- https://git.io/fj87R | bash
+````
+
+#### 05. Import && Tag JujuCtl Virsh Node
+````sh
+wget -O- https://git.io/fj87E | bash
+wget -O- https://git.io/fj87u | bash
+````
+
 #### 05. Bootstrap a Juju controller
 ````sh
 juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "tags=jujuctl" maasctl jujuctl
