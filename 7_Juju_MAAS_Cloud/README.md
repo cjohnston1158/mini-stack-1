@@ -14,39 +14,49 @@
 ![CCIO Hypervisor - JujuCTL Cloud Controller](web/drawio/juju_maas_cloud_controller.svg)
 
 -------
-#### 01. Build CloudCTL Profile && Build CloudCTL Container
+#### 00. Acquire MaasCTL MAAS API Key
 ````sh
 export MAASCTL_API_KEY=$(lxc exec maasctl -- maas-region apikey --username=admin)
 ````
 
+#### 01. Build CloudCTL Profile
 ````sh
 wget -O- https://git.io/fj87W | bash
+````
+
+#### 02. Build CloudCtl Container
+````sh
 lxc launch ubuntu:bionic cloudctl -p cloudctl
 lxc exec cloudctl -- tail -f /var/log/cloud-init-output.log
 ````
   - NOTE: wait for cloud-init to finish configuring the container, this may take some time...
 
-#### 02. Import cloudctl ssh key on host
+#### 03. Import CloudCtl ssh keys on host
 ````sh
 lxc exec cloudctl -- /bin/bash -c "cat /home/ubuntu/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys
 lxc exec cloudctl -- /bin/bash -c "cat /home/${ccio_SSH_UNAME}/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys
 ````
 
-#### 03. Show CloudCtl MaasCtl Cloud
+#### 04. Show CloudCtl MaasCtl Cloud
 ````sh
 lxc ${ccio_SSH_UNAME} cloudctl
 juju clouds maasctl
 juju credential maasctl
 ````
 
-#### 04. Bootstrap a Juju controller
+#### 05. Bootstrap a Juju controller
 ````sh
 juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "tags=jujuctl" maasctl jujuctl
 ````
 
-#### PRACTICE(A) Find juju WebGUI
+#### 06. Find juju WebGUI
 ````sh
 juju gui
+````
+
+#### 07. Exit CloudCtl
+````sh
+exit
 ````
 
 -------
