@@ -14,8 +14,6 @@ config:
   user.user-data: |
     #cloud-config
     ssh_import_id: ${ccio_SSH_UNAME}
-    apt:
-      proxy: "http://proxy.corp.mini-stack.maas"
     package_upgrade: true
     packages:
       - jq
