@@ -37,22 +37,22 @@ lxc exec cloudctl -- /bin/bash -c "cat /home/ubuntu/.ssh/id_rsa.pub" >>/root/.ss
 lxc exec cloudctl -- /bin/bash -c "cat /home/${ccio_SSH_UNAME}/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys
 ````
 
-#### 04. Show CloudCtl MaasCtl Cloud
+#### 04. Virsh Build MAAS Cloud JujuCtl Node
+````sh
+wget -O- https://git.io/fj87R | bash
+````
+
+#### 05. Show CloudCtl MaasCtl Cloud
 ````sh
 lxc ${ccio_SSH_UNAME} cloudctl
 juju clouds
 juju credentials
 ````
 
-#### 05. Bootstrap a Juju controller
+#### 06. Bootstrap a Juju controller
 ````sh
 juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "tags=jujuctl" maasctl jujuctl
 exit
-````
-
-#### 06. Virsh Build MAAS Cloud JujuCtl Node
-````sh
-wget -O- https://git.io/fj87R | bash
 ````
 
 #### 07. Import JujuCtl Virsh Node

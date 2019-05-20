@@ -15,7 +15,7 @@ Prerequisites:
 -------
 #### 01. Provision Libvirt Host with maasctl ssh key & test virsh commands over ssh
 ````sh
-lxc exec maasctl -- /bin/bash -c 'cat /var/lib/maas/.ssh/id_rsa.pub' >>~/.ssh/authorized_keys        
+lxc exec maasctl -- /bin/bash -c 'cat /var/lib/maas/.ssh/id_rsa.pub' >>~/.ssh/authorized_keys
 lxc exec maasctl -- su -l maas /bin/bash -c 'ssh-keyscan -H 10.10.0.2 >>~/.ssh/known_hosts'
 lxc exec maasctl -- su -l maas /bin/bash -c 'ssh -oStrictHostKeyChecking=accept-new root@10.10.0.2 hostname'
 lxc exec maasctl -- su -l maas /bin/bash -c 'virsh -c qemu+ssh://root@10.10.0.2/system list --all'

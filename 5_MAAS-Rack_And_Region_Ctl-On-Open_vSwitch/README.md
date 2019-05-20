@@ -38,7 +38,7 @@ lxc exec maasctl -- tail -f /var/log/cloud-init-output.log
 #### 05. Write Custom Userdata
 ````sh
 wget -O- https://git.io/fjl6z | bash
-lxc exec maasctl -- /bin/bash -c "mkdir /root/bak && cp /etc/maas/preseeds/curtin_userdata /root/bak/"
+lxc exec maasctl -- /bin/bash -c "mkdir /root/bak ; cp /etc/maas/preseeds/curtin_userdata /root/bak/"
 lxc file push /tmp/curtin_userdata maasctl/etc/maas/preseeds/curtin_userdata
 ````
 
