@@ -52,22 +52,17 @@ lxc profile copy default original
 sed -i 's/aliases: {}/aliases:\n  ubuntu: exec @ARGS@ -- sudo --login --user ubuntu/g' ~/.config/lxc/config.yml
 echo "  ${ccio_SSH_UNAME}: exec @ARGS@ -- sudo --login --user ${ccio_SSH_UNAME}" >> ~/.config/lxc/config.yml
 ````
--------
-#### PROTIP: Add User-Data && Launch Containers && check Configurations
-##### Exhibit(A) Add cloud-init user-data to your default profile
-###### 01. Download the profile template
+#### 06. Add User-Data && Launch Containers && check Configurations
+###### 06.1 Download the profile template
 ````sh
 wget -O- https://git.io/fjlrv | bash
 ````
-###### 02. Edit default profile template
-````sh
-vim /tmp/lxd-profile-default.yaml
-````
-###### 03. Apply configuration to default profile
+###### 06.2 Apply configuration to default profile
 ````sh
 lxc profile edit default < /tmp/lxd-profile-default.yaml
 ````
-##### Exhibit(B) Launch && Acquire Shell / Exit Shell && Delete Containers
+-------
+##### Exhibit(A) Launch && Acquire Shell / Exit Shell && Delete Containers
 ````sh
 lxc launch ubuntu:bionic c01
 lxc launch images:centos/7 test-centos
@@ -80,7 +75,7 @@ exit
 lxc delete c01 --force
 lxc delete test-centos --force
 ````
-###### Exhibit(C) Check LXD Configurations
+##### Exhibit(B) Check LXD Configurations
 ````sh
 lxc network list
 lxc network show wan
