@@ -25,7 +25,7 @@
 `lxc exec cloudctl -- /bin/bash -c "cat /home/ubuntu/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys`     
 `lxc exec cloudctl -- /bin/bash -c "cat /home/${ccio_SSH_UNAME}/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys`     
 
-#### 03. Add Cloud to CloudCTL
+#### 03. Show CloudCtl MaasCtl Cloud
 `lxc ${ccio_SSH_UNAME} cloudctl`    
 `juju clouds maasctl`    
 `juju credential maasctl`    
