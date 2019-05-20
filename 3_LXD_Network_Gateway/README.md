@@ -84,7 +84,7 @@ reboot
 lxc exec gateway -- /bin/bash -c "wget -O- https://git.io/fjlrC | bash" && sleep 8 && lxc start gateway
 ````
 #### 11. Test OpenWRT WebUI Login on 'WAN' IP Address    
-###### CREDENTIALS: [USER:PASS] [root:admin] -- [http://gateway_wan_ip_addr:8080/](http://gateway_wan_ip_addr:8080/)
+######    - CREDENTIALS: [USER:PASS] [root:admin] -- [http://gateway_wan_ip_addr:8080/](http://gateway_wan_ip_addr:8080/)
 
 #### 12. Copy LXD 'default' profile to 'wan'
 ````sh
