@@ -19,16 +19,16 @@
 `wget -O- https://git.io/fj87W | bash`      
 `lxc launch ubuntu:bionic cloudctl -p cloudctl`    
 `lxc exec cloudctl -- tail -f /var/log/cloud-init-output.log`
-  - NOTE: wait for cloud-init to finish configuring the container
+  - NOTE: wait for cloud-init to finish configuring the container, this may take some time...
 
 #### 02. Import cloudctl ssh key on host
 `lxc exec cloudctl -- /bin/bash -c "cat /home/ubuntu/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys`     
+`lxc exec cloudctl -- /bin/bash -c "cat /home/${ccio_SSH_UNAME}/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys`     
 
 #### 03. Add Cloud to CloudCTL
-`lxc ubuntu cloudctl`    
-`juju add-cloud maasctl ~/.juju/maasctl.yaml`     
-`juju add-credential maasctl`    
-`juju show-cloud maasctl`    
+`lxc ${ccio_SSH_UNAME} cloudctl`    
+`juju clouds maasctl`    
+`juju credential maasctl`    
 
 #### 04. Bootstrap a Juju controller
 `juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "cores=4 mem=4G tags=jujuctl" maasctl jujuctl`    
