@@ -31,7 +31,7 @@
 `juju credential maasctl`    
 
 #### 04. Bootstrap a Juju controller
-`juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "cores=4 mem=4G tags=jujuctl" maasctl jujuctl`    
+`juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "tags=jujuctl" maasctl jujuctl`    
 
 #### PRACTICE(A) Find juju WebGUI
 `juju gui`    
