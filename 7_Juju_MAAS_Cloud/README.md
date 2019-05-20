@@ -55,14 +55,19 @@ exit
 wget -O- https://git.io/fj87R | bash
 ````
 
-#### 07. Import && Tag JujuCtl Virsh Node
+#### 07. Import JujuCtl Virsh Node
 ````sh
 lxc exec maasctl -- /bin/bash -c 'login-maas-cli'
 lxc exec maasctl -- /bin/bash -c 'wget -O- https://git.io/fj87E | bash'
+````
+  - NOTE: wait for jujuctl.maas node to show as 'ready' in maasctl webui indicating 'comissioning' is complete
+
+#### 08. Tag JujuCtl Virsh Node
+````sh
 lxc exec maasctl -- /bin/bash -c 'wget -O- https://git.io/fj87u | bash'
 ````
 
-#### 08. Find juju WebGUI
+#### 09. Find juju WebGUI
 ````sh
 lxc exec cloudctl -- su -l ${ccio_SSH_UNAME} -c 'juju gui'
 ````
