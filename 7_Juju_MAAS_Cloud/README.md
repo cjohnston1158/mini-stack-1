@@ -66,7 +66,7 @@ exit
 
 #### 08. Set Juju WebUI Password
 ````sh
-yes admin | juju change-user-password admin
+lxc exec cloudctl -- su -l ${ccio_SSH_UNAME} -c 'yes admin | juju change-user-password admin'
 ````
 
 #### 09. Find juju WebUI
