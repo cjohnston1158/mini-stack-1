@@ -64,7 +64,12 @@ exit
 ````
   - NOTE: JujuCtl Comissioning may take some time, wait till complete to continue
 
-#### 08. Find juju WebGUI
+#### 08. Set Juju WebUI Password
+````sh
+yes admin | juju change-user-password admin
+````
+
+#### 09. Find juju WebUI
 ````sh
 lxc exec cloudctl -- su -l ${ccio_SSH_UNAME} -c 'juju gui'
 ````
