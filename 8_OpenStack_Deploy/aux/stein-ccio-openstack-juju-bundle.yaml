@@ -102,6 +102,7 @@ services:
       gui-y: '500'
     num_units: 1
     to:
+      - lxd:0
   ceph-mon:
     charm: 'cs:ceph-mon-38'
     series: bionic
@@ -248,7 +249,6 @@ services:
     bindings:
       ? ''
       : lan
-      - 'lxd:0'
   ntp:
     charm: 'cs:ntp-32'
     options:
