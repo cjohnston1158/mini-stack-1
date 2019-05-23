@@ -1,12 +1,31 @@
 ﻿series: bionic
+variables:
+  data-port: br-ex:ens4
+  expected-mon-count: 3
+  expected-osd-count: 3
+  mysql-connections: 2000
+  openstack-origin: 'cloud:bionic-stein'
+  osd-devices: '/dev/vdb /dev/vdc'
+  worker-multiplier: 0.25
+  lan: lan
+machines:
+  '0':
+    series: bionic
+    constraints: arch=amd64 cpu-cores=4 mem=4086 tags=mini-stack
+  '1':
+    series: bionic
+    constraints: arch=amd64 cpu-cores=4 mem=4086  tags=mini-stack
+  '2':
+    series: bionic
+    constraints: arch=amd64 cpu-cores=4 mem=4086 tags=mini-stack
 services:
   neutron-gateway:
     charm: 'cs:neutron-gateway-262'
     options:
       openstack-origin: 'cloud:bionic-stein'
       bridge-mappings: 'physnet1:br-ex'
-      data-port: 'br-ex:eth2'
-      dns-servers: '10.10.0.10,10.10.0.1,10.0.0.1'
+      data-port: 'br-ex:ens4'
+      dns-servers: '10.10.0.10,10.10.0.1,10.0.0.1,8.8.8.8'
       enable-isolated-metadata: true
       instance-mtu: 1500
       worker-multiplier: 0.25
@@ -18,14 +37,18 @@ services:
     num_units: 1
     to:
       - '0'
+    bindings:
+      ? ''
+      : lan
   nova-compute:
     charm: 'cs:nova-compute-300'
     options:
       openstack-origin: 'cloud:bionic-stein'
+      config-flags: default_ephemeral_format=ext4
       migration-auth-type: ssh
-      enable-live-migration: True
-      live-migration-permit-post-copy: True
-      live-migration-permit-auto-converge: True
+      enable-live-migration: true
+      live-migration-permit-post-copy: true
+      live-migration-permit-auto-converge: true
       config-flags: default_ephemeral_format=ext4
       resume-guests-state-on-host-boot: false
       action-managed-upgrade: true
@@ -33,16 +56,20 @@ services:
       libvirt-image-backend: rbd
       cpu-mode: host-passthrough
       enable-resize: true
+      flat-interface: ens3
     annotations:
       gui-x: '250'
       gui-y: '250'
+    bindings:
+      ? ''
+      : lan
     num_units: 2
     to:
       - '1'
       - '2'
   ceph-osd:
-    series: bionic
     charm: 'cs:ceph-osd-284'
+    series: bionic
     options:
       source: 'cloud:bionic-stein'
       osd-devices: '/dev/vdb /dev/vdc'
@@ -59,15 +86,15 @@ services:
       - '1'
       - '2'
   ceph-mon:
-    series: bionic
     charm: 'cs:ceph-mon-38'
+    series: bionic
     options:
       source: 'cloud:bionic-stein'
       expected-osd-count: 3
       monitor-count: 3
     bindings:
-      public: lan
-      cluster: lan
+      ? ''
+      : lan
     annotations:
       gui-x: '750'
       gui-y: '500'
@@ -92,8 +119,8 @@ services:
     to:
       - 'lxd:0'
   cinder:
-    series: bionic
     charm: 'cs:cinder-284'
+    series: bionic
     options:
       openstack-origin: 'cloud:bionic-stein'
       worker-multiplier: 0.25
@@ -135,28 +162,9 @@ services:
     num_units: 1
     to:
       - 'lxd:0'
-  glance-simplestreams-sync:
-    charm: cs:glance-simplestreams-sync
-    options:
-      cloud_name: maasctl
-      mirror_list: |
-        [{url: 'http://cloud-images.ubuntu.com/releases/',
-          name_prefix: 'ubuntu:released',
-          path: 'streams/v1/index.sjson', max: 1,
-          item_filters: ['release~(trusty|xenial|bionic|cosmic)',
-                         'arch~(x86_64|amd64)',
-                         'ftype~(disk1.img|disk.img)']},
-        ]
-      use_swift: true
-    bindings:
-      ? ''
-      : lan
-    num_units: 1
-    to:
-      - 'lxd:0'
   keystone:
-    series: bionic
     charm: 'cs:keystone-299'
+    series: bionic
     options:
       openstack-origin: 'cloud:bionic-stein'
       admin-password: admin
@@ -171,13 +179,13 @@ services:
     to:
       - 'lxd:0'
   mysql:
-    series: bionic
     charm: 'cs:percona-cluster-276'
+    series: bionic
     options:
-      root-password: admin
       sst-password: admin
+      root-password: admin
       innodb-buffer-pool-size: 256M
-      max-connections: 1000
+      max-connections: 2000
       performance-schema: true
     bindings:
       ? ''
@@ -189,8 +197,8 @@ services:
     to:
       - 'lxd:0'
   neutron-api:
-    series: bionic
     charm: 'cs:neutron-api-273'
+    series: bionic
     options:
       openstack-origin: 'cloud:bionic-stein'
       worker-multiplier: 0.25
@@ -214,20 +222,27 @@ services:
     charm: 'cs:neutron-openvswitch-259'
     num_units: 0
     options:
-      debug: true
+      firewall-driver: openvswitch
       verbose: true
+      debug: true
     annotations:
       gui-x: '250'
       gui-y: '500'
+    bindings:
+      ? ''
+      : lan
   nova-cloud-controller:
+    series: bionic
     charm: 'cs:nova-cloud-controller-328'
     options:
       openstack-origin: 'cloud:bionic-stein'
       action-managed-upgrade: true
-      console-access-protocol: spice
+      console-access-protocol: novnc
       network-manager: Neutron
       worker-multiplier: 0.25
-    series: bionic
+    bindings:
+      ? ''
+      : lan
     annotations:
       gui-x: '0'
       gui-y: '500'
@@ -240,10 +255,10 @@ services:
       pools: >-
         0.ubuntu.pool.ntp.org 1.ubuntu.pool.ntp.org 2.ubuntu.pool.ntp.org
         3.ubuntu.pool.ntp.org ntp.ubuntu.com
-    series: bionic
     annotations:
       gui-x: '1000'
       gui-y: '0'
+    num_units: 0
   openstack-dashboard:
     series: bionic
     charm: 'cs:openstack-dashboard-280'
@@ -279,89 +294,79 @@ services:
     to:
       - 'lxd:0'
 relations:
-  - - 'nova-compute:amqp'
-    - 'rabbitmq-server:amqp'
-  - - 'neutron-gateway:amqp'
-    - 'rabbitmq-server:amqp'
-  - - 'keystone:shared-db'
-    - 'mysql:shared-db'
-  - - 'nova-cloud-controller:identity-service'
-    - 'keystone:identity-service'
-  - - 'glance:identity-service'
-    - 'keystone:identity-service'
-  - - 'neutron-api:identity-service'
-    - 'keystone:identity-service'
-  - - 'neutron-openvswitch:neutron-plugin-api'
-    - 'neutron-api:neutron-plugin-api'
-  - - 'neutron-api:shared-db'
-    - 'mysql:shared-db'
-  - - 'neutron-api:amqp'
-    - 'rabbitmq-server:amqp'
-  - - 'neutron-gateway:neutron-plugin-api'
-    - 'neutron-api:neutron-plugin-api'
-  - - 'glance:shared-db'
-    - 'mysql:shared-db'
-  - - 'glance:amqp'
-    - 'rabbitmq-server:amqp'
-  - - 'nova-cloud-controller:image-service'
-    - 'glance:image-service'
-  - - 'nova-compute:image-service'
-    - 'glance:image-service'
-  - - 'nova-cloud-controller:cloud-compute'
-    - 'nova-compute:cloud-compute'
-  - - 'nova-cloud-controller:amqp'
-    - 'rabbitmq-server:amqp'
-  - - 'nova-cloud-controller:quantum-network-service'
-    - 'neutron-gateway:quantum-network-service'
-  - - 'nova-compute:neutron-plugin'
-    - 'neutron-openvswitch:neutron-plugin'
-  - - 'neutron-openvswitch:amqp'
-    - 'rabbitmq-server:amqp'
-  - - 'openstack-dashboard:identity-service'
-    - 'keystone:identity-service'
-  - - 'openstack-dashboard:shared-db'
-    - 'mysql:shared-db'
-  - - 'nova-cloud-controller:shared-db'
-    - 'mysql:shared-db'
-  - - 'nova-cloud-controller:neutron-api'
-    - 'neutron-api:neutron-api'
-  - - 'cinder:image-service'
-    - 'glance:image-service'
-  - - 'cinder:amqp'
-    - 'rabbitmq-server:amqp'
-  - - 'cinder:identity-service'
-    - 'keystone:identity-service'
-  - - 'cinder:cinder-volume-service'
-    - 'nova-cloud-controller:cinder-volume-service'
-  - - 'cinder-ceph:storage-backend'
-    - 'cinder:storage-backend'
-  - - 'ceph-mon:client'
-    - 'nova-compute:ceph'
-  - - 'nova-compute:ceph-access'
-    - 'cinder-ceph:ceph-access'
-  - - 'cinder:shared-db'
-    - 'mysql:shared-db'
-  - - 'ceph-mon:client'
-    - 'cinder-ceph:ceph'
-  - - 'ceph-mon:client'
-    - 'glance:ceph'
-  - - 'ceph-osd:mon'
-    - 'ceph-mon:osd'
-  - - 'ntp:juju-info'
-    - 'nova-compute:juju-info'
-  - - 'ntp:juju-info'
-    - 'neutron-gateway:juju-info'
-  - - 'ceph-radosgw:mon'
-    - 'ceph-mon:radosgw'
-  - - 'ceph-radosgw:identity-service'
-    - 'keystone:identity-service'
-machines:
-  '0':
-    series: bionic
-    constraints: arch=amd64 cpu-cores=4 mem=4086
-  '1':
-    series: bionic
-    constraints: arch=amd64 cpu-cores=4 mem=4086
-  '2':
-    series: bionic
-    constraints: arch=amd64 cpu-cores=4 mem=4086
+- - nova-compute:amqp
+  - rabbitmq-server:amqp
+- - neutron-gateway:amqp
+  - rabbitmq-server:amqp
+- - keystone:shared-db
+  - mysql:shared-db
+- - nova-cloud-controller:identity-service
+  - keystone:identity-service
+- - glance:identity-service
+  - keystone:identity-service
+- - neutron-api:identity-service
+  - keystone:identity-service
+- - neutron-openvswitch:neutron-plugin-api
+  - neutron-api:neutron-plugin-api
+- - neutron-api:shared-db
+  - mysql:shared-db
+- - neutron-api:amqp
+  - rabbitmq-server:amqp
+- - neutron-gateway:neutron-plugin-api
+  - neutron-api:neutron-plugin-api
+- - glance:shared-db
+  - mysql:shared-db
+- - glance:amqp
+  - rabbitmq-server:amqp
+- - nova-cloud-controller:image-service
+  - glance:image-service
+- - nova-compute:image-service
+  - glance:image-service
+- - nova-cloud-controller:cloud-compute
+  - nova-compute:cloud-compute
+- - nova-cloud-controller:amqp
+  - rabbitmq-server:amqp
+- - nova-cloud-controller:quantum-network-service
+  - neutron-gateway:quantum-network-service
+- - nova-compute:neutron-plugin
+  - neutron-openvswitch:neutron-plugin
+- - neutron-openvswitch:amqp
+  - rabbitmq-server:amqp
+- - openstack-dashboard:identity-service
+  - keystone:identity-service
+- - openstack-dashboard:shared-db
+  - mysql:shared-db
+- - nova-cloud-controller:shared-db
+  - mysql:shared-db
+- - nova-cloud-controller:neutron-api
+  - neutron-api:neutron-api
+- - cinder:image-service
+  - glance:image-service
+- - cinder:amqp
+  - rabbitmq-server:amqp
+- - cinder:identity-service
+  - keystone:identity-service
+- - cinder:cinder-volume-service
+  - nova-cloud-controller:cinder-volume-service
+- - cinder-ceph:storage-backend
+  - cinder:storage-backend
+- - ceph-mon:client
+  - nova-compute:ceph
+- - nova-compute:ceph-access
+  - cinder-ceph:ceph-access
+- - cinder:shared-db
+  - mysql:shared-db
+- - ceph-mon:client
+  - cinder-ceph:ceph
+- - ceph-mon:client
+  - glance:ceph
+- - ceph-osd:mon
+  - ceph-mon:osd
+- - ntp:juju-info
+  - nova-compute:juju-info
+- - ntp:juju-info
+  - neutron-gateway:juju-info
+- - ceph-radosgw:mon
+  - ceph-mon:radosgw
+- - ceph-radosgw:identity-service
+  - keystone:identity-service
