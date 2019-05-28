@@ -31,20 +31,20 @@ lxc exec maasctl -- /bin/bash -c "wget -O- https://git.io/fjCef 2>/dev/null | ba
 lxc exec maasctl -- /bin/bash -c "wget -O- https://git.io/fjCe3 2>/dev/null | bash"
 ```
 
-#### 04. Create Juju Model
+#### 04. Create Juju Model (on cloudctl)
 ```sh
 juju add-model mini-stack
 ```
-#### 05. Add Juju Machines
+#### 05. Add Juju Machines (on cloudctl)
 ```sh
 for n in 01 02 03; do juju add-machine --constraints tags=mini-stack; done
 ```
-#### 06. Deploy OpenStack from Juju Bundle YAML File
+#### 06. Deploy OpenStack from Juju Bundle YAML File (on cloudctl)
 ```sh
 wget -O /tmp/mini-stack-openstack-bundle.yaml https://git.io/fjlzW
-juju deploy /tmp/mini-stack-openstack-bundle.yaml --map-machines=existing
+juju deploy /tmp/mini-stack-openstack-bundle.yaml --map-machines=existing --verbose --debug
 ```
-#### 07. Monitor Deploy
+#### 07. Monitor Deploy (on cloudctl)
 ```sh
 watch -c juju status --color
 juju debug-log

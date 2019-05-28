@@ -14,33 +14,65 @@
 ![CCIO Hypervisor - JujuCTL Cloud Controller](web/drawio/juju_maas_cloud_controller.svg)
 
 -------
-#### 01. Build CloudCTL Profile && Build CloudCTL Container
-`export maasctl_api_key=$(lxc exec maasctl -- maas-region apikey --username=admin)`    
-`wget -O- https://git.io/fj8lR 2>/dev/null | bash`      
-`lxc launch ubuntu:bionic cloudctl -p cloudctl`    
-`lxc exec cloudctl -- tail -f /var/log/cloud-init-output.log`
-  - NOTE: wait for cloud-init to finish configuring the container
+#### 00. Acquire MaasCTL MAAS API Key
+````sh
+export MAASCTL_API_KEY=$(lxc exec maasctl -- maas-region apikey --username=admin)
+````
 
-#### 02. Import cloudctl ssh key on host
-`lxc exec cloudctl -- /bin/bash -c "cat /home/ubuntu/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys`     
+#### 01. Build CloudCTL Profile
+````sh
+wget -O- https://git.io/fj87W | bash
+````
 
-#### 03. Add Cloud to CloudCTL
-`lxc ubuntu cloudctl`    
-`juju add-cloud maasctl ~/.juju/maasctl.yaml`     
-`juju add-credential maasctl`    
-`juju show-cloud maasctl`    
+#### 02. Build CloudCtl Container
+````sh
+lxc launch ubuntu:bionic cloudctl -p cloudctl
+lxc exec cloudctl -- tail -f /var/log/cloud-init-output.log
+````
+  - NOTE: wait for cloud-init to finish configuring the container, this may take some time...
 
-#### 04. Bootstrap a Juju controller
-`juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "cores=4 mem=4G tags=jujuctl" maasctl jujuctl`    
+#### 03. Import CloudCtl ssh keys on host
+````sh
+lxc exec cloudctl -- /bin/bash -c "cat /home/ubuntu/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys
+lxc exec cloudctl -- /bin/bash -c "cat /home/${ccio_SSH_UNAME}/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys
+````
 
-#### PRACTICE(A) Find juju WebGUI
-`juju gui`    
+#### 04. Virsh Build MAAS Cloud JujuCtl Node
+````sh
+wget -O- https://git.io/fj87R | bash
+````
 
-#### PRACTICE(B) Test adding new machines on your cloud
-  01. Add 2 Libvirt guests configured with 2 cores and 2GB RAM    
-`juju add-machine -n 2 --constraints "cores=2 mem=2G"`     
-  02. Add 2 new lxd container    
-`juju add-machine lxd:0`    
+#### 05. Import JujuCtl Virsh Node
+````sh
+lxc exec maasctl -- /bin/bash -c 'login-maas-cli'
+lxc exec maasctl -- /bin/bash -c 'wget -O- https://git.io/fj87E | bash'
+````
+
+#### 06. Tag JujuCtl Virsh Node
+````sh
+lxc exec maasctl -- /bin/bash -c 'wget -O- https://git.io/fj87u | bash'
+````
+  - NOTE: wait for jujuctl.maas node to show as 'ready' in maasctl webui indicating 'comissioning' is complete
+
+#### 07. Check CloudCtl MaasCtl Cloud && Bootstrap JujuCtl Controller Node
+````sh
+lxc ${ccio_SSH_UNAME} cloudctl
+juju clouds
+juju credentials
+juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "tags=jujuctl" maasctl jujuctl
+exit
+````
+  - NOTE: JujuCtl Comissioning may take some time, wait till complete to continue
+
+#### 08. Set Juju WebUI Password
+````sh
+lxc exec cloudctl -- su -l ${ccio_SSH_UNAME} -c 'yes admin | juju change-user-password admin'
+````
+
+#### 09. Find juju WebUI
+````sh
+lxc exec cloudctl -- su -l ${ccio_SSH_UNAME} -c 'juju gui'
+````
 
 -------
 ## Continue to the next section

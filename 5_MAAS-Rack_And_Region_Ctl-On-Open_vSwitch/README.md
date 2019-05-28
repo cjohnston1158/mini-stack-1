@@ -19,25 +19,26 @@ wget -O- https://git.io/fjlof 2>/dev/null | bash
 lxc profile edit maasctl </tmp/lxd-profile-maasctl.yaml
 ````
 #### 02. Create 'maasctl' Ubuntu Bionic LXD Container
-NOTE: Build time is dependent on hardware & network specs, monitor logs until build is complete
 ````sh
 lxc launch ubuntu:bionic maasctl -p maasctl
 lxc exec maasctl -- tail -f /var/log/cloud-init-output.log
 ````
+  - NOTE: Build time is dependent on hardware & network specs, monitor logs until build is complete
+
 #### 03. Login to WebUI && Confirm region and rack controller(s) show healthy
-NOTE: dhcp services are dependent on completion of full image sync. Please wait till image download & sync has finished.
  1. Browse to your maas WebUI @ [http://openwrt-gateway-pub-ip:5240/MAAS](http://{openwrt-gateway-pub-ip}:5240/MAAS)
  2. Click 'skip' through on-screen setup prompts (this was already done via cli)    
  3. Click "Controllers" tab    
  4. Click "maasctl.maas"    
  5. services should all be 'green' excluding dhcp* & ntp*    
+  - NOTE: dhcp services are dependent on completion of full image sync. Please wait till image download & sync has finished.
 
 #### 04. Reboot and confirm MAAS WebUI & MAAS Region+Rack controller services are all healthy again
 
 #### 05. Write Custom Userdata
 ````sh
 wget -O- https://git.io/fjl6z | bash
-lxc exec maasctl -- /bin/bash -c "mkdir /root/bak && cp /etc/maas/preseeds/curtin_userdata /root/bak/"
+lxc exec maasctl -- /bin/bash -c "mkdir /root/bak ; cp /etc/maas/preseeds/curtin_userdata /root/bak/"
 lxc file push /tmp/curtin_userdata maasctl/etc/maas/preseeds/curtin_userdata
 ````
 

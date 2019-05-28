@@ -51,7 +51,8 @@ ovs-vsctl \
   add-br lan -- \
   add-port lan mgmt1 -- \
   set interface mgmt1 type=internal -- \
-  set interface mgmt1 mac="$(echo "$HOSTNAME lan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
+  set interface mgmt1 mac="$(echo "$HOSTNAME lan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')" \
+  && sed -i -e :a -e '$d;N;2,4ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
 ovs-vsctl show
 ````
 #### 05. Create OpenWRT LXD Profile
@@ -66,26 +67,25 @@ lxc profile device add openwrt eth1 nic nictype=bridged parent=lan
 lxc launch bcio:openwrt gateway -p openwrt
 ````
 #### 07. Apply CCIO Configuration + http squid cache proxy
-###### WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
+  - WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
 ````sh
 lxc exec gateway -- /bin/bash -c "sed -i 's/192.168.1/10.10.0/g' /etc/config/network" && lxc stop gateway && sleep 3 && lxc start gateway
 ````
-#### 08. Reboot Host
+#### 08. Reload host network configuration
+````sh
+systemctl restart systemd-networkd.service && netplan apply --debug
+````
+#### 09. Reboot Host
 ````sh
 reboot
 ````
-#### 09. Import Mini-Stack Gateway Configuration
+#### 10. Import Mini-Stack Gateway Configuration
 ````
 lxc exec gateway -- /bin/bash -c "wget -O- https://git.io/fjlrC | bash" && sleep 8 && lxc start gateway
 ````
-#### 10. Test OpenWRT WebUI Login on 'WAN' IP Address    
-###### CREDENTIALS: [USER:PASS] [root:admin] -- [http://gateway_wan_ip_addr:8080/](http://gateway_wan_ip_addr:8080/)
+#### 11. Test OpenWRT WebUI Login on 'WAN' IP Address    
+  - CREDENTIALS: [USER:PASS] [root:admin] -- [http://gateway_wan_ip_addr:8080/](http://gateway_wan_ip_addr:8080/)
 
-#### 11. Remove mgmt0 default route && Reload host network configuration
-````sh
-sed -i -e :a -e '$d;N;2,4ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
-systemctl restart systemd-networkd.service && netplan apply --debug
-````
 #### 12. Copy LXD 'default' profile to 'wan'
 ````sh
 lxc profile copy default wan

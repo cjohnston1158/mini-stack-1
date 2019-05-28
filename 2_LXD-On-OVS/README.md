@@ -41,7 +41,7 @@ Would you like a YAML "lxd init" preseed to be printed? (yes/no) [default=no]: y
 #### 03. Add your user(s) to the 'lxd' group with the following syntax for each user
 Use your non-root host user name (EG: 'ubuntu')
 ````sh
-sudo usermod -aG lxd ubuntu
+sudo usermod -aG lxd ${ccio_SSH_UNAME}
 ````
 #### 04. Backup the original lxc profile
 ````sh
@@ -50,28 +50,31 @@ lxc profile copy default original
 #### 05. Add 'lxc' command alias 'ubuntu'/'(your username)' to auto login to containers as user 'ubuntu'
 ````sh
 sed -i 's/aliases: {}/aliases:\n  ubuntu: exec @ARGS@ -- sudo --login --user ubuntu/g' ~/.config/lxc/config.yml
+echo "  ${ccio_SSH_UNAME}: exec @ARGS@ -- sudo --login --user ${ccio_SSH_UNAME}" >> ~/.config/lxc/config.yml
 ````
--------
-#### PROTIP: Add User-Data && Launch Containers && check Configurations
-##### Exhibit(A) Add cloud-init user-data to your default profile
-###### 01. Download the profile template
+#### 06. Add User-Data && Launch Containers && check Configurations
+###### 06.1 Download the profile template
 ````sh
 wget -O- https://git.io/fjlrv | bash
 ````
-###### 02. Edit default profile template
-````sh
-vim /tmp/lxd-profile-default.yaml
-````
-###### 03. Apply configuration to default profile
+###### 06.2 Apply configuration to default profile
 ````sh
 lxc profile edit default < /tmp/lxd-profile-default.yaml
 ````
-##### Exhibit(B) Launch && Acquire Shell / Exit Shell && Delete Containers
+-------
+## PRACTICE
+##### Exhibit(A) Launch && Acquire Shell / Exit Shell && Delete Containers
 ````sh
 lxc launch ubuntu:bionic c01
 lxc launch images:centos/7 test-centos
 
 lxc list
+
+lxc ubuntu c01 bash
+exit
+
+lxc ${ccio_SSH_UNAME} c01
+exit
 
 lxc exec c01 bash
 exit
@@ -79,7 +82,7 @@ exit
 lxc delete c01 --force
 lxc delete test-centos --force
 ````
-###### Exhibit(C) Check LXD Configurations
+##### Exhibit(B) Check LXD Configurations
 ````sh
 lxc network list
 lxc network show wan

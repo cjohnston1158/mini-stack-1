@@ -13,7 +13,7 @@ Prerequisites:
 -------
 #### 01. Install Packages
 ````sh
-apt install -y qemu qemu-kvm qemu-utils libvirt-bin libvirt0
+apt install -y qemu qemu-kvm qemu-utils libvirt-bin libvirt0 virtinst
 ````
 #### 02. Backup & Destroy default NAT Network
 ````sh

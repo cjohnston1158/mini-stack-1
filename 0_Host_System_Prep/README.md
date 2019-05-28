@@ -44,17 +44,17 @@ EOF
 ```
 #### 07. Reboot
 -------
-## OPTIONAL (DESKTOP OS) 
+## OPTIONAL
 #### OPTIONAL 01. Switch default editor from nano to vim
 ```sh
 update-alternatives --set editor /usr/bin/vim.tiny
 ```
-##### OPTIONAL 02. Disable default GUI startup on Desktop OS
+##### OPTIONAL 02. Disable default GUI startup  (DESKTOP OS)
   NOTE: Use command `startx` to manually start full GUI environment at will
 ```sh
 systemctl set-default multi-user.target
 ```
-##### OPTIONAL 03. Disable Lid Switch Power/Suspend features if building on a laptop
+##### OPTIONAL 03. Disable Lid Switch Power/Suspend (if building on a laptop)
 ```sh
 sed -i 's/^#HandleLidSwitch=suspend/HandleLidSwitch=ignore/g' /etc/systemd/logind.conf
 sed -i 's/^#HandleLidSwitchDocked=ignore/HandleLidSwitchDocked=ignore/g' /etc/systemd/logind.conf
