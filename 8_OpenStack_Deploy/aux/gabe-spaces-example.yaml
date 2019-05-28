@@ -1,0 +1,452 @@
+series: bionic
+applications:
+  ceph-mon:
+    charm: cs:ceph-mon-36
+    num_units: 3
+    to:
+    - lxd:1
+    - lxd:2
+    - lxd:3
+    options:
+      expected-osd-count: 3
+      monitor-count: 3
+      source: cloud:bionic-stein
+    annotations:
+      gui-x: "750"
+      gui-y: "500"
+    bindings:
+      "": space2
+      admin: space2
+      bootstrap-source: space2
+      client: space2
+      cluster: space2
+      mds: space2
+      mon: space2
+      nrpe-external-master: space2
+      osd: space2
+      public: space2
+      radosgw: space2
+      rbd-mirror: space2
+  ceph-osd:
+    charm: cs:ceph-osd-280
+    num_units: 3
+    to:
+    - "1"
+    - "2"
+    - "3"
+    options:
+      osd-devices: /dev/sdb /dev/vdb
+      source: cloud:bionic-stein
+    annotations:
+      gui-x: "1000"
+      gui-y: "500"
+    bindings:
+      "": space2
+      cluster: space2
+      mon: space2
+      nrpe-external-master: space2
+      public: space2
+      secrets-storage: space2
+  ceph-radosgw:
+    charm: cs:ceph-radosgw-265
+    num_units: 1
+    to:
+    - lxd:0
+    options:
+      source: cloud:bionic-stein
+    annotations:
+      gui-x: "1000"
+      gui-y: "250"
+    bindings:
+      "": space2
+      admin: space2
+      certificates: space2
+      cluster: space2
+      gateway: space2
+      ha: space2
+      identity-service: space2
+      internal: space2
+      master: space2
+      mon: space2
+      nrpe-external-master: space2
+      public: space2
+      slave: space2
+  cinder:
+    charm: cs:cinder-282
+    num_units: 1
+    to:
+    - lxd:1
+    options:
+      block-device: None
+      glance-api-version: 2
+      openstack-origin: cloud:bionic-stein
+      worker-multiplier: 0.25
+    annotations:
+      gui-x: "750"
+      gui-y: "0"
+    bindings:
+      "": space2
+      admin: space2
+      amqp: space2
+      backup-backend: space2
+      ceph: space2
+      certificates: space2
+      cinder-volume-service: space2
+      cluster: space2
+      ha: space2
+      identity-service: space2
+      image-service: space2
+      internal: space2
+      nrpe-external-master: space2
+      public: space2
+      shared-db: space2
+      storage-backend: space2
+  cinder-ceph:
+    charm: cs:cinder-ceph-240
+    annotations:
+      gui-x: "750"
+      gui-y: "250"
+  glance:
+    charm: cs:glance-277
+    num_units: 1
+    to:
+    - lxd:2
+    options:
+      openstack-origin: cloud:bionic-stein
+      worker-multiplier: 0.25
+    annotations:
+      gui-x: "250"
+      gui-y: "0"
+    bindings:
+      "": space2
+      admin: space2
+      amqp: space2
+      ceph: space2
+      certificates: space2
+      cinder-volume-service: space2
+      cluster: space2
+      ha: space2
+      identity-service: space2
+      image-service: space2
+      internal: space2
+      nrpe-external-master: space2
+      object-store: space2
+      public: space2
+      shared-db: space2
+      storage-backend: space2
+  keystone:
+    charm: cs:keystone-296
+    num_units: 1
+    to:
+    - lxd:3
+    options:
+      openstack-origin: cloud:bionic-stein
+      worker-multiplier: 0.25
+    annotations:
+      gui-x: "500"
+      gui-y: "0"
+    bindings:
+      "": space2
+      admin: space2
+      certificates: space2
+      cluster: space2
+      domain-backend: space2
+      ha: space2
+      identity-admin: space2
+      identity-credentials: space2
+      identity-notifications: space2
+      identity-service: space2
+      internal: space2
+      keystone-fid-service-provider: space2
+      keystone-middleware: space2
+      nrpe-external-master: space2
+      public: space2
+      shared-db: space2
+      websso-trusted-dashboard: space2
+  mysql:
+    charm: cs:percona-cluster-274
+    num_units: 1
+    to:
+    - lxd:0
+    options:
+      innodb-buffer-pool-size: 256M
+      max-connections: 1000
+      performance-schema: true
+    annotations:
+      gui-x: "0"
+      gui-y: "250"
+    bindings:
+      "": space2
+      access: space2
+      cluster: space2
+      db: space2
+      db-admin: space2
+      ha: space2
+      master: space2
+      nrpe-external-master: space2
+      shared-db: space2
+      slave: space2
+  neutron-api:
+    charm: cs:neutron-api-271
+    num_units: 1
+    to:
+    - lxd:1
+    options:
+      flat-network-providers: physnet1
+      neutron-security-groups: true
+      openstack-origin: cloud:bionic-stein
+      worker-multiplier: 0.25
+    annotations:
+      gui-x: "500"
+      gui-y: "500"
+    bindings:
+      "": space2
+      admin: space2
+      amqp: space2
+      certificates: space2
+      cluster: space2
+      etcd-proxy: space2
+      external-dns: space2
+      ha: space2
+      identity-service: space2
+      internal: space2
+      midonet: space2
+      neutron-api: space2
+      neutron-load-balancer: space2
+      neutron-plugin-api: space2
+      neutron-plugin-api-subordinate: space2
+      nrpe-external-master: space2
+      public: space2
+      shared-db: space2
+      vsd-rest-api: space2
+  neutron-gateway:
+    charm: cs:neutron-gateway-262
+    num_units: 1
+    to:
+    - "0"
+    options:
+      bridge-mappings: physnet1:br-ex
+      data-port: br-ex:eth1
+      openstack-origin: cloud:bionic-stein
+      worker-multiplier: 0.25
+    annotations:
+      gui-x: "0"
+      gui-y: "0"
+    bindings:
+      "": oam
+      amqp: oam
+      amqp-nova: oam
+      cluster: oam
+      data: oam
+      ha: oam
+      neutron-plugin-api: oam
+      nrpe-external-master: oam
+      quantum-network-service: oam
+  neutron-openvswitch:
+    charm: cs:neutron-openvswitch-259
+    options:
+      enable-local-dhcp-and-metadata: true
+      firewall-driver: openvswitch
+    annotations:
+      gui-x: "250"
+      gui-y: "500"
+    bindings:
+      data: oam
+  nova-cloud-controller:
+    charm: cs:nova-cloud-controller-326
+    num_units: 1
+    to:
+    - lxd:2
+    options:
+      console-access-protocol: novnc
+      network-manager: Neutron
+      openstack-origin: cloud:bionic-stein
+      worker-multiplier: 0.25
+    annotations:
+      gui-x: "0"
+      gui-y: "500"
+    bindings:
+      "": space2
+      admin: space2
+      amqp: space2
+      amqp-cell: space2
+      certificates: space2
+      cinder-volume-service: space2
+      cloud-compute: space2
+      cloud-controller: space2
+      cluster: space2
+      ha: space2
+      identity-service: space2
+      image-service: space2
+      internal: space2
+      memcache: space2
+      neutron-api: space2
+      nova-cell-api: space2
+      nova-vmware: space2
+      nrpe-external-master: space2
+      public: space2
+      quantum-network-service: space2
+      shared-db: space2
+      shared-db-cell: space2
+  nova-compute:
+    charm: cs:nova-compute-300
+    num_units: 3
+    to:
+    - "1"
+    - "2"
+    - "3"
+    options:
+      enable-live-migration: true
+      enable-resize: true
+      flat-interface: eth5
+      migration-auth-type: ssh
+      openstack-origin: cloud:bionic-stein
+    annotations:
+      gui-x: "250"
+      gui-y: "250"
+    bindings:
+      "": oam
+      amqp: oam
+      ceph: oam
+      ceph-access: oam
+      cloud-compute: oam
+      cloud-credentials: oam
+      compute-peer: oam
+      ephemeral-backend: oam
+      image-service: oam
+      internal: oam
+      lxd: oam
+      neutron-plugin: oam
+      nova-ceilometer: oam
+      nrpe-external-master: oam
+      secrets-storage: oam
+  ntp:
+    charm: cs:ntp-32
+    annotations:
+      gui-x: "1000"
+      gui-y: "0"
+  openstack-dashboard:
+    charm: cs:openstack-dashboard-280
+    num_units: 1
+    to:
+    - lxd:3
+    options:
+      openstack-origin: cloud:bionic-stein
+    annotations:
+      gui-x: "500"
+      gui-y: "-250"
+    bindings:
+      "": space3
+      certificates: space3
+      cluster: space3
+      dashboard-plugin: space3
+      ha: space3
+      identity-service: space2
+      nrpe-external-master: space3
+      public: space3
+      shared-db: space2
+      website: space3
+      websso-fid-service-provider: space3
+      websso-trusted-dashboard: space3
+  rabbitmq-server:
+    charm: cs:rabbitmq-server-87
+    num_units: 1
+    to:
+    - lxd:0
+    annotations:
+      gui-x: "500"
+      gui-y: "250"
+    bindings:
+      "": space2
+      amqp: space2
+      ceph: space2
+      certificates: space2
+      cluster: space2
+      ha: space2
+      nrpe-external-master: space2
+machines:
+  "0":
+    constraints: mem=2048
+  "1":
+    constraints: mem=2048
+  "2":
+    constraints: mem=2048
+  "3":
+    constraints: mem=2048
+relations:
+- - nova-compute:amqp
+  - rabbitmq-server:amqp
+- - neutron-gateway:amqp
+  - rabbitmq-server:amqp
+- - keystone:shared-db
+  - mysql:shared-db
+- - nova-cloud-controller:identity-service
+  - keystone:identity-service
+- - glance:identity-service
+  - keystone:identity-service
+- - neutron-api:identity-service
+  - keystone:identity-service
+- - neutron-openvswitch:neutron-plugin-api
+  - neutron-api:neutron-plugin-api
+- - neutron-api:shared-db
+  - mysql:shared-db
+- - neutron-api:amqp
+  - rabbitmq-server:amqp
+- - neutron-gateway:neutron-plugin-api
+  - neutron-api:neutron-plugin-api
+- - glance:shared-db
+  - mysql:shared-db
+- - glance:amqp
+  - rabbitmq-server:amqp
+- - nova-cloud-controller:image-service
+  - glance:image-service
+- - nova-compute:image-service
+  - glance:image-service
+- - nova-cloud-controller:cloud-compute
+  - nova-compute:cloud-compute
+- - nova-cloud-controller:amqp
+  - rabbitmq-server:amqp
+- - nova-cloud-controller:quantum-network-service
+  - neutron-gateway:quantum-network-service
+- - nova-compute:neutron-plugin
+  - neutron-openvswitch:neutron-plugin
+- - neutron-openvswitch:amqp
+  - rabbitmq-server:amqp
+- - openstack-dashboard:identity-service
+  - keystone:identity-service
+- - openstack-dashboard:shared-db
+  - mysql:shared-db
+- - nova-cloud-controller:shared-db
+  - mysql:shared-db
+- - nova-cloud-controller:neutron-api
+  - neutron-api:neutron-api
+- - cinder:image-service
+  - glance:image-service
+- - cinder:amqp
+  - rabbitmq-server:amqp
+- - cinder:identity-service
+  - keystone:identity-service
+- - cinder:cinder-volume-service
+  - nova-cloud-controller:cinder-volume-service
+- - cinder-ceph:storage-backend
+  - cinder:storage-backend
+- - ceph-mon:client
+  - nova-compute:ceph
+- - nova-compute:ceph-access
+  - cinder-ceph:ceph-access
+- - cinder:shared-db
+  - mysql:shared-db
+- - ceph-mon:client
+  - cinder-ceph:ceph
+- - ceph-mon:client
+  - glance:ceph
+- - ceph-osd:mon
+  - ceph-mon:osd
+- - ntp:juju-info
+  - nova-compute:juju-info
+- - ntp:juju-info
+  - neutron-gateway:juju-info
+- - ceph-radosgw:mon
+  - ceph-mon:radosgw
+- - ceph-radosgw:identity-service
+  - keystone:identity-service
