@@ -1,0 +1,18 @@
+server {
+        server_name lxd.mirror.corp.braincraft.io;
+
+        listen [::]:443 ssl default_server;
+        listen 443 ssl default_server;
+
+        ssl_protocols       TLSv1.1 TLSv1.2;
+        ssl_ciphers         EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH;
+        ssl_certificate     /root/ssl/lxd.mirror.corp.braincraft.io/lxd.mirror.corp.braincraft.io_Certificate.pem;
+        ssl_certificate_key /root/ssl/lxd.mirror.corp.braincraft.io/lxd.mirror.corp.braincraft.io_PrivateKey.pem;
+
+        root /var/www/html/cloud-images;
+
+        location / {
+                autoindex on;
+        }
+}
+
