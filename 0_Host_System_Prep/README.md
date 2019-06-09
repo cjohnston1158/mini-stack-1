@@ -13,7 +13,7 @@ apt-get update && apt-get install --install-recommends -y whois neovim lnav open
 ```
 #### 02. Create host CCIO Profile Configuration && add to bashrc
 ```sh
-wget -O /tmp/build-mini-stack-profile.sh https://git.io/fjcFg
+wget -O /tmp/build-mini-stack-profile.sh https://git.io/fjgep
 source /tmp/build-mini-stack-profile.sh
 ```
 #### 03. Import your ssh pub key

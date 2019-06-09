@@ -127,10 +127,10 @@ config include
 config redirect
 	option proto 'tcp'
 	option src 'lan'
-	option src_ip '!10.10.0.1'
+	option src_ip '!${ministack_SUBNET}.1'
 	option src_dport '80'
 	option dest 'lan'
-	option dest_ip '10.10.0.1'
+	option dest_ip '${ministack_SUBNET}.1'
 	option dest_port '3128'
 	option target 'DNAT'
 	option name 'squid-http-caching-proxy'
@@ -141,7 +141,7 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp udp'
 	option src_dport '8080'
-	option dest_ip '10.10.0.1'
+	option dest_ip '${ministack_SUBNET}.1'
 	option name 'openwrt-webui'
 	option dest_port '80'
 
@@ -151,7 +151,7 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp udp'
 	option src_dport '5240'
-	option dest_ip '10.10.0.10'
+	option dest_ip '${ministack_SUBNET}.10'
 	option dest_port '5240'
 	option name 'maasctl-webui'
 
@@ -161,7 +161,7 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp udp'
 	option src_dport '17070'
-	option dest_ip '10.10.0.4'
+	option dest_ip '${ministack_SUBNET}.4'
 	option dest_port '17070'
 	option name 'jujuctl-webui'
 
@@ -171,7 +171,7 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp'
 	option src_dport '22'
-	option dest_ip '10.10.0.3'
+	option dest_ip '${ministack_SUBNET}.3'
 	option dest_port '22'
 	option name 'cloudctl-ssh'
 
@@ -181,6 +181,6 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp'
 	option src_dport '2022'
-	option dest_ip '10.10.0.2'
+	option dest_ip '${ministack_SUBNET}.2'
 	option dest_port '22'
 	option name 'mini-stack-host-ssh'

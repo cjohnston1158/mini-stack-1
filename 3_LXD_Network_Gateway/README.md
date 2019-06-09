@@ -38,11 +38,11 @@ network:
     mgmt1:
       optional: true
       addresses:
-        - 10.10.0.2/24
-      gateway4: 10.10.0.1
+        - ${ministack_SUBNET}.2/24
+      gateway4: ${ministack_SUBNET}.1
       nameservers:
         search: [maas]
-        addresses: [10.10.0.10,8.8.8.8]
+        addresses: [${ministack_SUBNET}.10,8.8.8.8]
 EOF
 ````
 #### 04. Build Bridge & mgmt1 interface
@@ -51,8 +51,7 @@ ovs-vsctl \
   add-br lan -- \
   add-port lan mgmt1 -- \
   set interface mgmt1 type=internal -- \
-  set interface mgmt1 mac="$(echo "$HOSTNAME lan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')" \
-  && sed -i -e :a -e '$d;N;2,4ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
+  set interface mgmt1 mac="$(echo "$HOSTNAME lan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
 ovs-vsctl show
 ````
 #### 05. Create OpenWRT LXD Profile
@@ -69,7 +68,7 @@ lxc launch bcio:openwrt gateway -p openwrt
 #### 07. Apply CCIO Configuration + http squid cache proxy
   - WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
 ````sh
-lxc exec gateway -- /bin/bash -c "sed -i 's/192.168.1/10.10.0/g' /etc/config/network" && lxc stop gateway && sleep 3 && lxc start gateway
+lxc exec gateway -- /bin/bash -c "sed -i 's/192.168.1/${ministack_SUBNET}/g' /etc/config/network" && lxc stop gateway && sleep 3 && lxc start gateway
 ````
 #### 08. Reload host network configuration
 ````sh

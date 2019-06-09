@@ -16,14 +16,14 @@ Prerequisites:
 #### 01. Provision Libvirt Host with maasctl ssh key & test virsh commands over ssh
 ````sh
 lxc exec maasctl -- /bin/bash -c 'cat /var/lib/maas/.ssh/id_rsa.pub' >>~/.ssh/authorized_keys
-lxc exec maasctl -- su -l maas /bin/bash -c 'ssh-keyscan -H 10.10.0.2 >>~/.ssh/known_hosts'
-lxc exec maasctl -- su -l maas /bin/bash -c 'ssh -oStrictHostKeyChecking=accept-new root@10.10.0.2 hostname'
-lxc exec maasctl -- su -l maas /bin/bash -c 'virsh -c qemu+ssh://root@10.10.0.2/system list --all'
+lxc exec maasctl -- su -l maas /bin/bash -c 'ssh-keyscan -H ${ministack_SUBNET}.2 >>~/.ssh/known_hosts'
+lxc exec maasctl -- su -l maas /bin/bash -c 'ssh -oStrictHostKeyChecking=accept-new root@${ministack_SUBNET}.2 hostname'
+lxc exec maasctl -- su -l maas /bin/bash -c 'virsh -c qemu+ssh://root@${ministack_SUBNET}.2/system list --all'
 ````
 
 #### 02. Connect your libvirt provider as a POD in MAAS
 ````sh
-lxc exec maasctl -- /bin/bash -c 'maas admin pods create type=virsh name=mini-stack.maas power_address=qemu+ssh://root@10.10.0.2/system cpu_over_commit_ratio=10 memory_over_commit_ratio=10'
+lxc exec maasctl -- /bin/bash -c 'maas admin pods create type=virsh name=mini-stack.maas power_address=qemu+ssh://root@${ministack_SUBNET}.2/system cpu_over_commit_ratio=10 memory_over_commit_ratio=10'
 ````
 
 #### 03. Test create new VM in your virsh pod:

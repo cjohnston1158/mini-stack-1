@@ -20,7 +20,7 @@ sudo systemctl restart nginx.service
 maas admin boot-source delete 1
 
 maas admin boot-sources create \
-url=http://10.10.0.149/maas/images/ephemeral-v3/daily/ \
+url=http://${ministack_SUBNET}.149/maas/images/ephemeral-v3/daily/ \
 keyring_filename=/usr/share/keyrings/ubuntu-cloudimage-keyring.gpg
 
 maas admin boot-source-selections create 2 \

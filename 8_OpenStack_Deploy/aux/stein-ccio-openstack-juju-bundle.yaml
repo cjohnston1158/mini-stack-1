@@ -43,7 +43,7 @@ services:
       openstack-origin: 'cloud:bionic-stein'
       bridge-mappings: 'physnet1:br-ex'
       data-port: 'br-ex:ens4'
-      dns-servers: '10.10.0.10,10.10.0.1,10.0.0.1,8.8.8.8'
+      dns-servers: '${ministack_SUBNET}.10,${ministack_SUBNET}.1,10.0.0.1,8.8.8.8'
       enable-isolated-metadata: true
       instance-mtu: 1500
       worker-multiplier: 0.25

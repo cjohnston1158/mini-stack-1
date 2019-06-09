@@ -10,4 +10,4 @@ openstack server create \
 	t01
 
 # Associate Floating IP
-openstack server add floating ip t01 10.10.0.66
+openstack server add floating ip t01 ${ministack_SUBNET}.66

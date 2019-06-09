@@ -13,8 +13,8 @@ config:
       eth0:
         dhcp4: false
         dhcp6: false
-        addresses: [ 10.10.0.10/24 ]
-        gateway4: 10.10.0.1
+        addresses: [ ${ministack_SUBNET}.10/24 ]
+        gateway4: ${ministack_SUBNET}.1
         nameservers:
           addresses: [ 8.8.8.8,1.1.1.1 ]
           search: [ maas ]

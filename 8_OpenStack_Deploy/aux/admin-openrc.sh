@@ -12,7 +12,7 @@ export OS_USER_DOMAIN_NAME="admin_domain"
 # Cloud API Access
 export OS_INTERFACE=public
 export OS_IDENTITY_API_VERSION=3
-export OS_AUTH_URL=http://10.10.0.247:5000/v3
+export OS_AUTH_URL=http://${ministack_SUBNET}.247:5000/v3
 export OS_PROJECT_ID=8bce2c5645534896af2ad6ea9b0ec578
 export OS_PROJECT_DOMAIN_ID="8d5e2889070f4dabaf2f841e63f32809"
 

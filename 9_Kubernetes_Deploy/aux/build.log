@@ -1,6 +1,6 @@
+# Download admin-openrc.sh from openstack horizon dashboard
 juju add-model mini-stack
 juju run --unit keystone/0 leader-get admin_passwd
-# Download admin-openrc.sh from openstack horizon dashboard
 source ~/admin-openrc.sh 
 openstack server list
 openstack network create --enable --external --no-default --provider-network-type flat --provider-physical-network physnet1 ext_net

@@ -6,10 +6,10 @@ config:
       eth0:
         dhcp4: false
         dhcp6: false
-        addresses: [ 10.10.0.3/24 ]
-        gateway4: 10.10.0.1
+        addresses: [ ${ministack_SUBNET}.3/24 ]
+        gateway4: ${ministack_SUBNET}.1
         nameservers:
-          addresses: [ 10.10.0.10 ]
+          addresses: [ ${ministack_SUBNET}.10 ]
           search: [ maas ]
   user.user-data: |
     #cloud-config
@@ -50,7 +50,7 @@ config:
             maasctl:
               type: maas
               auth-types: [oauth1]
-              endpoint: http://10.10.0.10:5240/MAAS
+              endpoint: http://${ministack_SUBNET}.10:5240/MAAS
         path: /tmp/juju/maasctl.yaml
       - content: |
           credentials:

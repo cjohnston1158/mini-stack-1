@@ -15,7 +15,7 @@ config redirect
         option dest 'lan'
         option proto 'tcp udp'
         option src_dport '5240'
-        option dest_ip '10.10.0.10'
+        option dest_ip '${ministack_SUBNET}.10'
         option name 'MAAS-WebUI'
         option dest_port '5240'
 

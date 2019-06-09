@@ -51,7 +51,7 @@ echo "
 
        OpenWRT Webui Now accessible at:
 
-       http://10.10.0.1/cgi-bin/luci/
+       http://${ministack_SUBNET}.1/cgi-bin/luci/
        http://${wan_IP}:8080/cgi-bin/luci/
 
 

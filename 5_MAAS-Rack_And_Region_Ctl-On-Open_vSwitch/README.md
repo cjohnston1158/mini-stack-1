@@ -41,6 +41,11 @@ wget -O- https://git.io/fjl6z | bash
 lxc exec maasctl -- /bin/bash -c "mkdir /root/bak ; cp /etc/maas/preseeds/curtin_userdata /root/bak/"
 lxc file push /tmp/curtin_userdata maasctl/etc/maas/preseeds/curtin_userdata
 ````
+#### 06. Remove DNS & Default route from mgmt0 iface
+````sh
+sed -i -e :a -e '$d;N;2,4ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
+netplan --apply
+````
 
 -------
 ## Next sections
