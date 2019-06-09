@@ -4,7 +4,7 @@ juju run --unit keystone/0 leader-get admin_passwd
 source ~/admin-openrc.sh 
 openstack server list
 openstack network create --enable --external --no-default --provider-network-type flat --provider-physical-network physnet1 ext_net
-openstack subnet create --allocation-pool start=${ministack_SUBNET}.60,end=${ministack_SUBNET}.69 --subnet-range ${ministack_SUBNET}.0/24 --no-dhcp --gateway ${ministack_SUBNET}.1 --ip-version 4 --network ext_net ext_net_subnet
+openstack subnet create --allocation-pool start=10.10.0.60,end=10.10.0.69 --subnet-range 10.10.0.0/24 --no-dhcp --gateway 10.10.0.1 --ip-version 4 --network ext_net ext_net_subnet
 openstack floating ip create --subnet 7af2b496-8fc4-48b1-8099-cbd3d1d00b37 --description 'test-01-fip' 079900a9-5648-43a4-95a6-61186fcd7b5b
 openstack security group rule create default --protocol tcp --dst-port 22:22 --remote-ip 0.0.0.0/0
 openstack security group rule create --protocol icmp default
@@ -18,4 +18,4 @@ openstack keypair create admin_default > ~/.ssh/id_rsa-mini-stack
 chmod 600 ~/.ssh/id_rsa-mini-stack
 openstack server create --flavor m2.2small --image generic-bionic --key-name cloudctl --security-group 5ece6869-5d5b-45d6-86b6-d9716018b02f --nic net-id=85a452ac-df6d-46f4-9f81-d221d3abb3f9 t01
 openstack floating ip create ext_net
-openstack server add floating ip t01 ${ministack_SUBNET}.66
+openstack server add floating ip t01 10.10.0.66
