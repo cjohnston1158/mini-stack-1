@@ -21,7 +21,7 @@ echo "    Please enter a valid /24 subnet:
       "
 read -p '    Subnet: ' input_SUBNET
 
-ministack_SUBNET=$(awk -F'[ .]' '{print $1"."$2"."$3}' <(echo ${input_SUBNET})
+ministack_SUBNET=$(awk -F'[ .]' '{print $1"."$2"."$3}' <(echo ${input_SUBNET}))
 
 }
 
