@@ -17,7 +17,7 @@ clear
 
 prompt_subnet () {
 echo "    Please enter a valid /24 subnet:
-      EG: 10.10.0.0
+      EG: ${ministack_SUBNET}.0
       "
 read -p '    Subnet: ' input_SUBNET
 
