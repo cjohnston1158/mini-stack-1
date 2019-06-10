@@ -77,9 +77,14 @@ echo "
 }
 
 append_bashrc () {
-    [[ $(grep mini-stack /etc/skel/.bashrc ; echo $?) == 0 ]] \
-        || echo "source /etc/ccio/mini-stack/profile" >>/etc/skel/.bashrc
-    cp -f /etc/skel/.bashrc ~
+  # Backup existing .bashrc
+  [[ ! -d ~/bak ]] && mkdir ~/bak/
+  cp ~/.bashrc ~/bak/.bashrc_$(date +"%s")
+
+  # Build new .bashrc file
+  [[ $(grep mini-stack /etc/skel/.bashrc ; echo $?) == 0 ]] \
+      || echo "source /etc/ccio/mini-stack/profile" >>/etc/skel/.bashrc
+  cp -f /etc/skel/.bashrc ~
 }
 
 req_source_profile () {
