@@ -1,5 +1,5 @@
 #!/bin/bash
-mac_HWADDR="$(echo "maasctl external etho" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
+mac_HWADDR="$(echo "maasctl external etho" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\:\1\:\2\:\3\:\4\:\5/')"
 cat <<EOF >/tmp/lxd-profile-maasctl.yaml
 config:
   boot.autostart: "true"
