@@ -45,7 +45,7 @@ echo "Finished run_maas_setup at $(date)"
 #maas admin dnsresource-records update name=mini-stack domain=maas rrdata=${ministack_SUBNET}.2 rrtype=cname ip_addresses=${ministack_SUBNET}.2
 #maas admin devices create hostname=mini-stack domain=maas mac_addresses=02:17:77:61:55:7b ip_addresses=${ministack_SUBNET}.2 ip_address=${ministack_SUBNET}.2
 
-rm /bin/run_maas_setup
+#rm /bin/run_maas_setup
 EOF
 
 chmod +x /tmp/run_maas_setup
