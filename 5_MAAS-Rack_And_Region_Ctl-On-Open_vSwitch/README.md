@@ -28,7 +28,7 @@ lxc exec maasctl -- tail -f /var/log/cloud-init-output.log
 ````sh
 wget -O- https://git.io/fjgkM | bash
 ````
-#### 03. Login to WebUI && Confirm region and rack controller(s) show healthy
+#### 04. Login to WebUI && Confirm region and rack controller(s) show healthy
  1. Browse to your maas WebUI @ [http://openwrt-gateway-pub-ip:5240/MAAS](http://{openwrt-gateway-pub-ip}:5240/MAAS)
  2. Click 'skip' through on-screen setup prompts (this was already done via cli)    
  3. Click "Controllers" tab    
@@ -36,15 +36,15 @@ wget -O- https://git.io/fjgkM | bash
  5. services should all be 'green' excluding dhcp* & ntp*    
   - NOTE: dhcp services are dependent on completion of full image sync. Please wait till image download & sync has finished.
 
-#### 04. Reboot and confirm MAAS WebUI & MAAS Region+Rack controller services are all healthy again
+#### 05. Reboot and confirm MAAS WebUI & MAAS Region+Rack controller services are all healthy again
 
-#### 05. Write Custom Userdata
+#### 06. Write Custom Userdata
 ````sh
 wget -O- https://git.io/fjl6z | bash
 lxc exec maasctl -- /bin/bash -c "mkdir /root/bak ; cp /etc/maas/preseeds/curtin_userdata /root/bak/"
 lxc file push /tmp/curtin_userdata maasctl/etc/maas/preseeds/curtin_userdata
 ````
-#### 06. Remove DNS & Default route from mgmt0 iface
+#### 07. Remove DNS & Default route from mgmt0 iface
 ````sh
 sed -i -e :a -e '$d;N;2,4ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
 netplan --apply
