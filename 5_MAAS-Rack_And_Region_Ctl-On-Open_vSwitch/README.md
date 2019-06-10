@@ -26,7 +26,7 @@ lxc exec maasctl -- tail -f /var/log/cloud-init-output.log
   - NOTE: Build time is dependent on hardware & network specs, monitor logs until build is complete
 #### 03. Run MAAS Setup
 ````sh
-wget -O- https://git.io/fjgkM | bash
+wget -O- https://git.io/fjgk9 | bash
 ````
 #### 04. Login to WebUI && Confirm region and rack controller(s) show healthy
  1. Browse to your maas WebUI @ [http://openwrt-gateway-pub-ip:5240/MAAS](http://{openwrt-gateway-pub-ip}:5240/MAAS)
