@@ -20,44 +20,44 @@ apt install -y qemu qemu-kvm qemu-utils libvirt-bin libvirt0 virtinst
 mkdir ~/bak 2>/dev/null ; virsh net-dumpxml default | tee ~/bak/virsh-net-default-bak.xml
 virsh net-destroy default && virsh net-undefine default
 ````
-#### 03. Write xml config for 'default' network on 'lan' bridge
+#### 03. Write xml config for 'default' network on 'internal' bridge
 ````sh
-cat <<EOF >/tmp/virsh-net-default-on-lan.json
+cat <<EOF >/tmp/virsh-net-default-on-internal.json
 <network>
   <name>default</name>
   <forward mode='bridge'/>
-  <bridge name='lan' />
+  <bridge name='internal' />
   <virtualport type='openvswitch'/>
 </network>
 EOF
 ````
-#### 04. Write xml config 'lan' network on 'lan' bridge
+#### 04. Write xml config 'internal' network on 'internal' bridge
 ````sh
-cat <<EOF >/tmp/virsh-net-lan-on-lan.json
+cat <<EOF >/tmp/virsh-net-internal-on-internal.json
 <network>
-  <name>lan</name>
+  <name>internal</name>
   <forward mode='bridge'/>
-  <bridge name='lan' />
+  <bridge name='internal' />
   <virtualport type='openvswitch'/>
 </network>
 EOF
 
 ````
-#### 05. Write xml config 'wan' network on 'wan' bridge
+#### 05. Write xml config 'external' network on 'external' bridge
 ````sh
-cat <<EOF >/tmp/virsh-net-wan-on-wan.json
+cat <<EOF >/tmp/virsh-net-external-on-external.json
 <network>
-  <name>wan</name>
+  <name>external</name>
   <forward mode='bridge'/>
-  <bridge name='wan' />
+  <bridge name='external' />
   <virtualport type='openvswitch'/>
 </network>
 EOF
 ````
 #### 06. Create networks from config files
 ````sh
-for json in virsh-net-default-on-lan.json virsh-net-lan-on-lan.json virsh-net-wan-on-wan.json; do virsh net-define /tmp/${json}; done
-for virshet in wan default lan; do virsh net-start ${virshet}; virsh net-autostart ${virshet}; done
+for json in virsh-net-default-on-internal.json virsh-net-internal-on-internal.json virsh-net-external-on-external.json; do virsh net-define /tmp/${json}; done
+for virshet in external default internal; do virsh net-start ${virshet}; virsh net-autostart ${virshet}; done
 ````
 #### 07. Verify virsh network:
 ````sh
@@ -67,8 +67,8 @@ sudo virsh net-list --all
  Name                 State      Autostart     Persistent
 ----------------------------------------------------------
  default              active     yes           yes
- lan                  active     yes           yes
- wan                  active     yes           yes
+ internal             active     yes           yes
+ external             active     yes           yes
 ````
 
 -------

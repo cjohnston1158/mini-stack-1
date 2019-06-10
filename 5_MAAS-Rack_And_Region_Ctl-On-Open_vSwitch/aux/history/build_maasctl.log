@@ -25,5 +25,5 @@ maas admin pod compose 3 \
     cores=4 \
     memory=12288 \
     architecture=amd64/generic \
-    interfaces=eth0:space=lan \
+    interfaces=eth0:space=internal \
    "storage=root:32(default),osd:32(default)"

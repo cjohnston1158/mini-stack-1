@@ -30,7 +30,7 @@ devices:
   eth0:
     name: eth0
     nictype: macvlan
-    parent: wan
+    parent: external
     type: nic
   root:
     path: /

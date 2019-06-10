@@ -14,11 +14,11 @@ Prerequisites:
 ````sh
 lxc remote add bcio https://images.braincraft.io --public --accept-certificate
 ````
-#### 02. Write OVS bridge 'lan' Networkd Configuration
+#### 02. Write OVS bridge 'internal' Networkd Configuration
 ````sh
-cat <<EOF >/etc/systemd/network/lan.network                                                    
+cat <<EOF >/etc/systemd/network/internal.network                                                    
 [Match]
-Name=lan
+Name=internal
 
 [Network]
 DHCP=no
@@ -26,10 +26,10 @@ IPv6AcceptRA=no
 LinkLocalAddressing=no
 EOF
 ````
-#### 03. Write OVS 'lan' bridge port 'mgmt1' netplan config
+#### 03. Write OVS 'internal' bridge port 'mgmt1' netplan config
 ````sh
 cat <<EOF > /etc/netplan/80-mgmt1.yaml
-# Configure mgmt1 on 'lan' bridge
+# Configure mgmt1 on 'internal' bridge
 # For more configuration examples, see: https://netplan.io/examples
 network:
   version: 2
@@ -48,18 +48,18 @@ EOF
 #### 04. Build Bridge & mgmt1 interface
 ````sh
 ovs-vsctl \
-  add-br lan -- \
-  add-port lan mgmt1 -- \
+  add-br internal -- \
+  add-port internal mgmt1 -- \
   set interface mgmt1 type=internal -- \
-  set interface mgmt1 mac="$(echo "$HOSTNAME lan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
+  set interface mgmt1 mac="$(echo "$HOSTNAME internal mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
 ovs-vsctl show
 ````
 #### 05. Create OpenWRT LXD Profile
 ````sh
 lxc profile copy original openwrt
 lxc profile set openwrt security.privileged true
-lxc profile device set openwrt eth0 parent wan
-lxc profile device add openwrt eth1 nic nictype=bridged parent=lan
+lxc profile device set openwrt eth0 parent external
+lxc profile device add openwrt eth1 nic nictype=bridged parent=internal
 ````
 #### 06. Launch Gateway
 ````sh
@@ -79,26 +79,26 @@ systemctl restart systemd-networkd.service && netplan apply --debug
 reboot
 ````
 #### 11. Test OpenWRT WebUI Login on 'WAN' IP Address    
-  - CREDENTIALS: [USER:PASS] [root:admin] -- [http://gateway_wan_ip_addr:8080/](http://gateway_wan_ip_addr:8080/)
+  - CREDENTIALS: [USER:PASS] [root:admin] -- [http://gateway_external_ip_addr:8080/](http://gateway_external_ip_addr:8080/)
 
-#### 12. Copy LXD 'default' profile to 'wan'
+#### 12. Copy LXD 'default' profile to 'external'
 ````sh
-lxc profile copy default wan
+lxc profile copy default external
 ````
-#### 13. Set LXD 'default' profile to use the 'lan' network
+#### 13. Set LXD 'default' profile to use the 'internal' network
 ````sh
-lxc profile device set default eth0 parent lan
+lxc profile device set default eth0 parent internal
 ````
 
 -------
-#### OPTIONAL: Enable your new 'lan' network on a physical port. (EG: eth1)
+#### OPTIONAL: Enable your new 'internal' network on a physical port. (EG: eth1)
 ````sh
-export lan_NIC="eth1"
+export internal_NIC="eth1"
 ````
 ````sh
-cat <<EOF > /etc/systemd/network/${lan_NIC}.network                                                    
+cat <<EOF > /etc/systemd/network/${internal_NIC}.network                                                    
 [Match]
-Name=${lan_NIC}
+Name=${internal_NIC}
 
 [Network]
 DHCP=no
@@ -107,7 +107,7 @@ LinkLocalAddressing=no
 EOF
 ````
 ````sh
-ovs-vsctl add-port lan ${lan_NIC}
+ovs-vsctl add-port internal ${internal_NIC}
 systemctl restart systemd-networkd.service
 ````
 

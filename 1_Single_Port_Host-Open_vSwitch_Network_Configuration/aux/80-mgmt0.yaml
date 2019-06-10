@@ -1,4 +1,4 @@
-# Configure mgmt0 on 'wan' bridge
+# Configure mgmt0 on 'external' bridge
 # For more configuration examples, see: https://netplan.io/examples
 network:
   version: 2

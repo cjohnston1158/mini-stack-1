@@ -8,7 +8,7 @@ composed_NEW=$(maas admin pod compose $pod_ID \
 	cores=2 \
 	memory=2048 \
 	architecture="amd64/generic" \
-	interfaces=eth0:space=lan,eth1:space=lan,eth2:space=lan,eth3:space=lan \
+	interfaces=eth0:space=internal,eth1:space=internal,eth2:space=internal,eth3:space=internal \
 	storage="root:32(default),osd:32(default)" | awk -F'[":/]' '/resource_uri/ {print $10}')
 
 composed_ALL="${composed_ALL} ${composed_NEW}"

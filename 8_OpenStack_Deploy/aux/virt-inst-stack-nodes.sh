@@ -29,9 +29,9 @@ virt-install \
     --os-variant=ubuntu18.04 \
     --boot 'network,hd,useserial=on' \
     --description 'juju maas cloud mini-stack node' \
-    --network network=lan,model=virtio,mac=${eth0_HWADDRESS} \
-    --network network=lan,model=virtio,mac=${eth1_HWADDRESS} \
-    --network network=lan,model=virtio,mac=${eth2_HWADDRESS} \
+    --network network=internal,model=virtio,mac=${eth0_HWADDRESS} \
+    --network network=internal,model=virtio,mac=${eth1_HWADDRESS} \
+    --network network=internal,model=virtio,mac=${eth2_HWADDRESS} \
     --disk path=${storage_POOL}/${name_FULL}_vda.qcow2,format=raw,bus=virtio,cache=unsafe,size=32 \
     --disk path=${storage_POOL}/${name_FULL}_vdb.qcow2,format=raw,bus=virtio,cache=unsafe,size=32 \
     --disk path=${storage_POOL}/${name_FULL}_vdc.qcow2,format=raw,bus=virtio,cache=unsafe,size=32
@@ -42,11 +42,11 @@ sleep 1 && virsh destroy ${name_FULL}
 }
 
 spawn_prep () {
-eth0_HWADDRESS=$(echo "${name_FULL} lan eth0" | md5sum \
+eth0_HWADDRESS=$(echo "${name_FULL} internal eth0" | md5sum \
     | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
-eth1_HWADDRESS=$(echo "${name_FULL} lan eth1" | md5sum \
+eth1_HWADDRESS=$(echo "${name_FULL} internal eth1" | md5sum \
     | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
-eth2_HWADDRESS=$(echo "${name_FULL} lan eth2" | md5sum \
+eth2_HWADDRESS=$(echo "${name_FULL} internal eth2" | md5sum \
     | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
 }
 
@@ -73,5 +73,5 @@ run_spawn
 # TESTING
 # qemu-img create -f qcow2 -o preallocation=metadata,compat=1.1 /tmp/image.qcow2 36G
 # chown qemu /tmp/image.qcow2
-#   --network network=lan,model=virtio,mac=${eth1_HWADDRESS} \
+#   --network network=internal,model=virtio,mac=${eth1_HWADDRESS} \
 #   --disk path=${storage_POOL}/${name_FULL}_vdb.qcow2,format=raw,bus=virtio,cache=unsafe,size=32

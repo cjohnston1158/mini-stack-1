@@ -5,11 +5,11 @@ devices:
   eth0:
     name: eth0
     nictype: macvlan
-    parent: wan
+    parent: external
     type: nic
   eth1:
     nictype: bridged
-    parent: lan
+    parent: internal
     type: nic
   root:
     path: /

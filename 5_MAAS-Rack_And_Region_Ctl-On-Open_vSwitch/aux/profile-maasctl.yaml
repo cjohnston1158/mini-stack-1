@@ -59,7 +59,7 @@ devices:
   eth0:
     name: eth0
     nictype: macvlan
-    parent: lan
+    parent: internal
     type: nic
   kvm:
     path: /dev/kvm

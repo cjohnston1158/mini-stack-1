@@ -28,7 +28,7 @@ virt-install \
     --os-variant=ubuntu18.04 \
     --boot 'network,hd,useserial=on' \
     --description 'juju maas cloud jujuctl controller node' \
-    --network network=lan,model=virtio,mac=${eth0_HWADDRESS} \
+    --network network=internal,model=virtio,mac=${eth0_HWADDRESS} \
     --disk path=${storage_POOL}/${name_FULL}_vda.qcow2,format=raw,bus=virtio,cache=unsafe,size=16
 
 # Prevent the VM from pxe booting to autodiscovery in maas
@@ -37,7 +37,7 @@ sleep 2 && virsh destroy ${name_FULL}
 }
 
 spawn_prep () {
-eth0_HWADDRESS=$(echo "${name_FULL} lan eth0" | md5sum \
+eth0_HWADDRESS=$(echo "${name_FULL} internal eth0" | md5sum \
     | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
 }
 

@@ -22,12 +22,12 @@ virsh net-destroy default && virsh net-undefine default
 
 #### 02. Write Systemd-Networkd bridge & host Port Configuration
 ````
-export lan_NIC="ens4"
+export internal_NIC="ens4"
 ````
 ````
-cat <<EOF > /etc/systemd/network/${lan_NIC}.network                                                    
+cat <<EOF > /etc/systemd/network/${internal_NIC}.network                                                    
 [Match]
-Name=${lan_NIC}
+Name=${internal_NIC}
 
 [Network]
 DHCP=no
@@ -36,9 +36,9 @@ LinkLocalAddressing=no
 EOF
 ````
 ````
-cat <<EOF > /etc/systemd/network/lan.network                                                    
+cat <<EOF > /etc/systemd/network/internal.network                                                    
 [Match]
-Name=lan
+Name=internal
 
 [Network]
 DHCP=no
@@ -49,16 +49,16 @@ EOF
 
 #### 04. Create Bridge & mgmt1 Interface
 ````
-export HWADDRESS=$(echo "$HOSTNAME lan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
+export HWADDRESS=$(echo "$HOSTNAME internal mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
 ````
 ````
-ovs-vsctl add-br lan -- add-port lan mgmt1 -- set interface mgmt1 type=internal -- set interface mgmt1 mac="$HWADDRESS"
+ovs-vsctl add-br internal -- add-port internal mgmt1 -- set interface mgmt1 type=internal -- set interface mgmt1 mac="$HWADDRESS"
 ````
 
 #### 03. Re-Configure Netplan for mgmt1 Interface
 ````
 np_YAML=$(ls /etc/netplan/)
-sed -i 's/${lan_NIC}.*/mgmt1/g' /etc/netplan/${np_YAML}
+sed -i 's/${internal_NIC}.*/mgmt1/g' /etc/netplan/${np_YAML}
 ````
 ````
 phys_MAC=$(awk '/macaddress: /{print $2}' /etc/netplan/${np_YAML})
@@ -67,33 +67,33 @@ sed -i 's/${phys_MAC}/${HWADDRESS}/g' /etc/netplan/${np_YAML}
 
 #### 01. Create OVS Lan Bridge Libvirt Networks
 ````
-cat <<EOF >/tmp/virsh-net-default-on-lan.json
+cat <<EOF >/tmp/virsh-net-default-on-internal.json
 <network>
   <name>default</name>
   <forward mode='bridge'/>
-  <bridge name='lan' />
+  <bridge name='internal' />
   <virtualport type='openvswitch'/>
 </network>
 EOF
 ````
 ````
-cat <<EOF >/tmp/virsh-net-lan-on-lan.json
+cat <<EOF >/tmp/virsh-net-internal-on-internal.json
 <network>
-  <name>lan</name>
+  <name>internal</name>
   <forward mode='bridge'/>
-  <bridge name='lan' />
+  <bridge name='internal' />
   <virtualport type='openvswitch'/>
 </network>
 EOF
 ````
 ````
-for i in virsh-net-default-on-lan.json virsh-net-lan-on-lan.json ; do virsh net-define /tmp/$i; done
-for i in default lan; do virsh net-start $i; virsh net-autostart $i; done
+for i in virsh-net-default-on-internal.json virsh-net-internal-on-internal.json ; do virsh net-define /tmp/$i; done
+for i in default internal; do virsh net-start $i; virsh net-autostart $i; done
 ````
 
 #### 05. Add Physical NIC to Bridge && Restart Network stack
 ````
-ovs-vsctl add-port lan ${lan_NIC}
+ovs-vsctl add-port internal ${internal_NIC}
 systemctl restart systemd-networkd.service
 netplan apply --debug
 ````

@@ -29,7 +29,7 @@ Name of the storage backend to use (btrfs, dir, lvm) [default=btrfs]: dir
 Would you like to connect to a MAAS server? (yes/no) [default=no]: no
 Would you like to create a new local network bridge? (yes/no) [default=yes]: no
 Would you like to configure LXD to use an existing bridge or host interface?(yes/no) [default=no]: yes
-Name of the existing bridge or host interface: wan
+Name of the existing bridge or host interface: external
 Would you like LXD to be available over the network? (yes/no) [default=no]: yes
 Address to bind LXD to (not including port) [default=all]: all
 Port to bind LXD to [default=8443]: 8443
@@ -85,7 +85,7 @@ lxc delete test-centos --force
 ##### Exhibit(B) Check LXD Configurations
 ````sh
 lxc network list
-lxc network show wan
+lxc network show external
 
 lxc profile list
 lxc profile show default

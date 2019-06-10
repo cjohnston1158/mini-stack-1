@@ -11,7 +11,7 @@ WARNING: Exercise caution when performing this procedure remotely as this may ca
 > - Install required packages
 > - Enable Open vSwitch Service & Confirm running status
 > - Create base OVS Bridge for interfacing with local physical network
-> - Create a virtual host ethernet port on the 'wan' bridge
+> - Create a virtual host ethernet port on the 'external' bridge
 > - Impliment 'systemd-networkd' workaround RE: [BUG: 1728134]
 
 ![CCIO_Hypervisor-mini_Stack_Diagram](web/drawio/single-port-ovs-host.svg)
@@ -24,12 +24,12 @@ apt install -y openvswitch-switch
 #### 02. Write physical network ingress port Networkd Config [EG: 'eth0']
 NOTE: export name of nic device your primary host network traffic will traverse (EG: 'eth0' in this example)
 ```sh
-export wan_NIC="eth0"
+export external_NIC="eth0"
 ```
 ```sh
-cat <<EOF >/etc/systemd/network/${wan_NIC}.network                                                    
+cat <<EOF >/etc/systemd/network/${external_NIC}.network                                                    
 [Match]
-Name=${wan_NIC}
+Name=${external_NIC}
 
 [Network]
 DHCP=no
@@ -38,11 +38,11 @@ LinkLocalAddressing=no
 EOF
 
 ```
-#### 03. Write OVS  Bridge 'wan' Networkd Config
+#### 03. Write OVS  Bridge 'external' Networkd Config
 ```sh
-cat <<EOF >/etc/systemd/network/wan.network                                                    
+cat <<EOF >/etc/systemd/network/external.network                                                    
 [Match]
-Name=wan
+Name=external
 
 [Network]
 DHCP=no
@@ -59,7 +59,7 @@ for yaml in $(ls /etc/netplan/); do sed -i 's/^/#/g' /etc/netplan/${yaml}; done
 ````sh
 cat <<EOF >/etc/netplan/80-mgmt0.yaml
 # For more configuration examples, see: https://netplan.io/examples                                                   
-# OVS 'wan' Bridge Port 'mgmt0' Configuration
+# OVS 'external' Bridge Port 'mgmt0' Configuration
 network:
   version: 2
   renderer: networkd
@@ -67,7 +67,7 @@ network:
     mgmt0:
       optional: true
       addresses:
-        - $(ip a s ${wan_NIC} | awk '/inet /{print $2}' | head -n 1)
+        - $(ip a s ${external_NIC} | awk '/inet /{print $2}' | head -n 1)
       gateway4: $(ip r | awk '/default /{print $3}' | head -n 1)
       nameservers:
         addresses: 
@@ -80,11 +80,11 @@ EOF
 cat <<EOF >/tmp/net_restart.sh
 net_restart () {
 ovs-vsctl \
-  add-br wan -- \
-  add-port wan ${wan_NIC} -- \
-  add-port wan mgmt0 -- \
+  add-br external -- \
+  add-port external ${external_NIC} -- \
+  add-port external mgmt0 -- \
   set interface mgmt0 type=internal -- \
-  set interface mgmt0 mac="$(echo "${HOSTNAME} wan mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
+  set interface mgmt0 mac="$(echo "${HOSTNAME} external mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
 systemctl restart systemd-networkd.service && netplan apply --debug
 ovs-vsctl show
 }
