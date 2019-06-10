@@ -1,3 +1,4 @@
+source /etc/ccio/mini-stack/profile
 cat <<EOF >/tmp/run_maas_setup
 #!/bin/bash 
 
