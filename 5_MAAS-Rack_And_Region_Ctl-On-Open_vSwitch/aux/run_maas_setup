@@ -9,7 +9,7 @@ login-maas-cli
 }
 
 find_maas_rack_id () {
-primary_RACK=$(maas admin rack-controllers read \
+primary_RACK=\$(maas admin rack-controllers read \
                                 | jq ".[] | {system_id:.system_id}" \
                                 | awk -F'[",]' '/system_id/{print $4}' \
               )
