@@ -62,7 +62,7 @@ cat <<EOF > ${profile_TARGET}
 export ccio_SSH_SERVICE="${provider_SSHPUBKEY}" # OPTIONS launchpad:lp github:gh
 export ccio_SSH_UNAME="${ministack_UNAME}"
 export ccio_PWD_SALT="${ministack_PWDSALT}"
-export ccio_SUBNET="${ministack_SUBNET}"
+export ministack_SUBNET="${ministack_SUBNET}"
 echo '>>>> CCIO Profile Loaded!'
 EOF
 sed -i "s/\"/\'/g" ${profile_TARGET}
