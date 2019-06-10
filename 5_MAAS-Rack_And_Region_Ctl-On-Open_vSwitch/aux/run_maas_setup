@@ -28,7 +28,7 @@ maas admin spaces create name=external
 maas admin subnet update 1 name=untagged-lan gateway_ip="${ministack_SUBNET}.1" dns_servers="${ministack_SUBNET}.10"
 maas admin ipranges create type=dynamic start_ip=${ministack_SUBNET}.100 end_ip=${ministack_SUBNET}.240
 maas admin vlan update internal-bridge 0 name=internal space=internal
-maas admin vlan update internal-bridge untagged dhcp_on=True primary_rack=${primary_RACK}
+maas admin vlan update internal-bridge untagged dhcp_on=True primary_rack=\${primary_RACK}
 }
 set -x
 
