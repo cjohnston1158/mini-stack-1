@@ -30,7 +30,6 @@ maas admin ipranges create type=dynamic start_ip=${ministack_SUBNET}.100 end_ip=
 maas admin vlan update internal-bridge 0 name=internal space=internal
 maas admin vlan update internal-bridge untagged dhcp_on=True primary_rack=\${primary_RACK}
 }
-set -x
 
 run_maas_login
 find_maas_rack_id
@@ -50,4 +49,4 @@ EOF
 
 chmod +x /tmp/run_maas_setup
 lxc file push /tmp/run_maas_setup maasctl/bin/run_maas_setup
-lxc exec maasctl run_maas_setup
+#lxc exec maasctl run_maas_setup
