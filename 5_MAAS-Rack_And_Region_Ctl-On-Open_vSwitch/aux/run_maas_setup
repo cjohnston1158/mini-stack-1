@@ -32,8 +32,8 @@ maas admin vlan update internal-bridge untagged dhcp_on=True primary_rack=\${pri
 maas admin fabric update 1 name=external
 maas admin spaces create name=external
 maas admin subnet update 1 name=untagged-external
-maas admin vlan update external 1 name=external space=external
-maas admin vlan update internal-bridge untagged dhcp_on=False primary_rack=\${primary_RACK}
+maas admin vlan update external 0 name=external space=external
+#maas admin vlan update internal-bridge untagged dhcp_on=False primary_rack=\${primary_RACK}
 }
 
 run_maas_login
