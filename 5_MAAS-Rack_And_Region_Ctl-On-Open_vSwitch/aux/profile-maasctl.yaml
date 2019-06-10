@@ -1,5 +1,5 @@
 #!/bin/bash
-mac_HWADDR="$(echo "maasctl external eth0 ${ministack_SUBNET}" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\:\1\:\2\:\3\:\4\:\5/')"
+mac_ETH1_HWADDR="$(echo "maasctl external eth1 ${ministack_SUBNET}" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\:\1\:\2\:\3\:\4\:\5/')"
 cat <<EOF >/tmp/lxd-profile-maasctl.yaml
 config:
   boot.autostart: "true"
@@ -15,15 +15,15 @@ config:
       eth0:
         dhcp4: false
         dhcp6: false
-        macaddress: "${mac_HWADDR}"
         addresses: [ ${ministack_SUBNET}.10/24 ]
         gateway4: ${ministack_SUBNET}.1
         nameservers:
           addresses: [ 8.8.8.8,1.1.1.1 ]
           search: [ maas ]
-      eth0:
+      eth1:
         dhcp4: true
         dhcp6: false
+        macaddress: "${mac_HWADDR}"
   user.user-data: |
     #cloud-config
     package_upgrade: true
@@ -35,7 +35,6 @@ config:
           source: "ppa:maas/stable"
     packages:
       - bridge-utils
-      - maas
       - qemu-kvm
       - libvirt-bin
       - virtinst
@@ -44,21 +43,20 @@ config:
       - python
     runcmd:
       - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
-      - [chsh, -s, /bin/bash, maas]
-      - [adduser, maas, libvirtd]
-      - [su, -l, maas, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
-      - [su, -l, maas, /bin/bash, -c, "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
-      - [maas, createadmin, --username=admin, --password=admin, --email=admin, --ssh-import, "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
-      - [virsh, pool-define-as, default, dir, --target, /var/lib/libvirt/images/]
-      - [virsh, pool-autostart, default]
-      - [virsh, pool-start, default]
       - [apt-get, autoremove, "-y"]
+      - [virsh, net-undefine, default]
+      - [virsh, net-destroy, default]
+      - [apt-get, install, "-y", maas, "--install-recommends"]
+      - [chsh, -s, /bin/bash, maas]
       - [wget, -O, /root/login-maas-cli, "https://raw.githubusercontent.com/containercraft/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli"]
       - [chmod, "+x", "/root/login-maas-cli"]
       - [ln, -f, -s, "/root/login-maas-cli", /usr/bin/login-maas-cli]
-      - [login-maas-cli]
       - [wget, "-O", "/usr/bin/run_maas_setup", "https://raw.githubusercontent.com/containercraft/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/run_maas_setup"]
       - [chmod, "+x", "/usr/bin/run_maas_setup"]
+      - [su, -l, maas, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
+      - [su, -l, maas, /bin/bash, -c, "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
+      - [maas, createadmin, --username=admin, --password=admin, --email=admin, --ssh-import, "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
+      - [login-maas-cli]
       - [run_maas_setup]
 description: ccio mini-stack maasctl container profile
 devices:
