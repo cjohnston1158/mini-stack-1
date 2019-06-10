@@ -78,7 +78,7 @@ systemctl restart systemd-networkd.service && netplan apply --debug
 ````sh
 reboot
 ````
-#### 11. Test OpenWRT WebUI Login on 'WAN' IP Address    
+#### 11. Test OpenWRT WebUI Login on 'external' IP Address    
   - CREDENTIALS: [USER:PASS] [root:admin] -- [http://gateway_external_ip_addr:8080/](http://gateway_external_ip_addr:8080/)
 
 #### 12. Copy LXD 'default' profile to 'external'
