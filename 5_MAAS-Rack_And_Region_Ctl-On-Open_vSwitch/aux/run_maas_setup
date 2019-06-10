@@ -1,4 +1,3 @@
-#!/bin/bash 
 cat <<EOF >/tmp/run_maas_setup
 #!/bin/bash 
 
@@ -39,7 +38,7 @@ run_maas_login
 find_maas_rack_id
 run_maas_setup
 
-#rm /usr/bin/run_maas_setup
+rm /bin/run_maas_setup
 echo "Finished run_maas_setup at \$(date)"
 
 #################################################################################
@@ -53,4 +52,4 @@ EOF
 
 chmod +x /tmp/run_maas_setup
 lxc file push /tmp/run_maas_setup maasctl/bin/run_maas_setup
-#lxc exec maasctl run_maas_setup
+lxc exec maasctl run_maas_setup
