@@ -23,7 +23,7 @@ config:
       eth1:
         dhcp4: true
         dhcp6: false
-        macaddress: "${mac_HWADDR}"
+        macaddress: "${mac_ETH1_HWADDR}"
   user.user-data: |
     #cloud-config
     package_upgrade: true
@@ -51,13 +51,10 @@ config:
       - [wget, -O, /root/login-maas-cli, "https://raw.githubusercontent.com/containercraft/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli"]
       - [chmod, "+x", "/root/login-maas-cli"]
       - [ln, -f, -s, "/root/login-maas-cli", /usr/bin/login-maas-cli]
-      - [wget, "-O", "/usr/bin/run_maas_setup", "https://raw.githubusercontent.com/containercraft/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/run_maas_setup"]
-      - [chmod, "+x", "/usr/bin/run_maas_setup"]
       - [su, -l, maas, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
       - [su, -l, maas, /bin/bash, -c, "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
       - [maas, createadmin, --username=admin, --password=admin, --email=admin, --ssh-import, "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
       - [login-maas-cli]
-      - [run_maas_setup]
 description: ccio mini-stack maasctl container profile
 devices:
   eth0:
