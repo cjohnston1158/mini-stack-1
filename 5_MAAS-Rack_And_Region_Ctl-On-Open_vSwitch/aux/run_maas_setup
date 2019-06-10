@@ -11,7 +11,7 @@ login-maas-cli
 find_maas_rack_id () {
 primary_RACK=\$(maas admin rack-controllers read \
                                 | jq ".[] | {system_id:.system_id}" \
-                                | awk -F'[",]' '/system_id/{print $4}' \
+                                | awk -F'[",]' '/system_id/{print \$4}' \
               )
 }
 
@@ -37,7 +37,7 @@ find_maas_rack_id
 run_maas_setup
 
 #rm /usr/bin/run_maas_setup
-echo "Finished run_maas_setup at $(date)"
+echo "Finished run_maas_setup at \$(date)"
 
 #################################################################################
 # WIP
