@@ -1,3 +1,5 @@
+#!/bin/bash
+mac_HWADDR="$(echo "maasctl external etho" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
 cat <<EOF >/tmp/lxd-profile-maasctl.yaml
 config:
   boot.autostart: "true"
@@ -13,6 +15,7 @@ config:
       eth0:
         dhcp4: false
         dhcp6: false
+        macaddress: "${mac_HWADDR}"
         addresses: [ ${ministack_SUBNET}.10/24 ]
         gateway4: ${ministack_SUBNET}.1
         nameservers:
