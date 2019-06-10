@@ -68,8 +68,7 @@ lxc launch bcio:openwrt gateway -p openwrt
 #### 07. Apply CCIO Configuration + http squid cache proxy
   - WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
 ````sh
-lxc exec gateway -- /bin/bash -c "sed -i 's/192.168.1/${ministack_SUBNET}/g' /etc/config/network" && lxc stop gateway && sleep 3 && lxc start gateway
-lxc exec gateway -- /bin/bash -c 'wget -O- https://git.io/fjgTD | bash'
+wget -O- https://git.io/fjgTD | bash
 ````
 #### 08. Reload host network configuration
 ````sh
@@ -78,10 +77,6 @@ systemctl restart systemd-networkd.service && netplan apply --debug
 #### 09. Reboot Host
 ````sh
 reboot
-````
-#### 10. Import Mini-Stack Gateway Configuration
-````
-lxc exec gateway -- /bin/bash -c "wget -O- https://git.io/fjlrC | bash" && sleep 8 && lxc start gateway
 ````
 #### 11. Test OpenWRT WebUI Login on 'WAN' IP Address    
   - CREDENTIALS: [USER:PASS] [root:admin] -- [http://gateway_wan_ip_addr:8080/](http://gateway_wan_ip_addr:8080/)
