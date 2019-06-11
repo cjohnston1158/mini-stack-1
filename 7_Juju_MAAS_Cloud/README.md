@@ -56,7 +56,7 @@ lxc exec maasctl -- /bin/bash -c 'wget -O- https://git.io/fj87u | bash'
 
 #### 07. Check CloudCtl MaasCtl Cloud && Bootstrap JujuCtl Controller Node
 ````sh
-lxc ${ccio_SSH_UNAME} cloudctl
+lxc exec cloudctl -- login ${ccio_SSH_UNAME}
 juju clouds
 juju credentials
 juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "tags=jujuctl" maasctl jujuctl
