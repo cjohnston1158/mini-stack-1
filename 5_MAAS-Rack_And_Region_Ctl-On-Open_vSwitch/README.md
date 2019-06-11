@@ -52,6 +52,7 @@ netplan --apply
 #### OPTIONAL: Add maas support for the 'external' network bridge
 ````sh
 wget -q -O- https://git.io/fjg66 2>/dev/null | bash
+lxc exec maasctl run_maas_setup
 ````
 
 -------
