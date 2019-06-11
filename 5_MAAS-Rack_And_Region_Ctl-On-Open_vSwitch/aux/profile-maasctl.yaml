@@ -20,10 +20,6 @@ config:
         nameservers:
           addresses: [ 8.8.8.8,1.1.1.1 ]
           search: [ maas ]
-      eth1:
-        dhcp4: true
-        dhcp6: false
-        macaddress: "${mac_ETH1_HWADDR}"
   user.user-data: |
     #cloud-config
     package_upgrade: true
