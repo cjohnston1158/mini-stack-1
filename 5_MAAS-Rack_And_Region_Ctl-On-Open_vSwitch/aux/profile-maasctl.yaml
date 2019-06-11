@@ -58,11 +58,6 @@ devices:
     nictype: macvlan
     parent: internal
     type: nic
-  eth1:
-    name: eth1
-    nictype: macvlan
-    parent: external
-    type: nic
   kvm:
     path: /dev/kvm
     type: unix-char
