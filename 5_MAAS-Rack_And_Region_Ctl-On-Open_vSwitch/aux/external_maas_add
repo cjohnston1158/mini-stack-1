@@ -43,10 +43,8 @@ run_maas_login
 find_maas_rack_id
 run_maas_setup
 
-rm /bin/run_maas_setup
 echo "Finished run_maas_setup at \$(date)"
 
-#rm /bin/run_maas_setup
 EOF
 
 chmod +x /tmp/run_maas_setup

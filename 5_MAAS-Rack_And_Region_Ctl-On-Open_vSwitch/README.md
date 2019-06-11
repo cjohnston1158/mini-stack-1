@@ -51,7 +51,7 @@ netplan --apply
 ````
 #### OPTIONAL: Add maas support for the 'external' network bridge
 ````sh
-wget -O- https://git.io/fjg66 | bash
+wget -q -O- https://git.io/fjg66 2>/dev/null | bash
 ````
 
 -------
