@@ -5,7 +5,7 @@ lxc network attach external maasctl eth1 eth1
 lxc exec maasctl -- /bin/bash -c 'netplan apply --debug'
 
 cat <<EOF >/tmp/run_maas_setup
-#!/bin/bash 
+#!/bin/bash -x
 
 run_maas_login () {
 login-maas-cli
