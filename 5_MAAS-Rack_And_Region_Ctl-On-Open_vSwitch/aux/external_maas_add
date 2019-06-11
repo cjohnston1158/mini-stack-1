@@ -68,6 +68,7 @@ lxc list
 exec_config () {
 echo ">  Configuring 'external' network bridge..."
 lxc exec maasctl run_maas_setup
+lxc exec maasctl run_maas_setup
 }
 
 run () {
