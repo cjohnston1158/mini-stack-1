@@ -1,9 +1,14 @@
 #!/bin/bash -x
+#################################################################################
 source /etc/ccio/mini-stack/profile
 
+#################################################################################
+add_iface () {
 lxc network attach external maasctl eth1 eth1
 lxc exec maasctl -- /bin/bash -c 'netplan apply --debug'
+}
 
+stage_config () {
 cat <<EOF >/tmp/run_maas_setup
 #!/bin/bash -x
 
@@ -37,21 +42,31 @@ run_maas_setup
 rm /bin/run_maas_setup
 echo "Finished run_maas_setup at \$(date)"
 
-rm /bin/run_maas_setup
+#rm /bin/run_maas_setup
 EOF
 
 chmod +x /tmp/run_maas_setup
+}
+
+load_config () {
 lxc file push /tmp/run_maas_setup maasctl/bin/run_maas_setup
 lxc exec maasctl run_maas_setup
+}
+
+restart_maasctl () {
 lxc stop maasctl
 sleep 2
 ovs-clear
 lxc start maasctl
 sleep 1
 lxc list
+}
 
-#################################################################################
-# WIP
-#maas admin pods create type=virsh name=mini-stack.maas power_address=qemu+ssh://root@mini-stack/system cpu_over_commit_ratio=10 memory_over_commit_ratio=10
-#maas admin dnsresource-records update name=mini-stack domain=maas rrdata=${ministack_SUBNET}.2 rrtype=cname ip_addresses=${ministack_SUBNET}.2
-#maas admin devices create hostname=mini-stack domain=maas mac_addresses=02:17:77:61:55:7b ip_addresses=${ministack_SUBNET}.2 ip_address=${ministack_SUBNET}.2
+run () {
+add_iface
+stage_config
+load_config
+restart_maasctl
+}
+
+run
