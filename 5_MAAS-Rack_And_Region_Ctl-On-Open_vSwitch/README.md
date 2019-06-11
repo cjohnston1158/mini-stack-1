@@ -49,6 +49,10 @@ lxc file push /tmp/curtin_userdata maasctl/etc/maas/preseeds/curtin_userdata
 sed -i -e :a -e '$d;N;2,4ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
 netplan --apply
 ````
+#### OPTIONAL: Add maas support for the 'external' network bridge
+````sh
+wget -O- https://git.io/fjg66 | bash
+````
 
 -------
 ## Next sections

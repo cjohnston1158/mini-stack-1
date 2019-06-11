@@ -37,7 +37,12 @@ EOF
 
 chmod +x /tmp/run_maas_setup
 lxc file push /tmp/run_maas_setup maasctl/bin/run_maas_setup
+lxc network attach external maasctl eth1 eth1
 lxc exec maasctl run_maas_setup
+lxc stop maasctl
+sleep 2
+ovs-clear
+lxc start maasctl
 
 #################################################################################
 # WIP
