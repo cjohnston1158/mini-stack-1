@@ -70,7 +70,7 @@ lxc launch images:centos/7 test-centos
 
 lxc list
 
-lxc ubuntu c01 bash
+lxc ubuntu c01
 exit
 
 lxc ${ccio_SSH_UNAME} c01
