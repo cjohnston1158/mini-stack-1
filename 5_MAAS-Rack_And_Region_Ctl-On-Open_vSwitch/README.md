@@ -48,6 +48,8 @@ lxc file push /tmp/curtin_userdata maasctl/etc/maas/preseeds/curtin_userdata
 ````sh
 wget -q -O- https://git.io/fjg66 2>/dev/null | bash
 lxc exec maasctl run_maas_setup
+lxc stop maasctl
+lxc start maasctl
 ````
 
 -------
