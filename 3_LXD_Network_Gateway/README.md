@@ -73,7 +73,7 @@ wget -O- https://git.io/fjgTD | bash
 #### 07. Remove DNS & Default route from mgmt0 iface
 ````sh
 sed -i -e :a -e '$d;N;2,4ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
-netplan --apply
+netplan apply
 ````
 #### 08. Reload host network configuration
 ````sh
