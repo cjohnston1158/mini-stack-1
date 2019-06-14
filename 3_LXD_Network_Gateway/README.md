@@ -69,10 +69,10 @@ lxc restart gateway
 ````
   - NOTE: use `watch -c lxc list` to monitor and ensure you get both internal & external IP's on the gateway
 #### 07. Apply CCIO Configuration + http squid cache proxy
-  - WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
 ````sh
 wget -O- https://git.io/fjgTD | bash
 ````
+  - WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
 #### 07. Remove DNS & Default route from mgmt0 iface
 ````sh
 sed -i -e :a -e '$d;N;2,4ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
