@@ -64,7 +64,10 @@ lxc profile device add openwrt eth1 nic nictype=bridged parent=internal
 #### 06. Launch Gateway
 ````sh
 lxc launch bcio:openwrt gateway -p openwrt
+lxc exec gateway -- /bin/bash -c "sed -i 's/192.168.1/${ministack_SUBNET}/g' /etc/config/networks"
+lxc restart gateway
 ````
+  - NOTE: use `watch -c lxc list` to monitor and ensure you get both internal & external IP's on the gateway
 #### 07. Apply CCIO Configuration + http squid cache proxy
   - WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
 ````sh
