@@ -81,7 +81,7 @@ NOTE: Use command `ovs-clear` to remove orphaned 'not found' ports as needed
 cat <<EOF >/usr/bin/ovs-clear
 #!/bin/bash
 # ovs-clear - This script will search and destroy orphaned ovs port
-for i in $(ovs-vsctl show | awk '/error: /{print $7}'); do
+for i in \$(ovs-vsctl show | awk '/error: /{print \$7}'); do
     ovs-vsctl del-port $i;
 done
 clear && ovs-vsctl show
@@ -94,7 +94,7 @@ chmod +x /usr/bin/ovs-clear
 ````sh
 cat <<EOF >/tmp/net_restart.sh
 net_restart () {
-hw_ADDR=\$(echo "${HOSTNAME} external mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
+hw_ADDR=\$(echo "\${HOSTNAME} external mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
 ovs-vsctl \
   add-br external -- \
   add-port external ${external_NIC} -- \
