@@ -91,7 +91,7 @@ ovs-vsctl \
   add-port external ${external_NIC} -- \
   add-port external mgmt0 -- \
   set interface mgmt0 type=internal -- \
-  set interface mgmt0 mac=""
+  set interface mgmt0 mac="${hw_ADDR}"
 systemctl restart systemd-networkd.service && netplan apply --debug
 ovs-clear
 }
