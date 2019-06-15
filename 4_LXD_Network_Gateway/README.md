@@ -14,46 +14,6 @@ Prerequisites:
 ````sh
 lxc remote add bcio https://images.braincraft.io --public --accept-certificate
 ````
-#### 02. Write OVS bridge 'internal' Networkd Configuration
-````sh
-cat <<EOF >/etc/systemd/network/internal.network                                                    
-[Match]
-Name=internal
-
-[Network]
-DHCP=no
-IPv6AcceptRA=no
-LinkLocalAddressing=no
-EOF
-````
-#### 03. Write OVS 'internal' bridge port 'mgmt1' netplan config
-````sh
-cat <<EOF > /etc/netplan/80-mgmt1.yaml
-# Configure mgmt1 on 'internal' bridge
-# For more configuration examples, see: https://netplan.io/examples
-network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    mgmt1:
-      optional: true
-      addresses:
-        - ${ministack_SUBNET}.2/24
-      gateway4: ${ministack_SUBNET}.1
-      nameservers:
-        search: [maas]
-        addresses: [${ministack_SUBNET}.10,8.8.8.8]
-EOF
-````
-#### 04. Build Bridge & mgmt1 interface
-````sh
-ovs-vsctl \
-  add-br internal -- \
-  add-port internal mgmt1 -- \
-  set interface mgmt1 type=internal -- \
-  set interface mgmt1 mac="$(echo "$HOSTNAME internal mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
-ovs-vsctl show
-````
 #### 05. Create OpenWRT LXD Profile
 ````sh
 lxc profile copy original openwrt
@@ -73,7 +33,14 @@ lxc restart gateway
 wget -O- https://git.io/fjgTD | bash
 ````
   - WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
-#### 07. Remove DNS & Default route from mgmt0 iface
+#### 07. Move Default route & DNS from mgmt0 to mgmt1 iface
+````sh
+cat <<EOF >> /etc/netplan/80-mgmt1.yaml
+      gateway4: ${ministack_SUBNET}.1
+      nameservers:
+        search: [maas]
+        addresses: [${ministack_SUBNET}.10,8.8.8.8]
+````
 ````sh
 sed -i -e :a -e '$d;N;2,4ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
 netplan apply
