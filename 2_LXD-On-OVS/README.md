@@ -41,7 +41,7 @@ Would you like a YAML "lxd init" preseed to be printed? (yes/no) [default=no]: y
 #### 03. Add your user(s) to the 'lxd' group with the following syntax for each user
 Use your non-root host user name (EG: 'ubuntu')
 ````sh
-sudo usermod -aG lxd ${ccio_SSH_UNAME}
+sudo usermod -aG lxd ${ministack_UNAME}
 ````
 #### 04. Backup the original lxc profile
 ````sh
