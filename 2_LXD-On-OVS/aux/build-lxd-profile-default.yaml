@@ -1,3 +1,6 @@
+#!/bin/bash
+
+echo ">   Staging Default Profile ..."
 cat <<EOF > /tmp/lxd-profile-default.yaml
 config:
   user.user-data: |
@@ -16,7 +19,7 @@ config:
         shell: /bin/bash
         sudo: ['ALL=(ALL) NOPASSWD:ALL']
         ssh_import_id: ${ccio_SSH_UNAME}
-      - name: ${ccio_SSH_UNAME}
+      - name: ${ministack_UNAME}
         shell: /bin/bash
         sudo: ['ALL=(ALL) NOPASSWD:ALL']
         ssh_import_id: ${ccio_SSH_UNAME}
@@ -24,7 +27,7 @@ config:
       - [apt-get, autoremove, "-y"]
       - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
       - [cp, "-f", "/etc/skel/.bashrc", "/home/ubuntu/.bashrc"]
-      - [cp, "-f", "/etc/skel/.bashrc", "/home/${ccio_SSH_UNAME}/.bashrc"]
+      - [cp, "-f", "/etc/skel/.bashrc", "/home/${ministack_UNAME}/.bashrc"]
 description: Default LXD Profile
 devices:
   eth0:
@@ -38,3 +41,8 @@ devices:
     type: disk
 name: default
 EOF
+
+echo ">   Loading Default Profile ..."
+lxc profile edit default < /tmp/lxd-profile-default.yaml
+
+echo ">   Default Profile is ready to use"
