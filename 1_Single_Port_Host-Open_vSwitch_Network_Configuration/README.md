@@ -75,7 +75,13 @@ network:
 EOF
 
 ````
-#### 05. Build OVS Bridge, mgmt0 port, and apply configuration
+#### 05. Add OVS Orphan Port Cleaning Utility
+NOTE: Use command `ovs-clear` to remove orphaned 'not found' ports as needed
+````sh
+wget -O /usr/bin/ovs-clear https://git.io/fjlw2 && chmod +x /usr/bin/ovs-clear 
+
+````
+#### 06. Build OVS Bridge, mgmt0 port, and apply configuration
 ````sh
 cat <<EOF >/tmp/net_restart.sh
 net_restart () {
@@ -86,7 +92,7 @@ ovs-vsctl \
   set interface mgmt0 type=internal -- \
   set interface mgmt0 mac="$(echo "${HOSTNAME} external mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
 systemctl restart systemd-networkd.service && netplan apply --debug
-ovs-vsctl show
+ovs-clear
 }
 net_restart
 EOF
@@ -96,22 +102,7 @@ EOF
 source /tmp/net_restart.sh 
 
 ````
-#### 06. Add OVS Orphan Port Cleaning Utility
-NOTE: Use command `ovs-clear` to remove orphaned 'not found' ports as needed
-````sh
-wget -O /usr/bin/ovs-clear https://git.io/fjlw2 && chmod +x /usr/bin/ovs-clear 
-
-````
 -------
-#### CHEAT: Useful Commands for troubleshooting
-````sh
-ip r
-ip a s
-ovs-vsctl show
-systemd-resolve --status 
-
-````
-
 ## Next sections
 - [Part 2 LXD On Open vSwitch Network]
 - [Part 3 LXD Gateway & Firwall for Open vSwitch Network Isolation]
