@@ -26,6 +26,10 @@ lxc exec cloudctl -- tail -f /var/log/cloud-init-output.log
 lxc exec cloudctl -- /bin/bash -c "cat /home/ubuntu/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys
 lxc exec cloudctl -- /bin/bash -c "cat /home/${ccio_SSH_UNAME}/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys
 ````
+#### 04. Set User Password
+````sh
+lxc exec cloudctl -- password ${ministack_UNAME}
+````
 -------
 ## Continue to the next section
 - [Part 8 OpenStack Prep]
