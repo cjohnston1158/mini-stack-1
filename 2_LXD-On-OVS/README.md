@@ -52,10 +52,16 @@ lxc profile copy default original
 sed -i 's/aliases: {}/aliases:\n  ubuntu: exec @ARGS@ -- sudo --login --user ubuntu/g' ~/.config/lxc/config.yml
 echo "  ${ministack_UNAME}: exec @ARGS@ -- sudo --login --user ${ministack_UNAME}" >> ~/.config/lxc/config.yml
 ````
-#### 06. Add User-Data && Launch Containers && check Configurations
-###### 06.1 Download the profile template
+#### 06. Add User-Data
 ````sh
 wget https://git.io/fjav6 -qO /tmp/build-profile-lxd-default && source /tmp/build-profile-lxd-default
+````
+#### 07. Test Launch New Container
+````sh
+lxc launch ubuntu:bionic
+lxc ${ministack_UNAME} c01
+exit
+lxc delete --force c01
 ````
 -------
 ## Next sections
