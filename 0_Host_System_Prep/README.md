@@ -7,6 +7,10 @@
   4. Run all prep commands as root
   5. Recommended: Follow these guides using ssh to copy/paste commands as you read along
 
+#### 00. Create CCIO Mini-Stack Profile
+```sh
+wget https://git.io/fjav3 -O- | bash
+```
 #### 01. Update System && Install helper packages
 ```sh
 apt update && apt upgrade -y && apt dist-upgrade -y && apt autoremove -y
