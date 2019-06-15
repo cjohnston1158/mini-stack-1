@@ -14,7 +14,3 @@ sed -i 's/^PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_
 sed -i 's/^#PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
 systemctl restart sshd
 ```
-#### 00. ALIAS
-````sh
-echo "  ${ccio_SSH_UNAME}: exec @ARGS@ -- sudo --login --user ${ccio_SSH_UNAME}" >> ~/.config/lxc/config.yml
-````
