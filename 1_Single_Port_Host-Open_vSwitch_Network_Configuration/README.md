@@ -78,8 +78,17 @@ EOF
 #### 05. Add OVS Orphan Port Cleaning Utility
 NOTE: Use command `ovs-clear` to remove orphaned 'not found' ports as needed
 ````sh
-wget -O /usr/bin/ovs-clear https://git.io/fjlw2 && chmod +x /usr/bin/ovs-clear 
-
+cat <<EOF >/usr/bin/ovs-clear
+#!/bin/bash
+# ovs-clear - This script will search and destroy orphaned ovs port
+for i in $(ovs-vsctl show | awk '/error: /{print $7}'); do
+    ovs-vsctl del-port $i;
+done
+clear && ovs-vsctl show
+EOF
+````
+````sh
+chmod +x /usr/bin/ovs-clear
 ````
 #### 06. Build OVS Bridge, mgmt0 port, and apply configuration
 ````sh
