@@ -5,12 +5,14 @@ config:
     package_upgrade: true
     packages:
       - jq
+      - git
       - vim
       - tree
       - tmux
-      - byobu
       - lnav
+      - byobu
       - snapd
+      - apache2
       - maas-cli
       - squashfuse
       - libvirt-bin
