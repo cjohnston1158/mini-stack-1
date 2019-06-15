@@ -16,6 +16,8 @@ apt_ACCESS=$(apt-get update | echo $?)
 apt-get upgrade -y
 apt-get install -qq -y p7zip-full tasksel
 tasksel install ubuntu-desktop
+[[ $? != 0 ]] && run_log 1 "tasksel install failed!; exiting!"
+
 
 #################################################################################
 # Remove Non-essential Applications
