@@ -55,7 +55,7 @@ echo "  ${ministack_UNAME}: exec @ARGS@ -- sudo --login --user ${ministack_UNAME
 #### 06. Add User-Data && Launch Containers && check Configurations
 ###### 06.1 Download the profile template
 ````sh
-wget -O- https://git.io/fjlrv | bash
+wget -qO- https://git.io/fjlrv | bash
 ````
 ###### 06.2 Apply configuration to default profile
 ````sh
