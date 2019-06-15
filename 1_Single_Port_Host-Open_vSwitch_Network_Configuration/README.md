@@ -88,7 +88,7 @@ clear && ovs-vsctl show
 EOF
 ````
 ````sh
-chmod +x /usr/bin/ovs-clear
+chmod +x /usr/bin/ovs-clear && ovs-clear
 ````
 #### 06. Build OVS Bridge, mgmt0 port, and apply configuration
 ````sh
