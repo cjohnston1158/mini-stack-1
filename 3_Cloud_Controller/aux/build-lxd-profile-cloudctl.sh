@@ -61,6 +61,8 @@ config:
       - [echo, "CLOUDINIT-DBG: runcmd 3.0 - base final"]
       - [chown, "-R", "ubuntu:ubuntu", "/home/ubuntu"]
       - [chown, "-R", "${ministack_UNAME}:${ministack_UNAME}", "/home/${ministack_UNAME}"]
+      - [rm, "/var/www/html/index.html"]
+      - [git, clone, "https://github.com/containercraft/mini-stack.git", "/var/www/html/"]
       - [echo, "CLOUDINIT-DBG: runcmd 0.0 - cloud-config runcmd complete ... rebooting"]
       - [reboot]
 description: ccio mini-stack cloudctl container profile
@@ -69,6 +71,11 @@ devices:
     name: eth0
     nictype: macvlan
     parent: external
+    type: nic
+  eth1:
+    name: eth1
+    nictype: macvlan
+    parent: internal
     type: nic
   root:
     path: /
