@@ -11,10 +11,10 @@ fi
 
 #################################################################################
 # Install Ubuntu Minimal Desktop Environment
-apt_ACCESS=$(apt update | echo $?)
+apt_ACCESS=$(apt-get update | echo $?)
 [[ ${apt_ACCESS} != 0 ]] && run_log 1 "unable to reach ubuntu repo; exiting!"
-apt upgrade -y
-apt install -y p7zip-full tasksel
+apt-get upgrade -y
+apt-get install -y p7zip-full tasksel
 tasksel install ubuntu-desktop
 
 #################################################################################
@@ -82,7 +82,7 @@ hyphen-de hyphen-en-ca hyphen-en-gb hyphen-en-us hyphen-fr hyphen-hr \
 hyphen-it hyphen-pl hyphen-pt-br hyphen-pt-pt hyphen-ru mythes-de mythes-de-ch  \
 mythes-en-au mythes-en-us mythes-fr mythes-it mythes-pt-pt mythes-ru  
 
-sudo apt autoremove -y && sudo apt clean -y
+sudo apt-get autoremove -y && sudo apt-get clean -y
 
 #################################################################################
 # Prepare xRDP Standup Resources
