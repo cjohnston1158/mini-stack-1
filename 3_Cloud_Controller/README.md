@@ -38,7 +38,7 @@ lxc stop cloudctl; sleep 1; lxc snapshot cloudctl pre-gui-config; lxc start clou
 lxc exec cloudctl -- /bin/bash -c 'wget -qO- https://git.io/fjaJD | bash'
 lxc start cloudctl ; sleep 4 ; lxc list
 ```
-  - NOTE: Desktop Environment consumes an additional ~900M RAM & XGB Disk Space
+  - NOTE: Desktop Environment consumes an additional 1.5GB RAM & 2GB Disk Space
 #### OPT 02. CloudCTL is now accessible over RDP via it's IP address
 -------
 ## Continue to the next section
