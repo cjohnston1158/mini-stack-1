@@ -28,7 +28,7 @@ lxc exec cloudctl -- /bin/bash -c "cat /home/${ministack_UNAME}/.ssh/id_rsa.pub"
 ````
 #### 04. Set User Password
 ````sh
-lxc exec cloudctl -- password ${ministack_UNAME}
+lxc exec cloudctl -- passwd ${ministack_UNAME}
 ````
 -------
 ## OPTIONAL: Install Ubuntu Desktop & RDP for Remote GUI Control
