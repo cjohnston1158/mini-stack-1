@@ -97,5 +97,5 @@ wget -P ~/Downloads http://www.c-nergy.be/downloads/install-xrdp-3.0.zip
 ./Install-xrdp-3.0.sh -s yes -g yes
 
 #################################################################################
-echo "    Going Down for a Reboot Now: ${HOSTNAME} ... rebooting!"
-sudo reboot
+echo "    Going Down for System Halt Now: ${HOSTNAME} ... Shutting Down!"
+shutdown -h now
