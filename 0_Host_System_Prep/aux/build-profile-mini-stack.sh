@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#################################################################################
 load_vars () {
 project_NAME="mini-stack"
 base_PATH="/etc/ccio"
@@ -15,6 +15,7 @@ profile_TARGET="${full_PATH}/profile"
 clear
 }
 
+#################################################################################
 prompt_subnet () {
 echo "    Please enter a valid /24 subnet:
       EG: 10.10.0.0
@@ -25,16 +26,40 @@ ministack_SUBNET=$(awk -F'[ .]' '{print $1"."$2"."$3}' <(echo ${input_SUBNET}))
 
 }
 
+#################################################################################
 prompt_uname () {
+echo "    Is ${provider_UNAME} the same as your primary local username?"
+while true; do
+read -p '    [Yes/No]: ' stage_NAME
+    case ${stage_NAME} in
+        [Yy]* ) ministack_UNAME=${provider_UNAME};
+                echo "    Setting your project username to: ${ministack_UNAME}";
+                break;;
+        [Nn]* ) echo "    Please create your project username";
+                read -p '    New User: ' ministack_UNAME;
+                echo "    Setting your project username to: ${ministack_UNAME}";
+                break;;
+        *     ) echo "    Please answer 'yes' or 'no'"
+                exit;;
+    esac
+done
+}
+
+#################################################################################
+prompt_provider_uname () {
 echo "    
     Please configure a supported service with your username & ssh public keys
     Supported options:
       GitHub     (enter 'gh')
       Launchpad  (enter 'lp')"
 read -p '    gh/lp : ' provider_SSHPUBKEY ;
-read -p '    username: ' ministack_UNAME
+read -p '    username: ' provider_UNAME
+echo ""
+
+prompt_uname
 }
 
+#################################################################################
 salt_pwd () {
 if [[ ${new_pwd} == ${chk_pwd} ]]; then
     ministack_PWDSALT=$(mkpasswd --method=SHA-512 --rounds=4096 ${new_pwd})
@@ -43,12 +68,14 @@ elif [[ ${new_pwd} == ${chk_pwd} ]]; then
 fi
 }
 
+#################################################################################
 mk_pwd () {
 read -sp '    New Password: ' new_pwd ; echo "" ;
 read -sp '    Confirm New PWD: ' chk_pwd
 salt_pwd
 }
 
+#################################################################################
 prompt_pwd () {
 echo "
     Please create a user password for this lab environment:
@@ -57,17 +84,24 @@ echo "
 mk_pwd
 }
 
+#################################################################################
 write_profile () {
 cat <<EOF > ${profile_TARGET}
+# SSH Provider Configuration
 export ccio_SSH_SERVICE="${provider_SSHPUBKEY}" # OPTIONS launchpad:lp github:gh
-export ccio_SSH_UNAME="${ministack_UNAME}"
-export ccio_PWD_SALT="${ministack_PWDSALT}"
+export ccio_SSH_UNAME="${provider_UNAME}"
+
+# Mini Stack User Credentials
+export ministack_PWD_SALT="${ministack_PWDSALT}"
 export ministack_SUBNET="${ministack_SUBNET}"
+export ministack_UNAME="${ministack_UNAME}"
+
 echo '>>>> CCIO Profile Loaded!'
 EOF
 sed -i "s/\"/\'/g" ${profile_TARGET}
 }
 
+#################################################################################
 info_print () {
 echo "
     CCIO mini-stack profile written to ${profile_TARGET}
@@ -76,6 +110,7 @@ echo "
     "
 }
 
+#################################################################################
 append_bashrc () {
   # Backup existing .bashrc
   [[ ! -d ~/bak ]] && mkdir ~/bak/
@@ -87,6 +122,7 @@ append_bashrc () {
   cp -f /etc/skel/.bashrc ~
 }
 
+#################################################################################
 req_source_profile () {
 echo "    Would you like to load the profile now?"
 while true; do
@@ -101,11 +137,17 @@ read -p '    [Yes/No]: ' load_PROFILE
 done
 }
 
+#################################################################################
+run () {
 load_vars
 prompt_subnet
-prompt_uname
+prompt_provider_uname
 prompt_pwd
 write_profile
 info_print
 append_bashrc
 req_source_profile
+}
+
+#################################################################################
+run

@@ -1,35 +1,28 @@
 # Part 0 -- Host System Preparation
 
 #### 00. Review checklist of prerequisites:
-  1. You have a fresh install of Ubuntu 18.04 LTS on a machine with no critical data or services on it
+  1. You have a fresh install of Ubuntu Server 18.04 LTS on a machine with no critical data or services on it
   2. You are familiar with and able to ssh between machines
-  3. You have an ssh key pair, and uploaded the public key to your Launchpad (RECOMMENDED,) or Github account
+  3. You have an ssh key pair, and uploaded the public key to your [Launchpad](https://launchpad.net/) (RECOMMENDED), or [Github](https://github.com/) account
   4. Run all prep commands as root
   5. Recommended: Follow these guides using ssh to copy/paste commands as you read along
 
-#### 01. Install helper packages
+#### 01. Update System && Install helper packages
 ```sh
-apt-get update && apt-get install --install-recommends -y whois neovim lnav openssh-server ssh-import-id snapd pastebinit linux-generic-hwe-18.04-edge
+apt update && apt upgrade -y && apt dist-upgrade -y && apt autoremove -y
+apt install --install-recommends -y whois neovim lnav openssh-server ssh-import-id snapd pastebinit linux-generic-hwe-18.04-edge
 ```
-#### 02. Create host CCIO Profile Configuration && add to bashrc
+#### 05. Append GRUB Options for Libvirt & Networking Kernel Arguments
 ```sh
-wget -O /tmp/build-mini-stack-profile.sh https://git.io/fjgep
-source /tmp/build-mini-stack-profile.sh
+mkdir /etc/default/grub.d 2>/dev/null
 ```
-#### 03. Import your ssh pub key
 ```sh
-ssh-import-id ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
+cat <<EOF >/etc/default/grub.d/99-libvirt.cfg
+# Enable PCI Passthrough + Nested Virtual Machines + Revert NIC Interface Naming
+GRUB_CMDLINE_LINUX_DEFAULT="\${GRUB_CMDLINE_LINUX_DEFAULT} debug intel_iommu=on iommu=pt kvm_intel.nested=1 net.ifnames=0 biosdevname=0 pci=noaer"
+EOF
 ```
-#### 04. Enable root user ssh login
 ```sh
-sed -i 's/^PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
-sed -i 's/^#PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
-systemctl restart sshd
-```
-#### 05. Enable PCI Passthrough && Nested Virtual Machines && Revert NIC Interface Naming
-```sh
-mkdir /etc/default/grub.d
-wget -O /etc/default/grub.d/99-libvirt.cfg https://git.io/fjcFo
 update-grub
 ```
 #### 06. Write eth0 netplan config
@@ -50,7 +43,7 @@ EOF
 update-alternatives --set editor /usr/bin/vim.tiny
 ```
 ##### OPTIONAL 02. Disable default GUI startup  (DESKTOP OS)
-  NOTE: Use command `startx` to manually start full GUI environment at will
+  NOTE: Use command `systemctl start graphical.target` to manually start full GUI environment at will
 ```sh
 systemctl set-default multi-user.target
 ```
