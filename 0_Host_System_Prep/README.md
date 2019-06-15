@@ -12,7 +12,7 @@
 apt update && apt upgrade -y && apt dist-upgrade -y && apt autoremove -y
 apt install --install-recommends -y whois neovim lnav openssh-server ssh-import-id snapd pastebinit linux-generic-hwe-18.04-edge
 ```
-#### 05. Append GRUB Options for Libvirt & Networking Kernel Arguments
+#### 02. Append GRUB Options for Libvirt & Networking Kernel Arguments
 ```sh
 mkdir /etc/default/grub.d 2>/dev/null
 ```
@@ -25,7 +25,7 @@ EOF
 ```sh
 update-grub
 ```
-#### 06. Write eth0 netplan config
+#### 03. Write eth0 netplan config
 ```sh
 cat <<EOF >/etc/netplan/99-eth0.yaml
 network:
@@ -35,22 +35,22 @@ network:
       dhcp4: yes
 EOF
 ```
-#### 07. Reboot
+#### 04. Reboot
 -------
 ## OPTIONAL
-#### OPTIONAL 01. Switch default editor from nano to vim
+##### OPT 01. Switch default editor from nano to vim
 ```sh
 update-alternatives --set editor /usr/bin/vim.tiny
 ```
-##### OPTIONAL 02. Disable default GUI startup  (DESKTOP OS)
-  NOTE: Use command `systemctl start graphical.target` to manually start full GUI environment at will
-```sh
-systemctl set-default multi-user.target
-```
-##### OPTIONAL 03. Disable Lid Switch Power/Suspend (if building on a laptop)
+##### OPT 02. Disable Lid Switch Power/Suspend (if building on a laptop)
 ```sh
 sed -i 's/^#HandleLidSwitch=suspend/HandleLidSwitch=ignore/g' /etc/systemd/logind.conf
 sed -i 's/^#HandleLidSwitchDocked=ignore/HandleLidSwitchDocked=ignore/g' /etc/systemd/logind.conf
+```
+##### OPT 03. Disable default GUI startup  (DESKTOP OS)
+  NOTE: Use command `systemctl start graphical.target` to manually start full GUI environment at will
+```sh
+systemctl set-default multi-user.target
 ```
 -------
 ## Next sections
