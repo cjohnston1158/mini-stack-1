@@ -63,7 +63,7 @@ name: cloudctl
 EOF
 
 # Detect && Purge 'cloudctl' Profile
-[[ $(lxc profile list | grep cloudctl ; echo $?) == 0 ]] && lxc profile delete cloudctl
+[[ $(lxc profile show cloudctl 2>&1 1>/dev/null ; echo $?) == 0 ]] && lxc profile delete cloudctl
 
 # Create && Write Profile
 lxc profile create cloudctl
