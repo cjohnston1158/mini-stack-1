@@ -24,7 +24,7 @@ lxc exec cloudctl -- tail -f /var/log/cloud-init-output.log
 #### 03. Import CloudCtl ssh keys on host
 ````sh
 lxc exec cloudctl -- /bin/bash -c "cat /home/ubuntu/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys
-lxc exec cloudctl -- /bin/bash -c "cat /home/${ccio_SSH_UNAME}/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys
+lxc exec cloudctl -- /bin/bash -c "cat /home/${ministack_UNAME}/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys
 ````
 #### 04. Set User Password
 ````sh
@@ -34,8 +34,9 @@ lxc exec cloudctl -- password ${ministack_UNAME}
 ## OPTIONAL: Install Ubuntu Desktop & RDP for Remote GUI Control
 #### OPT 01. Launch LXD Ubuntu Desktop Environment + xRDP Setup Script
 ```sh
+lxc stop cloudctl; sleep 1; lxc snapshot cloudctl pre-gui-config; lxc start cloudctl
 lxc exec cloudctl -- /bin/bash -c 'wget -qO- https://git.io/fjaJD | bash'
-lxc start cloudctl ; sleep 2 ; lxc list
+lxc start cloudctl ; sleep 4 ; lxc list
 ```
   - NOTE: Desktop Environment consumes an additional ~900M RAM & XGB Disk Space
 #### OPT 02. CloudCTL is now accessible over RDP via it's IP address
