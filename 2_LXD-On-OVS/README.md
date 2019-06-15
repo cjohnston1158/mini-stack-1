@@ -55,15 +55,11 @@ echo "  ${ministack_UNAME}: exec @ARGS@ -- sudo --login --user ${ministack_UNAME
 #### 06. Add User-Data && Launch Containers && check Configurations
 ###### 06.1 Download the profile template
 ````sh
-wget -qO- https://git.io/fjlrv | bash
-````
-###### 06.2 Apply configuration to default profile
-````sh
-lxc profile edit default < /tmp/lxd-profile-default.yaml
+wget https://git.io/fjav6 -qO /tmp/build-profile-lxd-default && source /tmp/build-profile-lxd-default
 ````
 -------
 ## PRACTICE
-##### Exhibit(A) Launch && Acquire Shell / Exit Shell && Delete Containers
+##### (A) Launch && Acquire Shell / Exit Shell && Delete Containers
 ````sh
 lxc launch ubuntu:bionic c01
 lxc launch images:centos/7 test-centos
@@ -73,7 +69,7 @@ lxc list
 lxc ubuntu c01
 exit
 
-lxc ${ccio_SSH_UNAME} c01
+lxc ${ministack_UNAME} c01
 exit
 
 lxc exec c01 bash
@@ -82,7 +78,7 @@ exit
 lxc delete c01 --force
 lxc delete test-centos --force
 ````
-##### Exhibit(B) Check LXD Configurations
+##### (B) Check LXD Configurations
 ````sh
 lxc network list
 lxc network show external
