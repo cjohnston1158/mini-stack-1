@@ -109,7 +109,7 @@ EOF
 
 ````
 ````sh
-source /tmp/net_restart.sh 
+source /tmp/net_restart.sh && reboot
 
 ````
 -------
