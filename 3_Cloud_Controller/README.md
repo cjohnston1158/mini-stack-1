@@ -31,6 +31,12 @@ lxc exec cloudctl -- /bin/bash -c "cat /home/${ccio_SSH_UNAME}/.ssh/id_rsa.pub" 
 lxc exec cloudctl -- password ${ministack_UNAME}
 ````
 -------
+OPTIONAL: Install Ubuntu Desktop & xRDP for full CloudCTL Bastion RDP GUI Environment
+#### OPT 01. Launch LXD Ubuntu Desktop Environment Setup Script
+```sh
+lxc exec cloudctl -- /bin/bash -c 'wget -qO- https://git.io/fjaJD | bash'
+```
+-------
 ## Continue to the next section
 - [Part 8 OpenStack Prep]
 <!-- Markdown link & img dfn's -->
