@@ -1,5 +1,20 @@
+echo ">   Staging Cloudctl Profile ..."
 cat <<EOF >/tmp/lxd_profile_cloudctl.yaml
 config:
+  user.network-config: |
+    version: 2
+    ethernets:
+      eth0:
+        dhcp4: true
+        dhcp6: false
+      eth1:
+        dhcp4: false
+        dhcp6: false
+        addresses: [ ${ministack_SUBNET}.3/24 ]
+        gateway4: ${ministack_SUBNET}.1
+        nameservers:
+          addresses: [ ${ministack_SUBNET}.10 ]
+          search: [ maas ]
   user.user-data: |
     #cloud-config
     package_upgrade: true
@@ -63,8 +78,11 @@ name: cloudctl
 EOF
 
 # Detect && Purge 'cloudctl' Profile
+echo ">   Checking for & Removing Pre-Existing CloudCTL Profile ..."
 [[ $(lxc profile show cloudctl 2>&1 1>/dev/null ; echo $?) != 0 ]] || lxc profile delete cloudctl
 
 # Create && Write Profile
 lxc profile create cloudctl
+
+echo ">   Loading CloudCTL User Data"
 lxc profile edit cloudctl < <(cat /tmp/lxd_profile_cloudctl.yaml)
