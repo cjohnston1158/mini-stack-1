@@ -1,7 +1,19 @@
 #!/bin/bash
 #################################################################################
+run_log () {
+if [[ $1 == 0 ]]; then
+    echo ">   STAT: $2"
+elif [[ $1 != 0 ]]; then
+    echo ">   ERR: $2"
+    exit 1
+fi
+}
+
+#################################################################################
 # Install Ubuntu Minimal Desktop Environment
-apt update && apt upgrade -y
+apt_ACCESS=$(apt update | echo $?)
+[[ ${apt_ACCESS} != 0 ]] run_log 1 "unable to reach ubuntu repo; exiting!"
+apt upgrade -y
 apt install -y p7zip-full tasksel
 tasksel install ubuntu-desktop
 
