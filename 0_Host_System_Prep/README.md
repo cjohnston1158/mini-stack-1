@@ -1,6 +1,6 @@
 # Part 0 -- Host System Preparation
 
-#### 00. Review checklist of prerequisites:
+#### Review checklist of prerequisites:
   1. You have a fresh install of Ubuntu Server 18.04 LTS on a machine with no critical data or services on it
   2. You are familiar with and able to ssh between machines
   3. You have an ssh key pair, and uploaded the public key to your [Launchpad](https://launchpad.net/) (RECOMMENDED), or [Github](https://github.com/) account
