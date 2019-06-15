@@ -58,7 +58,7 @@ wget https://git.io/fjav6 -qO /tmp/build-profile-lxd-default && source /tmp/buil
 ````
 #### 07. Test Launch New Container
 ````sh
-lxc launch ubuntu:bionic
+lxc launch ubuntu:bionic c01
 lxc ${ministack_UNAME} c01
 exit
 lxc delete --force c01
