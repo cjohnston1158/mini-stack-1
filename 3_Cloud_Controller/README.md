@@ -35,8 +35,10 @@ lxc exec cloudctl -- password ${ministack_UNAME}
 #### OPT 01. Launch LXD Ubuntu Desktop Environment + xRDP Setup Script
 ```sh
 lxc exec cloudctl -- /bin/bash -c 'wget -qO- https://git.io/fjaJD | bash'
+lxc start cloudctl ; sleep 2 ; lxc list
 ```
   - NOTE: Desktop Environment consumes an additional ~900M RAM & XGB Disk Space
+#### OPT 02. CloudCTL is now accessible over RDP via it's IP address
 -------
 ## Continue to the next section
 - [Part 8 OpenStack Prep]
