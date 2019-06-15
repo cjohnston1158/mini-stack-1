@@ -41,7 +41,8 @@ libreoffice-math libreoffice-ogltrans libreoffice-pdfimport libreoffice-style-br
 
 # Others
 apt-get purge -y \
-example-content ubuntu-web-launchers
+example-content ubuntu-web-launchers ebtables liblxc-common liblxc1 libuv1 \
+lxcfs lxd-client uidmap xdelta3 lxd
 
 # Langpacks (keeping libreoffice and thunderbird installed otherwise)
 apt-get purge -y \
