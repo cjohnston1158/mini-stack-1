@@ -32,11 +32,11 @@ lxc exec cloudctl -- password ${ministack_UNAME}
 ````
 -------
 ## OPTIONAL: Install Ubuntu Desktop & RDP for Remote GUI Control
-  - NOTE: Desktop Environment consumes an additional ~900M RAM & XGB Disk Space
 #### OPT 01. Launch LXD Ubuntu Desktop Environment + xRDP Setup Script
 ```sh
 lxc exec cloudctl -- /bin/bash -c 'wget -qO- https://git.io/fjaJD | bash'
 ```
+  - NOTE: Desktop Environment consumes an additional ~900M RAM & XGB Disk Space
 -------
 ## Continue to the next section
 - [Part 8 OpenStack Prep]
