@@ -84,6 +84,7 @@ hyphen-de hyphen-en-ca hyphen-en-gb hyphen-en-us hyphen-fr hyphen-hr \
 hyphen-it hyphen-pl hyphen-pt-br hyphen-pt-pt hyphen-ru mythes-de mythes-de-ch  \
 mythes-en-au mythes-en-us mythes-fr mythes-it mythes-pt-pt mythes-ru  
 
+apt-get install gnome-control-center --install-recommends -y
 sudo apt-get autoremove -y && sudo apt-get clean -y
 
 #################################################################################
