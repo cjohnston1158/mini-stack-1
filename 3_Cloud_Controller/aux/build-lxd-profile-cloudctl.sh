@@ -1,6 +1,8 @@
 echo ">   Staging Cloudctl Profile ..."
 cat <<EOF >/tmp/lxd_profile_cloudctl.yaml
 config:
+  security.nesting: "true"
+  security.privileged: "true"
   user.network-config: |
     version: 2
     ethernets:
