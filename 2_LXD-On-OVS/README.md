@@ -87,12 +87,18 @@ EOF
 ````
 #### 09. Build Bridge & mgmt1 interface
 ````sh
+cat <<EOF >/tmp/internal-mgmt1-config
 ovs-vsctl \
   add-br internal -- \
   add-port internal mgmt1 -- \
   set interface mgmt1 type=internal -- \
   set interface mgmt1 mac="$(echo "$HOSTNAME internal mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
 ovs-vsctl show
+EOF
+````
+````sh
+source /tmp/internal-mgmt1-config
+````
 #### 09. Reload host network configuration
 ````sh
 systemctl restart systemd-networkd.service && netplan apply --debug
