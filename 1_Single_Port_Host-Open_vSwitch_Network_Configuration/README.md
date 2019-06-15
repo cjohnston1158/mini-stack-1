@@ -94,13 +94,13 @@ chmod +x /usr/bin/ovs-clear && ovs-clear
 ````sh
 cat <<EOF >/tmp/net_restart.sh
 net_restart () {
-hw_ADDR=\$(echo "\${HOSTNAME} external mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
+
 ovs-vsctl \
   add-br external -- \
   add-port external ${external_NIC} -- \
   add-port external mgmt0 -- \
   set interface mgmt0 type=internal -- \
-  set interface mgmt0 mac="\${hw_ADDR}"
+  set interface mgmt0 mac="$(echo "${HOSTNAME} external mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
 systemctl restart systemd-networkd.service && netplan apply --debug
 ovs-clear
 }
