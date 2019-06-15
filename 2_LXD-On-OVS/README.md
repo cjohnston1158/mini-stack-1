@@ -58,37 +58,6 @@ echo "  ${ministack_UNAME}: exec @ARGS@ -- sudo --login --user ${ministack_UNAME
 wget https://git.io/fjav6 -qO /tmp/build-profile-lxd-default && source /tmp/build-profile-lxd-default
 ````
 -------
-## PRACTICE
-##### (A) Launch && Acquire Shell / Exit Shell && Delete Containers
-````sh
-lxc launch ubuntu:bionic c01
-lxc launch images:centos/7 test-centos
-
-lxc list
-
-lxc ubuntu c01
-exit
-
-lxc ${ministack_UNAME} c01
-exit
-
-lxc exec c01 bash
-exit
-
-lxc delete c01 --force
-lxc delete test-centos --force
-````
-##### (B) Check LXD Configurations
-````sh
-lxc network list
-lxc network show external
-
-lxc profile list
-lxc profile show default
-
-lxc config show c01
-````
--------
 ## Next sections
 - [Part 3 LXD Gateway & Firwall for Open vSwitch Network Isolation]
 - [Part 4 KVM On Open vSwitch]
