@@ -31,9 +31,9 @@ lxc exec cloudctl -- /bin/bash -c "cat /home/${ccio_SSH_UNAME}/.ssh/id_rsa.pub" 
 lxc exec cloudctl -- password ${ministack_UNAME}
 ````
 -------
-## OPTIONAL: Install Ubuntu Desktop & xRDP for full CloudCTL Bastion RDP GUI Environment
+## OPTIONAL: Install Ubuntu Desktop & RDP for Remote GUI Control
   - NOTE: Desktop Environment consumes an additional ~900M RAM & XGB Disk Space
-#### OPT 01. Launch LXD Ubuntu Desktop Environment Setup Script
+#### OPT 01. Launch LXD Ubuntu Desktop Environment + xRDP Setup Script
 ```sh
 lxc exec cloudctl -- /bin/bash -c 'wget -qO- https://git.io/fjaJD | bash'
 ```
