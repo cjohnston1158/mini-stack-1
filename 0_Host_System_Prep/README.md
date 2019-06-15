@@ -7,16 +7,20 @@
   4. Run all prep commands as root
   5. Recommended: Follow these guides using ssh to copy/paste commands as you read along
 
-#### 00. Create CCIO Mini-Stack Profile
+#### 00. Initialize root ssh keys
+```sh
+ssh-keygen -f ~/.ssh/id_rsa -N ''
+```
+#### 01. Create CCIO Mini-Stack Profile
 ```sh
 wget https://git.io/fjav3 -qO /tmp/profile && source /tmp/profile
 ```
-#### 01. Update System && Install helper packages
+#### 02. Update System && Install helper packages
 ```sh
 apt update && apt upgrade -y && apt dist-upgrade -y && apt autoremove -y
 apt install --install-recommends -y whois neovim lnav openssh-server ssh-import-id snapd pastebinit linux-generic-hwe-18.04-edge
 ```
-#### 02. Append GRUB Options for Libvirt & Networking Kernel Arguments
+#### 03. Append GRUB Options for Libvirt & Networking Kernel Arguments
 ```sh
 mkdir /etc/default/grub.d 2>/dev/null
 ```
@@ -29,7 +33,7 @@ EOF
 ```sh
 update-grub
 ```
-#### 03. Write eth0 netplan config
+#### 04. Write eth0 netplan config
 ```sh
 cat <<EOF >/etc/netplan/99-eth0.yaml
 network:
@@ -39,7 +43,7 @@ network:
       dhcp4: yes
 EOF
 ```
-#### 04. Reboot
+#### 05. Reboot
 -------
 ## OPTIONAL
 ##### OPT 01. Switch default editor from nano to vim
