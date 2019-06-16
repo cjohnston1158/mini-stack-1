@@ -35,7 +35,7 @@ lxc exec cloudctl -- passwd ${ministack_UNAME}
 #### OPT 01. Launch LXD Ubuntu Desktop Environment + xRDP Setup Script
 ```sh
 lxc stop cloudctl; sleep 1; lxc snapshot cloudctl pre-gui-config; lxc start cloudctl
-lxc exec cloudctl -- /bin/bash -c 'wget -qO- https://git.io/fjaJD | bash'
+lxc exec cloudctl -- /bin/bash -c 'source /root/mini-stack/03_Cloud_Controller_Bastion/aux/install-ubuntu-minimal-xrdp.sh'
 lxc start cloudctl ; sleep 4 ; lxc list
 ```
   - NOTE: Desktop Environment consumes an additional 1.5GB RAM & 2GB Disk Space
