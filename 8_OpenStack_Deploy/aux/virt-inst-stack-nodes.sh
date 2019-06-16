@@ -3,8 +3,8 @@
 #################################################################################
 # Hardware Profile
 vm_CPU=8
-osd_DISK=48    # in Gigabytes
-root_DISK=64   # in Gigabytes
+osd_DISK=64    # in Gigabytes
+root_DISK=48   # in Gigabytes
 vm_RAM=16448   # in Megabytes
 vm_COUNT=03    # Set VM spawn count
 storage_POOL="/var/lib/libvirt/images"
