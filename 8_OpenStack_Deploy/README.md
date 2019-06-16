@@ -14,7 +14,7 @@ Prerequisites:
 ![CCIO Hypervisor - OpenStack Prep](web/drawio/OpenStack-Prep.svg)
 
 -------
-#### 0O. Virt-Install new vm's (on host)
+#### 00. Virt-Install new vm's (on host)
 ```
 wget -qO /tmp/virt-inst-stack-nodes http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/virt-inst-stack-nodes.sh
 ```
