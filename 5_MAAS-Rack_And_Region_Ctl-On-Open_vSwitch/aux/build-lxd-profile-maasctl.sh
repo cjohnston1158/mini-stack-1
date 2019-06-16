@@ -58,6 +58,7 @@ config:
       - [su, -l, maas, /bin/bash, -c, "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
       - [maas, createadmin, --username=admin, --password=admin, --email=admin, --ssh-import, "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
       - [login-maas-cli]
+      - [reboot]
 description: ccio mini-stack maasctl container profile
 devices:
   eth0:
