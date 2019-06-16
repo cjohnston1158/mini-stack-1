@@ -23,7 +23,7 @@ lxc exec maasctl -- su -l maas /bin/bash -c "virsh -c qemu+ssh://root@${ministac
 
 #### 02. Connect your libvirt provider as a POD in MAAS
 ````sh
-lxc exec maasctl -- /bin/bash -c "maas admin pods create type=virsh name=mini-stack.maas power_address=qemu+ssh://root@${ministack_SUBNET}.2/system cpu_over_commit_ratio=10 memory_over_commit_ratio=10"
+lxc exec maasctl -- /bin/bash -c "maas admin pods create type=virsh name=master.mini-stack.maas power_address=qemu+ssh://root@${ministack_SUBNET}.2/system cpu_over_commit_ratio=10 memory_over_commit_ratio=10"
 ````
 
 #### 03. Test create new VM in your virsh pod:
