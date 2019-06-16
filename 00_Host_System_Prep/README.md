@@ -7,10 +7,6 @@
   4. Run all prep commands as root
   5. Recommended: Follow these guides using ssh to copy/paste commands as you read along
 
-#### 00. Initialize root ssh keys
-```sh
-ssh-keygen -f ~/.ssh/id_rsa -N ''
-```
 #### 01. Create CCIO Mini-Stack Profile
 ```sh
 wget https://git.io/fjaCl -qO /tmp/profile && source /tmp/profile
