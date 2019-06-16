@@ -57,6 +57,7 @@ run () {
 
 }
 
+run
 EOF
 
 chmod +x /tmp/run-maas-setup
@@ -90,7 +91,7 @@ run () {
 
   # Run Config
   echo ">  Configuring 'external' network bridge..."
-  lxc exec maasctl run-maas-setup
+  lxc exec maasctl -- run-maas-setup
 
 }
 
