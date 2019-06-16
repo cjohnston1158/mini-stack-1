@@ -14,9 +14,7 @@ Prerequisites:
 -------
 #### 01. Create maas container profile
 ````sh
-lxc profile create maasctl
 wget -qO- http://${ministack_SUBNET}.3/mini-stack/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/build-lxd-profile-maasctl.sh | bash
-lxc profile edit maasctl </tmp/lxd-profile-maasctl.yaml
 ````
 #### 02. Create 'maasctl' Ubuntu Bionic LXD Container
 ````sh
@@ -28,7 +26,13 @@ lxc exec maasctl -- tail -f /var/log/cloud-init-output.log
 ````sh
 wget -qO- http://${ministack_SUBNET}.3/mini-stack/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/run-setup-maas.sh | bash
 ````
-#### 04. Login to WebUI && Confirm region and rack controller(s) show healthy
+#### 04. Write Custom Userdata
+````sh
+wget -O- https://git.io/fjl6z | bash
+lxc exec maasctl -- /bin/bash -c "mkdir /root/bak ; cp /etc/maas/preseeds/curtin_userdata /root/bak/"
+lxc file push /tmp/curtin_userdata maasctl/etc/maas/preseeds/curtin_userdata
+````
+#### 05. Login to WebUI && Confirm region and rack controller(s) show healthy
  1. Browse to your maas WebUI @ [http://openwrt-gateway-pub-ip:5240/MAAS](http://{openwrt-gateway-pub-ip}:5240/MAAS)
  2. Click 'skip' through on-screen setup prompts (this was already done via cli)    
  3. Click "Controllers" tab    
@@ -36,14 +40,8 @@ wget -qO- http://${ministack_SUBNET}.3/mini-stack/5_MAAS-Rack_And_Region_Ctl-On-
  5. services should all be 'green' excluding dhcp* & ntp*    
   - NOTE: dhcp services are dependent on completion of full image sync. Please wait till image download & sync has finished.
 
-#### 05. Reboot and confirm MAAS WebUI & MAAS Region+Rack controller services are all healthy again
-
-#### 06. Write Custom Userdata
-````sh
-wget -O- https://git.io/fjl6z | bash
-lxc exec maasctl -- /bin/bash -c "mkdir /root/bak ; cp /etc/maas/preseeds/curtin_userdata /root/bak/"
-lxc file push /tmp/curtin_userdata maasctl/etc/maas/preseeds/curtin_userdata
-````
+#### 06. Reboot and confirm MAAS WebUI & MAAS Region+Rack controller services are all healthy again
+-------
 #### OPTIONAL: Add maas support for the 'external' network bridge
 ````sh
 wget -q -O- https://git.io/fjg66 2>/dev/null | bash
@@ -51,7 +49,6 @@ lxc exec maasctl run_maas_setup
 lxc stop maasctl
 lxc start maasctl
 ````
-
 -------
 ## Next sections
 - [Part 6 MAAS Connect POD on KVM Provider]
