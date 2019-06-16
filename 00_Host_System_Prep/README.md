@@ -13,7 +13,7 @@ ssh-keygen -f ~/.ssh/id_rsa -N ''
 ```
 #### 01. Create CCIO Mini-Stack Profile
 ```sh
-wget https://git.io/fjav3 -qO /tmp/profile && source /tmp/profile
+wget https://git.io/fjaCl -qO /tmp/profile && source /tmp/profile
 ```
 #### 02. Update System && Install helper packages
 ```sh
