@@ -62,7 +62,8 @@ config:
       - [chown, "-R", "${ministack_UNAME}:${ministack_UNAME}", "/home/${ministack_UNAME}"]
       - [rm, "/var/www/html/index.html"]
       - [mkdir, "-p", "/etc/ccio/mini-stack"]
-      - [git, clone, "https://github.com/containercraft/mini-stack.git", "/var/www/html/"]
+      - [git, clone, "https://github.com/containercraft/mini-stack.git", "/var/www/html/mini-stack"]
+      - [ln, "-s", "/var/www/html/mini-stack", "/root/mini-stack"]
       - [echo, "CLOUDINIT-DBG: runcmd 0.0 - cloud-config runcmd complete ... rebooting"]
       - [reboot]
 description: ccio mini-stack cloudctl container profile
