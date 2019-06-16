@@ -1,5 +1,8 @@
 #!/bin/bash
+echo ">   Staging MaasCTL Profile ..."
+
 mac_ETH1_HWADDR="$(echo "maasctl external eth1 ${ministack_SUBNET}" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\:\1\:\2\:\3\:\4\:\5/')"
+
 cat <<EOF >/tmp/lxd-profile-maasctl.yaml
 config:
   boot.autostart: "true"
@@ -95,3 +98,13 @@ devices:
     type: disk
 name: maasctl
 EOF
+
+# Detect && Purge 'maasctl' Profile
+echo ">   Checking for & Removing Pre-Existing MaasCTL Profile ..."
+[[ $(lxc profile show maasctl 2>&1 1>/dev/null ; echo $?) != 0 ]] || lxc profile delete maasctl
+
+# Create && Write Profile
+lxc profile create maasctl
+
+echo ">   Loading MaasCTL Cloud Init Data"
+lxc profile edit maasctl < <(cat /tmp/lxd_profile_maasctl.yaml)

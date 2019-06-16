@@ -95,5 +95,5 @@ echo ">   Checking for & Removing Pre-Existing CloudCTL Profile ..."
 # Create && Write Profile
 lxc profile create cloudctl
 
-echo ">   Loading CloudCTL User Data"
+echo ">   Loading CloudCTL Cloud Init Data"
 lxc profile edit cloudctl < <(cat /tmp/lxd_profile_cloudctl.yaml)
