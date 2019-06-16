@@ -51,7 +51,7 @@ config:
       - [virsh, net-destroy, default]
       - [apt-get, install, "-y", maas, "--install-recommends"]
       - [chsh, -s, /bin/bash, maas]
-      - [wget, -O, /root/login-maas-cli, "https://raw.githubusercontent.com/containercraft/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli"]
+      - [wget, -O, /root/login-maas-cli, "http://${ministack_SUBNET}.3/mini-stack/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli.sh"]
       - [chmod, "+x", "/root/login-maas-cli"]
       - [ln, -f, -s, "/root/login-maas-cli", /usr/bin/login-maas-cli]
       - [su, -l, maas, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
@@ -107,4 +107,4 @@ echo ">   Checking for & Removing Pre-Existing MaasCTL Profile ..."
 lxc profile create maasctl
 
 echo ">   Loading MaasCTL Cloud Init Data"
-lxc profile edit maasctl < <(cat /tmp/lxd_profile_maasctl.yaml)
+lxc profile edit maasctl < <(cat /tmp/lxd-profile-maasctl.yaml)

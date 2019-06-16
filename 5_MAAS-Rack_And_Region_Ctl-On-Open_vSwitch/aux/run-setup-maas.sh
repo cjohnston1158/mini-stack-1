@@ -1,5 +1,5 @@
 source /etc/ccio/mini-stack/profile
-cat <<EOF >/tmp/run_maas_setup
+cat <<EOF >/tmp/run-maas-setup
 #!/bin/bash 
 
 run_maas_login () {
@@ -15,7 +15,7 @@ primary_RACK=\$(maas admin rack-controllers read \
               )
 }
 
-run_maas_setup () {
+run-maas-setup () {
 maas admin maas set-config name=maas_name value=maasctl
 maas admin maas set-config name=upstream_dns value=8.8.8.8
 maas admin maas set-config name=enable_third_party_drivers value=true
@@ -37,10 +37,10 @@ maas admin vlan update external 0 name=external space=external
 
 run_maas_login
 find_maas_rack_id
-run_maas_setup
+run-maas-setup
 
-rm /bin/run_maas_setup
-echo "Finished run_maas_setup at \$(date)"
+rm /bin/run-maas-setup
+echo "Finished run-maas-setup at \$(date)"
 
 #################################################################################
 # WIP
@@ -48,9 +48,9 @@ echo "Finished run_maas_setup at \$(date)"
 #maas admin dnsresource-records update name=mini-stack domain=maas rrdata=${ministack_SUBNET}.2 rrtype=cname ip_addresses=${ministack_SUBNET}.2
 #maas admin devices create hostname=mini-stack domain=maas mac_addresses=02:17:77:61:55:7b ip_addresses=${ministack_SUBNET}.2 ip_address=${ministack_SUBNET}.2
 
-#rm /bin/run_maas_setup
+#rm /bin/run-maas-setup
 EOF
 
-chmod +x /tmp/run_maas_setup
-lxc file push /tmp/run_maas_setup maasctl/bin/run_maas_setup
-lxc exec maasctl run_maas_setup
+chmod +x /tmp/run-maas-setup
+lxc file push /tmp/run-maas-setup maasctl/bin/run-maas-setup
+lxc exec maasctl run-maas-setup
