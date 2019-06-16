@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/bin/bash -x
 ##########################################################################################
 # Stage juju cloud config(s)
 stage_config () {
 
 # Write maas cloud yaml
-cat <<EOF > /tmp/juju/maasctl.yaml
+cat <<EOF > /tmp/maasctl-cloud.yaml
 clouds:
   maasctl:
     type: maas
@@ -13,7 +13,7 @@ clouds:
 EOF
 
 # Write maas cloud credentials yaml
-cat <<EOF > /tmp/juju/credentials-maasctl.yaml
+cat <<EOF > /tmp/maasctl-credentials.yaml
 credentials:
   maasctl:
     admin:
@@ -21,9 +21,15 @@ credentials:
       maas-oauth: ${MAASCTL_API_KEY}
 EOF
 
-chmod 777 -R /tmp/juju
+# Set Permissions Open
+chmod 777 -R /tmp/maasctl*.yaml
 }
 
+##########################################################################################
+# Stage Enroll Script
+stage_enroll () {
+cat <<EOF >/tmp/juju-enroll-maas-provider.sh
+#!/bin/bash
 ##########################################################################################
 # Add cloud from config
 add_clouds () {
@@ -39,9 +45,22 @@ show_clouds () {
 }
 
 ##########################################################################################
+# Run
+run () {
+  add_clouds
+  show_clouds
+}
+
+run
+EOF
+chmod +x /tmp/juju-enroll-maas-provider.sh
+}
+
+##########################################################################################
 load_config () {
-  lxc file push /tmp/maasctl-cloud.yaml
-  lxc file push /tmp/maasctl-credentials.yaml
+  lxc file push /tmp/juju-enroll-maas-provider.sh cloudctl/tmp/
+  lxc file push /tmp/maasctl-cloud.yaml cloudctl/tmp/
+  lxc file push /tmp/maasctl-credentials.yaml cloudctl/tmp/
 }
 
 ##########################################################################################
@@ -54,10 +73,10 @@ load_profile () {
 ##########################################################################################
 # Run
 run () {
+  load_profile
   stage_config
+  stage_enroll
   load_config
-  add_clouds
-  show_clouds
 }
 
 run
