@@ -8,5 +8,6 @@ lxc file edit cloudctl/etc/netplan/50-cloud-init.yaml <(cat <<EOF
       nameservers:
         search: [maas, mini-stack.maas]
         addresses: [${ministack_SUBNET}.10,8.8.8.8]
-EOF)
+EOF
+)
 EOF
