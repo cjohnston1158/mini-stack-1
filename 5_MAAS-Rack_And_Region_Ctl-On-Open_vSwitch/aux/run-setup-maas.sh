@@ -5,8 +5,8 @@ cat <<EOF >/tmp/run-maas-setup
 run_maas_login () {
 login-maas-cli
 login_CODE="$?"
-[[ ${login_CODE} == "0" ]] || echo "Login Failed"
-[[ ${login_CODE} == "0" ]] || exit 1
+[[ \${login_CODE} == "0" ]] || echo "Login Failed"
+[[ \${login_CODE} == "0" ]] || exit 1
 }
 
 find_maas_rack_id () {
@@ -46,7 +46,10 @@ echo "Finished run-maas-setup at \$(date)"
 #maas admin dnsresource-records update name=mini-stack domain=maas rrdata=${ministack_SUBNET}.2 rrtype=cname ip_addresses=${ministack_SUBNET}.2
 #maas admin devices create hostname=mini-stack domain=maas mac_addresses=02:17:77:61:55:7b ip_addresses=${ministack_SUBNET}.2 ip_address=${ministack_SUBNET}.2
 
-#rm /bin/run-maas-setup
+systemctl restart maas-regiond
+sleep 5
+systemctl restart maas-rackd
+rm /bin/run-maas-setup
 EOF
 
 chmod +x /tmp/run-maas-setup
