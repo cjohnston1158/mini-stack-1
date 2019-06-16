@@ -19,8 +19,9 @@ set -x
 
 run_maas_login () {
 login-maas-cli
-[[ $? == "0" ]] || echo "Login Failed"
-[[ $? == "0" ]] || exit 1
+login_CODE="$?"
+[[ ${login_CODE} == "0" ]] || echo "Login Failed"
+[[ ${login_CODE} == "0" ]] || exit 1
 }
 
 find_maas_rack_id () {
@@ -32,9 +33,9 @@ primary_RACK=\$(maas admin rack-controllers read \
 
 run_maas_setup () {
 
-maas admin fabric update 1 name=external
 maas admin spaces create name=external
-maas admin subnet update 1 name=untagged-external
+maas admin fabric update 1 name=external
+maas admin subnet update 1 name=external
 maas admin vlan update external 0 name=external space=external
 
 }

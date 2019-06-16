@@ -4,8 +4,9 @@ cat <<EOF >/tmp/run-maas-setup
 
 run_maas_login () {
 login-maas-cli
-[[ $? == "0" ]] || echo "Login Failed"
-[[ $? == "0" ]] || exit 1
+login_CODE="$?"
+[[ ${login_CODE} == "0" ]] || echo "Login Failed"
+[[ ${login_CODE} == "0" ]] || exit 1
 }
 
 find_maas_rack_id () {
@@ -22,17 +23,14 @@ maas admin maas set-config name=enable_third_party_drivers value=true
 maas admin maas set-config name=disk_erase_with_secure_erase value=false
 maas admin maas set-config name=kernel_opts value='debug console=ttyS0,38400n8 console=tty0 intel_iommu=on iommu=pt kvm_intel.nested=1 net.ifnames=0 biosdevname=0 pci=noaer'
 
-maas admin fabric update 0 name=internal-bridge
 maas admin spaces create name=internal
+maas admin spaces create name=external
+maas admin fabric update 0 name=internal
 maas admin subnet update 1 name=untagged-internal gateway_ip="${ministack_SUBNET}.1" dns_servers="${ministack_SUBNET}.10"
 maas admin ipranges create type=dynamic start_ip=${ministack_SUBNET}.100 end_ip=${ministack_SUBNET}.240
-maas admin vlan update internal-bridge 0 name=internal space=internal
-maas admin vlan update internal-bridge untagged dhcp_on=True primary_rack=\${primary_RACK}
+maas admin vlan update internal 0 name=internal space=internal
+maas admin vlan update internal untagged dhcp_on=True primary_rack=\${primary_RACK}
 
-maas admin fabric update 1 name=external
-maas admin spaces create name=external
-maas admin subnet update 1 name=untagged-external
-maas admin vlan update external 0 name=external space=external
 }
 
 run_maas_login
