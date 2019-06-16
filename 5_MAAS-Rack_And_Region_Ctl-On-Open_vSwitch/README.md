@@ -15,7 +15,7 @@ Prerequisites:
 #### 01. Create maas container profile
 ````sh
 lxc profile create maasctl
-wget -O- https://git.io/fjlof 2>/dev/null | bash
+wget -qO- http://${ministack_SUBNET}.3/mini-stack/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/build-lxd-profile-maasctl.sh | bash
 lxc profile edit maasctl </tmp/lxd-profile-maasctl.yaml
 ````
 #### 02. Create 'maasctl' Ubuntu Bionic LXD Container
