@@ -13,3 +13,8 @@ virsh console $new_vm_id
 ```
 NOTE: Use key conbination "Ctrl+Shift+]" to exit virsh console
 
+# cloudctl gateway/dns settings
+        gateway4: ${ministack_SUBNET}.1
+        nameservers:
+          addresses: [ ${ministack_SUBNET}.10 ]
+          search: [ maas ]

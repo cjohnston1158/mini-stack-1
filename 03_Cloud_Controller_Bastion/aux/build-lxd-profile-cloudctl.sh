@@ -13,10 +13,6 @@ config:
         dhcp4: false
         dhcp6: false
         addresses: [ ${ministack_SUBNET}.3/24 ]
-        gateway4: ${ministack_SUBNET}.1
-        nameservers:
-          addresses: [ ${ministack_SUBNET}.10 ]
-          search: [ maas ]
   user.user-data: |
     #cloud-config
     package_upgrade: true
