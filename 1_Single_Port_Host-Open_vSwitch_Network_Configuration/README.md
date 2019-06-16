@@ -87,7 +87,7 @@ network:
 EOF
 
 ````
-#### 07. Write OVS 'internal' bridge port 'mgmt1' netplan config
+#### 07. Write mgmt1 interface netplan config
 ````sh
 cat <<EOF > /etc/netplan/80-mgmt1.yaml
 # Configure mgmt1 on 'internal' bridge
