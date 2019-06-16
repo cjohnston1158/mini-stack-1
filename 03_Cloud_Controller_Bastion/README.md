@@ -30,6 +30,12 @@ lxc exec cloudctl -- /bin/bash -c "cat /home/${ministack_UNAME}/.ssh/id_rsa.pub"
 ````sh
 lxc exec cloudctl -- passwd ${ministack_UNAME}
 ````
+#### 05. Load CCIO Mini Stack Profile
+````sh
+lxc file push /etc/ccio/mini-stack/profile cloudctl/etc/ccio/mini-stack/
+lxc exec cloudctl -- /bin/bash -c 'echo "source /etc/ccio/mini-stack/profile" >>/root/.bashrc'
+lxc exec cloudctl -- /bin/bash -c 'echo "source /etc/ccio/mini-stack/profile" >>/home/${ministack_UNAME}/.bashrc'
+````
 -------
 ## OPTIONAL: Install Ubuntu Desktop & RDP for Remote GUI Control
 #### OPT 01. Launch LXD Ubuntu Desktop Environment + xRDP Setup Script

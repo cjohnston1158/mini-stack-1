@@ -44,7 +44,7 @@ cat <<EOF >> /etc/netplan/80-mgmt1.yaml
 EOF
 ````
 ````sh
-sed -i -e :a -e '$d;N;2,5ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
+sed -i -e :a -e '$d;N;2,4ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
 ````
 #### 06. Reload host network configuration
 ````sh
