@@ -26,7 +26,7 @@ lxc profile device set openwrt eth0 parent external
 #### 06. Launch Gateway
 ````sh
 lxc launch bcio:openwrt gateway -p openwrt
-lxc exec gateway -- /bin/bash -c "sed -i 's/192.168.1/${ministack_SUBNET}/g' /etc/config/networks"
+lxc exec gateway -- /bin/bash -c "sed -i 's/192.168.1/${ministack_SUBNET}/g' /etc/config/network"
 lxc restart gateway
 ````
   - NOTE: use `watch -c lxc list` to monitor and ensure you get both internal & external IP's on the gateway
