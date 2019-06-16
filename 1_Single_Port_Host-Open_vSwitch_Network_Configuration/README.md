@@ -22,7 +22,7 @@ WARNING: Exercise caution when performing this procedure remotely as this may ca
 apt install -y openvswitch-switch
 ```
 #### 02. Write physical network ingress port Networkd Config [EG: 'eth0']
-NOTE: export name of nic device your primary host network traffic will traverse (EG: 'eth0' in this example)
+  - NOTE: export name of nic device your primary host network traffic will traverse (EG: 'eth0' in this example)
 ```sh
 export external_NIC="eth0"
 ```
