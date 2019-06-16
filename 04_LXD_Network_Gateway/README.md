@@ -18,10 +18,9 @@ lxc remote add bcio https://images.braincraft.io --public --accept-certificate
 ````sh
 lxc profile copy original openwrt
 lxc profile set openwrt security.privileged true
-lxc profile device set openwrt eth0 parent external
-lxc profile device add openwrt eth1 nic nictype=bridged parent=internal
 lxc profile device set openwrt eth0 nictype bridged
 lxc profile device set openwrt eth0 parent external
+lxc profile device add openwrt eth1 nic nictype=bridged parent=internal
 ````
 #### 03. Launch Gateway
 ````sh
