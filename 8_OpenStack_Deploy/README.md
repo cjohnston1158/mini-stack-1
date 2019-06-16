@@ -17,18 +17,18 @@ Prerequisites:
 #### 01. Virt-Install new vm's (on host)
 NOTE: sane defaults set in script hardware profile section, adjust if required
 ```
-wget -O /tmp/virt-inst-stack-nodes.sh https://git.io/fjcjp
+wget -qO /tmp/virt-inst-stack-nodes.sh http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/virt-inst-stack-nodes.sh
 source /tmp/virt-inst-stack-nodes.sh
 ```
 
 #### 02. Discover new KVM VIrtual Machines via PODS Refresh  (on host)
 ```
-lxc exec maasctl -- /bin/bash -c "wget -O- https://git.io/fjCef 2>/dev/null | bash"
+lxc exec maasctl -- /bin/bash -c "wget -qO- http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/maas-import-nodes | bash"
 ```
 
 #### 03. Tag new mini-stack nodes (on host)
 ```
-lxc exec maasctl -- /bin/bash -c "wget -O- https://git.io/fjCe3 2>/dev/null | bash"
+lxc exec maasctl -- /bin/bash -c "wget -qO- http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/maas-tag-nodes | bash"
 ```
 
 #### 04. Create Juju Model (on cloudctl)
@@ -41,7 +41,7 @@ for n in 01 02 03; do juju add-machine --constraints tags=mini-stack; done
 ```
 #### 06. Deploy OpenStack from Juju Bundle YAML File (on cloudctl)
 ```sh
-wget -O- https://git.io/fjlzW | bash
+wget -qO- http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/stein-ccio-openstack-juju-bundle.yaml | bash
 juju deploy /tmp/mini-stack-openstack-bundle.yaml --map-machines=existing --verbose --debug
 ```
 #### 07. Monitor Deploy (on cloudctl)
