@@ -53,4 +53,5 @@ EOF
 
 chmod +x /tmp/run-maas-setup
 lxc file push /tmp/run-maas-setup maasctl/bin/run-maas-setup
+lxc snapshot maasctl pre-run-setup
 lxc exec maasctl run-maas-setup
