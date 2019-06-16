@@ -137,7 +137,7 @@ EOF
 
 ````
 ````sh
-source /tmp/external-mgmt0-setup && reboot
+source /tmp/external-mgmt0-setup
 ````
 #### 10. Build OVS Bridge external, port mgmt1, and apply configuration
 ````sh
@@ -153,7 +153,7 @@ EOF
 
 ````
 ````sh
-source /tmp/internal-mgmt1-setup && reboot
+source /tmp/internal-mgmt1-setup
 ````
 
 -------
