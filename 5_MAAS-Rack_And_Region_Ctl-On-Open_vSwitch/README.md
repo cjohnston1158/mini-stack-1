@@ -44,7 +44,7 @@ lxc file push /tmp/curtin_userdata maasctl/etc/maas/preseeds/curtin_userdata
 -------
 #### OPTIONAL: Add maas support for the 'external' network bridge
 ````sh
-wget -q -O- https://git.io/fjg66 2>/dev/null | bash
+wget -qO- http://${ministack_SUBNET}.3/mini-stack/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/maas-add-external.sh | bash
 lxc exec maasctl run_maas_setup
 lxc stop maasctl
 lxc start maasctl
