@@ -36,7 +36,7 @@ lxc exec maasctl -- /bin/bash -c "wget -qO- http://${ministack_SUBNET}.3/mini-st
 #### 00. Enroll Juju MAAS Cloud Provider
 ```sh
 wget -qO- http://10.9.8.3/mini-stack/8_OpenStack_Deploy/aux/add-maas-cloud-provider.sh | bash
-lxc exec cloudctl -- /bin/bash -c 'source /tmp/juju-enroll-maas-provider.sh'
+lxc exec cloudctl -- su -l ${ministack_uname} -c 'source /tmp/juju-enroll-maas-provider.sh'
 ```
 #### 04. Create Juju Model (on cloudctl)
 ```sh

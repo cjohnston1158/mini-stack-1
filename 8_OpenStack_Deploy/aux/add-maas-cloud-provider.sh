@@ -53,7 +53,7 @@ run () {
 
 run
 EOF
-chmod +x /tmp/juju-enroll-maas-provider.sh
+chmod 777 /tmp/juju-enroll-maas-provider.sh
 }
 
 ##########################################################################################
