@@ -28,7 +28,7 @@ wget -qO- http://${ministack_SUBNET}.3/mini-stack/5_MAAS-Rack_And_Region_Ctl-On-
 ````
 #### 04. Write Custom Userdata
 ````sh
-wget -O- https://git.io/fjl6z | bash
+wget -qO- http://${ministack_SUBNET}.3/mini-stack/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/build-maas-curtin-userdata.sh | bash
 lxc exec maasctl -- /bin/bash -c "mkdir /root/bak ; cp /etc/maas/preseeds/curtin_userdata /root/bak/"
 lxc file push /tmp/curtin_userdata maasctl/etc/maas/preseeds/curtin_userdata
 ````
