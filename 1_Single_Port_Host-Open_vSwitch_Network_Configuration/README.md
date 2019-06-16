@@ -119,7 +119,7 @@ EOF
 ````sh
 chmod +x /usr/bin/ovs-clear && ovs-clear
 ````
-#### 09. Build OVS Bridge, mgmt0 port, and apply configuration
+#### 09. Build OVS Bridge external, port mgmt0, and apply configuration
 ````sh
 cat <<EOF >/tmp/external-mgmt0-setup
 net_restart () {
@@ -139,7 +139,7 @@ EOF
 ````sh
 source /tmp/external-mgmt0-setup && reboot
 ````
-#### 10. Build Bridge & mgmt1 interface
+#### 10. Build OVS Bridge external, port mgmt1, and apply configuration
 ````sh
 cat <<EOF >/tmp/internal-mgmt1-setup
 ovs-vsctl \
