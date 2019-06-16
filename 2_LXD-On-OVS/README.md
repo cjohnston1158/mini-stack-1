@@ -47,16 +47,16 @@ usermod -aG lxd ${ministack_UNAME}
 ````sh
 lxc profile copy default original
 ````
-#### 05. Add 'lxc' command alias 'ubuntu'/'(your username)' to auto login to containers as user 'ubuntu'
+#### 05. Add User-Data
+````sh
+wget https://git.io/fjav6 -qO /tmp/build-profile-lxd-default && source /tmp/build-profile-lxd-default
+````
+#### 06. Add 'lxc' command alias 'ubuntu'/'(your username)' to auto login to containers as user 'ubuntu'
 ````sh
 sed -i 's/aliases: {}/aliases:\n  ubuntu: exec @ARGS@ -- sudo --login --user ubuntu/g' ~/.config/lxc/config.yml
 echo "  ${ministack_UNAME}: exec @ARGS@ -- sudo --login --user ${ministack_UNAME}" >> ~/.config/lxc/config.yml
 ````
-#### 06. Add User-Data
-````sh
-wget https://git.io/fjav6 -qO /tmp/build-profile-lxd-default && source /tmp/build-profile-lxd-default
-````
-#### 10. Test Launch New Container
+#### 07. Test Launch New Container
 ````sh
 lxc launch ubuntu:bionic c01
 lxc ${ministack_UNAME} c01
