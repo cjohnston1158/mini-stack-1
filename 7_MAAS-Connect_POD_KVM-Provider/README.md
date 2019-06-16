@@ -25,15 +25,6 @@ lxc exec maasctl -- su -l maas /bin/bash -c "virsh -c qemu+ssh://root@${ministac
 ````sh
 lxc exec maasctl -- /bin/bash -c "maas admin pods create type=virsh name=master.mini-stack.maas power_address=qemu+ssh://root@${ministack_SUBNET}.2/system cpu_over_commit_ratio=10 memory_over_commit_ratio=10"
 ````
-
-#### 03. Test create new VM in your virsh pod:
-```sh
-lxc exec maasctl -- /bin/bash -c 'maas admin pod compose 1 cores=2 memory=2048 "storage=root:32(default)"'
-virsh list --all
-virsh console $new_vm_id
-```
-NOTE: Use key conbination "Ctrl+Shift+]" to exit virsh console
-
 -------
 ## Next sections
 - [Part 7 Juju MAAS Cloud]

@@ -5,3 +5,11 @@
 #maas admin dnsresource-records update name=mini-stack domain=maas rrdata=${ministack_SUBNET}.2 rrtype=cname ip_addresses=${ministack_SUBNET}.2
 #maas admin devices create hostname=mini-stack domain=maas mac_addresses=02:17:77:61:55:7b ip_addresses=${ministack_SUBNET}.2 ip_address=${ministack_SUBNET}.2
 
+#### 03. Test create new VM in your virsh pod:
+```sh
+lxc exec maasctl -- /bin/bash -c 'maas admin pod compose 1 cores=2 memory=2048 "storage=root:32(default)"'
+virsh list --all
+virsh console $new_vm_id
+```
+NOTE: Use key conbination "Ctrl+Shift+]" to exit virsh console
+
