@@ -51,11 +51,23 @@ LinkLocalAddressing=no
 EOF
 
 ```
+#### 04. Write OVS bridge 'internal' Networkd Config
+````sh
+cat <<EOF >/etc/systemd/network/internal.network                                                    
+[Match]
+Name=internal
 
-#### 04. Disable original Netplan Config & Write mgmt0 interface netplan config
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+````
+#### 05. Disable original Netplan Config
 ````sh
 for yaml in $(ls /etc/netplan/); do sed -i 's/^/#/g' /etc/netplan/${yaml}; done
 ````
+#### 06. Write mgmt0 interface netplan config
 ````sh
 cat <<EOF >/etc/netplan/80-mgmt0.yaml
 # For more configuration examples, see: https://netplan.io/examples                                                   
@@ -75,7 +87,24 @@ network:
 EOF
 
 ````
-#### 05. Add OVS Orphan Port Cleaning Utility
+#### 07. Write OVS 'internal' bridge port 'mgmt1' netplan config
+````sh
+cat <<EOF > /etc/netplan/80-mgmt1.yaml
+# Configure mgmt1 on 'internal' bridge
+# For more configuration examples, see: https://netplan.io/examples
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    mgmt1:
+      optional: true
+      dhcp4: false
+      dhcp6: false
+      addresses:
+        - ${ministack_SUBNET}.2/24
+EOF
+````
+#### 08. Add OVS Orphan Port Cleaning Utility
 NOTE: Use command `ovs-clear` to remove orphaned 'not found' ports as needed
 ````sh
 cat <<EOF >/usr/bin/ovs-clear
@@ -90,11 +119,10 @@ EOF
 ````sh
 chmod +x /usr/bin/ovs-clear && ovs-clear
 ````
-#### 06. Build OVS Bridge, mgmt0 port, and apply configuration
+#### 09. Build OVS Bridge, mgmt0 port, and apply configuration
 ````sh
-cat <<EOF >/tmp/net_restart.sh
+cat <<EOF >/tmp/external-mgmt0-setup
 net_restart () {
-
 ovs-vsctl \
   add-br external -- \
   add-port external ${external_NIC} -- \
@@ -109,9 +137,25 @@ EOF
 
 ````
 ````sh
-source /tmp/net_restart.sh && reboot
+source /tmp/external-mgmt0-setup && reboot
+````
+#### 10. Build Bridge & mgmt1 interface
+````sh
+cat <<EOF >/tmp/internal-mgmt1-setup
+ovs-vsctl \
+  add-br internal -- \
+  add-port internal mgmt1 -- \
+  set interface mgmt1 type=internal -- \
+  set interface mgmt1 mac="$(echo "$HOSTNAME internal mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
+systemctl restart systemd-networkd.service && netplan apply --debug
+ovs-clear
+EOF
 
 ````
+````sh
+source /tmp/internal-mgmt1-setup && reboot
+````
+
 -------
 ## Next sections
 - [Part 2 LXD On Open vSwitch Network]

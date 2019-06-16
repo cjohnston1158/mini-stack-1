@@ -56,53 +56,6 @@ echo "  ${ministack_UNAME}: exec @ARGS@ -- sudo --login --user ${ministack_UNAME
 ````sh
 wget https://git.io/fjav6 -qO /tmp/build-profile-lxd-default && source /tmp/build-profile-lxd-default
 ````
-#### 07. Write OVS bridge 'internal' Networkd Configuration
-````sh
-cat <<EOF >/etc/systemd/network/internal.network                                                    
-[Match]
-Name=internal
-
-[Network]
-DHCP=no
-IPv6AcceptRA=no
-LinkLocalAddressing=no
-EOF
-````
-#### 08. Write OVS 'internal' bridge port 'mgmt1' netplan config
-````sh
-cat <<EOF > /etc/netplan/80-mgmt1.yaml
-# Configure mgmt1 on 'internal' bridge
-# For more configuration examples, see: https://netplan.io/examples
-network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    mgmt1:
-      optional: true
-      dhcp4: false
-      dhcp6: false
-      addresses:
-        - ${ministack_SUBNET}.2/24
-EOF
-````
-#### 09. Build Bridge & mgmt1 interface
-````sh
-cat <<EOF >/tmp/internal-mgmt1-config
-ovs-vsctl \
-  add-br internal -- \
-  add-port internal mgmt1 -- \
-  set interface mgmt1 type=internal -- \
-  set interface mgmt1 mac="$(echo "$HOSTNAME internal mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
-ovs-vsctl show
-EOF
-````
-````sh
-source /tmp/internal-mgmt1-config
-````
-#### 09. Reload host network configuration
-````sh
-systemctl restart systemd-networkd.service && netplan apply --debug
-````
 #### 10. Test Launch New Container
 ````sh
 lxc launch ubuntu:bionic c01
