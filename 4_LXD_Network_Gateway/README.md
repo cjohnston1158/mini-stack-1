@@ -42,6 +42,7 @@ cat <<EOF >> /etc/netplan/80-mgmt1.yaml
       nameservers:
         search: [maas]
         addresses: [${ministack_SUBNET}.10,8.8.8.8]
+EOF
 ````
 ````sh
 sed -i -e :a -e '$d;N;2,4ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
