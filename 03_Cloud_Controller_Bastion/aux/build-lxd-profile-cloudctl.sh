@@ -1,5 +1,5 @@
 echo ">   Staging Cloudctl Profile ..."
-cat <<EOF >/tmp/lxd_profile_cloudctl.yaml
+cat <<EOF >/tmp/lxd-profile-cloudctl.yaml
 config:
   security.nesting: "true"
   security.privileged: "true"
@@ -96,4 +96,4 @@ echo ">   Checking for & Removing Pre-Existing CloudCTL Profile ..."
 lxc profile create cloudctl
 
 echo ">   Loading CloudCTL Cloud Init Data"
-lxc profile edit cloudctl < <(cat /tmp/lxd_profile_cloudctl.yaml)
+lxc profile edit cloudctl < <(cat /tmp/lxd-profile-cloudctl.yaml)
