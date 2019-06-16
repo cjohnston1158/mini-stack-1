@@ -26,7 +26,7 @@ source /tmp/virt-inst-stack-nodes
 
 #### 02. Discover new KVM VIrtual Machines via PODS Refresh  (on host)
 ```
-lxc exec maasctl -- /bin/bash -c "wget -qO- http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/maas-import-nodes | bash"
+lxc exec maasctl -- import-nodes-maas
 ```
 
 #### 03. Tag new mini-stack nodes (on host)
