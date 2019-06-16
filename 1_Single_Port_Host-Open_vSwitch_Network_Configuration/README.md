@@ -111,7 +111,7 @@ cat <<EOF >/usr/bin/ovs-clear
 #!/bin/bash
 # ovs-clear - This script will search and destroy orphaned ovs port
 for i in \$(ovs-vsctl show | awk '/error: /{print \$7}'); do
-    ovs-vsctl del-port $i;
+    ovs-vsctl del-port \$i;
 done
 clear && ovs-vsctl show
 EOF
