@@ -2,10 +2,10 @@
 
 #################################################################################
 # Hardware Profile
-vm_CPU=4
-osd_DISK=32    # in Gigabytes
-root_DISK=32   # in Gigabytes
-vm_RAM=10240   # in Megabytes
+vm_CPU=8
+osd_DISK=48    # in Gigabytes
+root_DISK=64   # in Gigabytes
+vm_RAM=16448   # in Megabytes
 vm_COUNT=03    # Set VM spawn count
 storage_POOL="/var/lib/libvirt/images"
 name_BASE="mini-stack"
@@ -32,9 +32,9 @@ virt-install \
     --network network=internal,model=virtio,mac=${eth0_HWADDRESS} \
     --network network=internal,model=virtio,mac=${eth1_HWADDRESS} \
     --network network=internal,model=virtio,mac=${eth2_HWADDRESS} \
-    --disk path=${storage_POOL}/${name_FULL}_vda.qcow2,format=raw,bus=virtio,cache=unsafe,size=32 \
-    --disk path=${storage_POOL}/${name_FULL}_vdb.qcow2,format=raw,bus=virtio,cache=unsafe,size=32 \
-    --disk path=${storage_POOL}/${name_FULL}_vdc.qcow2,format=raw,bus=virtio,cache=unsafe,size=32
+    --disk path=${storage_POOL}/${name_FULL}_vda.qcow2,format=raw,bus=virtio,cache=unsafe,size=${root_DISK} \
+    --disk path=${storage_POOL}/${name_FULL}_vdb.qcow2,format=raw,bus=virtio,cache=unsafe,size=${osd_DISK} \
+    --disk path=${storage_POOL}/${name_FULL}_vdc.qcow2,format=raw,bus=virtio,cache=unsafe,size=${osd_DISK}
 
 # Prevent the VM from pxe booting to autodiscovery in maas
 sleep 1 && virsh destroy ${name_FULL}
