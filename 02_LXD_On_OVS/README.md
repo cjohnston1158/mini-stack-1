@@ -49,7 +49,7 @@ lxc profile copy default original
 ````
 #### 05. Add User-Data
 ````sh
-wget https://git.io/fjav6 -qO /tmp/build-profile-lxd-default && source /tmp/build-profile-lxd-default
+wget https://git.io/fjaWk -qO /tmp/build-profile-lxd-default && source /tmp/build-profile-lxd-default
 ````
 #### 06. Add 'lxc' command alias 'ubuntu'/'(your username)' to auto login to containers as user 'ubuntu'
 ````sh
