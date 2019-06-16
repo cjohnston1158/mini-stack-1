@@ -31,7 +31,7 @@ lxc restart gateway
   - NOTE: use `watch -c lxc list` to monitor and ensure you get both internal & external IP's on the gateway
 #### 04. Apply CCIO Configuration + http squid cache proxy
 ````sh
-wget -qO- http://10.9.8.3/mini-stack/4_LXD_Network_Gateway/aux/bin/run-gateway-config | bash
+wget -qO- http://${ministack_SUBNET}.3/mini-stack/4_LXD_Network_Gateway/aux/bin/run-gateway-config | bash
 ````
   - WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
 #### 05. Move Default route & DNS from mgmt0 to mgmt1 iface
