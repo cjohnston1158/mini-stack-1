@@ -14,8 +14,9 @@ fi
 apt_ACCESS=$(apt-get update | echo $?)
 [[ ${apt_ACCESS} != 0 ]] && run_log 1 "unable to reach ubuntu repo; exiting!"
 apt-get upgrade -y
-apt-get install -qq -y p7zip-full tasksel
+apt-get install -qq p7zip-full tasksel
 tasksel install ubuntu-desktop
+apt-get install -qq virt-manager
 [[ $? != 0 ]] && run_log 1 "tasksel install failed!; exiting!"
 
 
