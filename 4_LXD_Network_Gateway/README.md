@@ -14,7 +14,7 @@ Prerequisites:
 ````sh
 lxc remote add bcio https://images.braincraft.io --public --accept-certificate
 ````
-#### 05. Create OpenWRT LXD Profile
+#### 02. Create OpenWRT LXD Profile
 ````sh
 lxc profile copy original openwrt
 lxc profile set openwrt security.privileged true
@@ -23,50 +23,48 @@ lxc profile device add openwrt eth1 nic nictype=bridged parent=internal
 lxc profile device set openwrt eth0 nictype bridged
 lxc profile device set openwrt eth0 parent external
 ````
-#### 06. Launch Gateway
+#### 03. Launch Gateway
 ````sh
 lxc launch bcio:openwrt gateway -p openwrt
 lxc exec gateway -- /bin/bash -c "sed -i 's/192.168.1/${ministack_SUBNET}/g' /etc/config/network"
 lxc restart gateway
 ````
   - NOTE: use `watch -c lxc list` to monitor and ensure you get both internal & external IP's on the gateway
-#### 07. Apply CCIO Configuration + http squid cache proxy
+#### 04. Apply CCIO Configuration + http squid cache proxy
 ````sh
 wget -qO- http://10.9.8.3/mini-stack/4_LXD_Network_Gateway/aux/bin/run-gateway-config | bash
 ````
   - WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
-#### 07. Move Default route & DNS from mgmt0 to mgmt1 iface
+#### 05. Move Default route & DNS from mgmt0 to mgmt1 iface
 ````sh
 cat <<EOF >> /etc/netplan/80-mgmt1.yaml
       gateway4: ${ministack_SUBNET}.1
       nameservers:
-        search: [maas]
+        search: [maas, mini-stack.maas]
         addresses: [${ministack_SUBNET}.10,8.8.8.8]
 EOF
 ````
 ````sh
-sed -i -e :a -e '$d;N;2,4ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
-netplan apply
+sed -i -e :a -e '$d;N;2,5ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
 ````
-#### 08. Reload host network configuration
+#### 06. Reload host network configuration
 ````sh
 systemctl restart systemd-networkd.service && netplan apply --debug
+````
+#### 07. Copy LXD 'default' profile to 'external'
+````sh
+lxc profile copy default external
+````
+#### 08. Set LXD 'default' profile to use the 'internal' network
+````sh
+lxc profile device set default eth0 parent internal
 ````
 #### 09. Reboot Host
 ````sh
 reboot
 ````
-#### 11. Test OpenWRT WebUI Login on 'external' IP Address    
+#### 10. Test OpenWRT WebUI Login on 'external' IP Address    
   - CREDENTIALS: [USER:PASS] [root:admin] -- [http://gateway_external_ip_addr:8080/](http://gateway_external_ip_addr:8080/)
-
-#### 12. Copy LXD 'default' profile to 'external'
-````sh
-lxc profile copy default external
-````
-#### 13. Set LXD 'default' profile to use the 'internal' network
-````sh
-lxc profile device set default eth0 parent internal
-````
 
 -------
 #### OPTIONAL: Enable your new 'internal' network on a physical port. (EG: eth1)
