@@ -14,11 +14,14 @@ Prerequisites:
 ![CCIO Hypervisor - OpenStack Prep](web/drawio/OpenStack-Prep.svg)
 
 -------
-#### 01. Virt-Install new vm's (on host)
-NOTE: sane defaults set in script hardware profile section, adjust if required
+#### 0O. Virt-Install new vm's (on host)
 ```
-wget -qO /tmp/virt-inst-stack-nodes.sh http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/virt-inst-stack-nodes.sh
-source /tmp/virt-inst-stack-nodes.sh
+wget -qO /tmp/virt-inst-stack-nodes http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/virt-inst-stack-nodes.sh
+```
+  - NOTE: Defaults set in script hardware profile section should be adjusted as required in /tmp/virt-inst-stack-nodes
+#### 01. Virt-Install new vm's (on host)
+```
+source /tmp/virt-inst-stack-nodes
 ```
 
 #### 02. Discover new KVM VIrtual Machines via PODS Refresh  (on host)
