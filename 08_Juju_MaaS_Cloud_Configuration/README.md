@@ -41,6 +41,7 @@ juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --const
 #### 06. Create Juju Model (on cloudctl)
 ````sh
 juju add-model mini-stack
+exit
 ````
 -------
 ## Next sections
