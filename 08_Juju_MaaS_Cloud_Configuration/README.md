@@ -20,11 +20,6 @@ Prerequisites:
 wget -qO- http://${ministack_SUBNET}.3/mini-stack/08_Juju_MaaS_Cloud_Configuration/aux/add-maas-cloud-provider.sh | bash
 lxc exec cloudctl -- su -l ${ministack_uname} -c 'source /tmp/juju-enroll-maas-provider.sh'
 ````
-#### 02. Test Cloud & Credentials
-````sh
-lxc exec cloudctl -- su -l ${ministack_USER} -c "juju clouds"
-lxc exec cloudctl -- su -l ${ministack_USER} -c "juju credentials"
-````
 #### 04. Import JujuCTL as MaaS Node
 ````sh
 lxc exec maasctl -- login-maas-cli

@@ -33,15 +33,15 @@ cat <<EOF >/tmp/juju-enroll-maas-provider.sh
 ##########################################################################################
 # Add cloud from config
 add_clouds () {
-  su -l ${ministack_UNAME} -c juju add-cloud maasctl /tmp/maasctl-cloud.yaml
-  su -l ${ministack_UNAME} -c juju add-credential maasctl -f /tmp/maasctl-credentials.yaml
+  su -l ${ministack_UNAME} -c 'juju add-cloud maasctl /tmp/maasctl-cloud.yaml'
+  su -l ${ministack_UNAME} -c 'juju add-credential maasctl -f /tmp/maasctl-credentials.yaml'
 }
 
 ##########################################################################################
 # Add cloud from config
 show_clouds () {
-  juju clouds
-  juju credentials
+  su -l ${ministack_UNAME} -c 'juju clouds'
+  su -l ${ministack_UNAME} -c 'juju credentials'
 }
 
 ##########################################################################################
