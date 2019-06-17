@@ -51,7 +51,7 @@ config:
       - [virsh, net-destroy, default]
       - [apt-get, install, "-y", maas, "--install-recommends"]
       - [chsh, -s, /bin/bash, maas]
-      - [wget", "-qO", "/root/import-nodes-maas", "http://${ministack_SUBNET}.3/mini-stack/05_MAAS_Region_And_Rack_Controller/aux/import-nodes-maas"]
+      - [wget", "-qO", "/root/import-nodes-maas", "http://${ministack_SUBNET}.3/mini-stack/05_MAAS_Region_And_Rack_Controller/aux/maas-nodes-discover"]
       - [chmod, "+x", "/root/import-nodes-maas"]
       - [ln, -f, -s, "/root/import-nodes-maas", /usr/bin/import-nodes-maas]
       - ["wget", "-qO", "/root/login-maas-cli", "http://${ministack_SUBNET}.3/mini-stack/05_MAAS_Region_And_Rack_Controller/aux/login-maas-cli.sh"]
