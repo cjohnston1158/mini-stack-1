@@ -37,7 +37,6 @@ lxc exec maasctl -- /bin/bash -c "wget -qO- http://${ministack_SUBNET}.3/mini-st
 ````sh
 lxc ${ministack_UNAME} cloudctl
 juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "tags=jujuctl" maasctl jujuctl
-exit
 ````
 #### 06. Create Juju Model (on cloudctl)
 ````sh
