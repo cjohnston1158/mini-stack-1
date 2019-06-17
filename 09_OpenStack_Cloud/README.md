@@ -26,7 +26,7 @@ source /tmp/virt-inst-stack-nodes
 
 #### 02. Discover new KVM VIrtual Machines via PODS Refresh  (on host)
 ```
-lxc exec maasctl -- import-nodes-maas
+lxc exec maasctl -- maas-nodes-discover
 ```
 
 #### 03. Tag new mini-stack nodes (on host)
