@@ -31,7 +31,7 @@ lxc exec maasctl -- maas-nodes-discover
 ````
 #### 04. Tag JujuCtl Libvirt VM
 ````sh
-wget -qO- http://${ministack_SUBNET}.3/mini-stack/08_Juju_MaaS_Cloud_Configuration/aux/maas-tag-nodes.sh | bash
+lxc exec maasctl -- /bin/bash -c "wget -qO- http://${ministack_SUBNET}.3/mini-stack/08_Juju_MaaS_Cloud_Configuration/aux/maas-tag-nodes.sh | bash"
 ````
 #### 05. Bootstrap Juju Controller
 ````sh
