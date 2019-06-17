@@ -40,7 +40,7 @@ for n in 01 02 03; do juju add-machine --constraints tags=mini-stack; done
 ```
 #### 06. Deploy OpenStack from Juju Bundle YAML File (on cloudctl)
 ```sh
-wget -qO- http://${ministack_SUBNET}.3/mini-stack/09_OpenStack_Cloud/aux/stein-ccio-openstack-juju-bundle.yaml | bash
+wget -qO- http://${ministack_SUBNET}.3/mini-stack/aux/build-stein-ccio-openstack-juju-bundle.sh | bash
 juju deploy /tmp/mini-stack-openstack-bundle.yaml --map-machines=existing --verbose --debug
 ```
 #### 07. Monitor Deploy (on cloudctl)
