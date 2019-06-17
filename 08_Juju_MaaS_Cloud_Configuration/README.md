@@ -35,7 +35,7 @@ lxc exec maasctl -- /bin/bash -c "wget -qO- http://${ministack_SUBNET}.3/mini-st
 ````
 #### 05. Bootstrap Juju Controller
 ````sh
-lxc ${ministack_SUBNET} cloudctl
+lxc ${ministack_UNAME} cloudctl
 juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "tags=jujuctl" maasctl jujuctl
 exit
 ````
