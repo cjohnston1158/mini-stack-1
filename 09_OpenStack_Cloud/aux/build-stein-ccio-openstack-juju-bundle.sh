@@ -1,4 +1,6 @@
-﻿cat <<EOF >/tmp/stein-ccio-openstack-bundle.yaml
+﻿#!/bin/bash
+source /etc/ccio/mini-stack/profile
+cat <<EOFEOF >/tmp/stein-ccio-openstack-bundle.yaml
 series: bionic
 variables:
   data-port: br-ex:ens4
@@ -372,4 +374,4 @@ relations:
   - ceph-mon:radosgw
 - - ceph-radosgw:identity-service
   - keystone:identity-service
-EOF
+EOFEOF
