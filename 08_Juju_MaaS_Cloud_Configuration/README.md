@@ -42,7 +42,7 @@ wget -qO- http://${ministack_SUBNET}.3/mini-stack/08_Juju_MaaS_Cloud_Configurati
 ````sh
 lxc exec cloudctl -- su -l ${ministack_USER} -c 'juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "tags=jujuctl" maasctl jujuctl'
 ````
-#### 02. Create Juju Model (on cloudctl)
+#### 06. Create Juju Model (on cloudctl)
 ````sh
 lxc exec cloudctl -- su -l ${ministack_USER} -c 'juju add-model mini-stack'
 ````
