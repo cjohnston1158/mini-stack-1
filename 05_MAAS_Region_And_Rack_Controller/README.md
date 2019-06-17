@@ -24,11 +24,12 @@ lxc exec maasctl -- tail -f /var/log/cloud-init-output.log
   - NOTE: Build time is dependent on hardware & network specs, monitor logs until build is complete
 #### 03. Run MAAS Setup
 ````sh
-wget -qO- http://${ministack_SUBNET}.3/mini-stack/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/run-setup-maas.sh | bash
+wget -qO-
+http://${ministack_SUBNET}.3/mini-stack/05_MAAS_Region_And_Rack_Controller/aux/run-setup-maas.sh | bash
 ````
 #### 04. Write Custom Userdata
 ````sh
-wget -qO- http://${ministack_SUBNET}.3/mini-stack/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/build-maas-curtin-userdata.sh | bash
+wget -qO- http://${ministack_SUBNET}.3/mini-stack/05_MAAS_Region_And_Rack_Controller/aux/build-maas-curtin-userdata.sh | bash
 lxc exec maasctl -- /bin/bash -c "mkdir /root/bak ; cp /etc/maas/preseeds/curtin_userdata /root/bak/"
 lxc file push /tmp/curtin_userdata maasctl/etc/maas/preseeds/curtin_userdata
 ````
@@ -44,7 +45,7 @@ lxc file push /tmp/curtin_userdata maasctl/etc/maas/preseeds/curtin_userdata
 -------
 #### OPTIONAL: Add maas support for the 'external' network bridge
 ````sh
-wget -qO- http://${ministack_SUBNET}.3/mini-stack/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/maas-add-external.sh | bash
+wget -qO- http://${ministack_SUBNET}.3/mini-stack/05_MAAS_Region_And_Rack_Controller/aux/maas-add-external.sh | bash
 ````
 -------
 ## Next sections
