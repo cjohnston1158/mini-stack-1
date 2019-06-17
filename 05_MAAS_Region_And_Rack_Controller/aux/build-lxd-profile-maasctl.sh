@@ -51,10 +51,11 @@ config:
       - [virsh, net-destroy, default]
       - [apt-get, install, "-y", maas, "--install-recommends"]
       - [chsh, -s, /bin/bash, maas]
-      - [wget", "-qO", "/root/import-nodes-maas", "http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/import-nodes-maas"]
+      - [wget", "-qO", "/root/import-nodes-maas", "http://${ministack_SUBNET}.3/mini-stack/05_MAAS_Region_And_Rack_Controller/aux/import-nodes-maas"]
       - [chmod, "+x", "/root/import-nodes-maas"]
       - [ln, -f, -s, "/root/import-nodes-maas", /usr/bin/import-nodes-maas]
-      - ["wget", "-qO", "/root/login-maas-cli", "http://${ministack_SUBNET}.3/mini-stack/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli.sh"]
+      - ["wget", "-qO", "/root/login-maas-cli",
+        "http://${ministack_SUBNET}.3/mini-stack/05_MAAS_Region_And_Rack_Controller/aux/login-maas-cli.sh"]
       - [chmod, "+x", "/root/login-maas-cli"]
       - [ln, -f, -s, "/root/login-maas-cli", /usr/bin/login-maas-cli]
       - [su, -l, maas, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
