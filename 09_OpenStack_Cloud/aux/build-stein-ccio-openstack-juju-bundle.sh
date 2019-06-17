@@ -1,5 +1,7 @@
 ﻿#!/bin/bash
 source /etc/ccio/mini-stack/profile
+
+write_yaml () {
 cat <<EOFEOF >/tmp/stein-ccio-openstack-bundle.yaml
 series: bionic
 variables:
@@ -375,3 +377,6 @@ relations:
 - - ceph-radosgw:identity-service
   - keystone:identity-service
 EOFEOF
+}
+
+write_yaml
