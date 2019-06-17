@@ -16,7 +16,7 @@ Prerequisites:
 -------
 #### 00. Stage Virt-Install VM Standup Script (on host)
 ```
-wget -qO /tmp/virt-inst-stack-nodes http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/virt-inst-stack-nodes.sh
+wget -qO /tmp/virt-inst-stack-nodes http://${ministack_SUBNET}.3/mini-stack/09_OpenStack_Cloud/aux/virt-inst-stack-nodes.sh
 ```
   - NOTE: Defaults set in script hardware profile section should be adjusted as required in /tmp/virt-inst-stack-nodes
 #### 01. Run Virt-Install VM Standup Script (on host)
@@ -31,7 +31,7 @@ lxc exec maasctl -- import-nodes-maas
 
 #### 03. Tag new mini-stack nodes (on host)
 ```
-lxc exec maasctl -- /bin/bash -c "wget -qO- http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/maas-tag-nodes | bash"
+lxc exec maasctl -- /bin/bash -c "wget -qO- http://${ministack_SUBNET}.3/mini-stack/09_OpenStack_Cloud/aux/maas-tag-nodes | bash"
 ```
 #### 05. Add Juju Machines (on cloudctl)
 ```sh
@@ -39,7 +39,7 @@ for n in 01 02 03; do juju add-machine --constraints tags=mini-stack; done
 ```
 #### 06. Deploy OpenStack from Juju Bundle YAML File (on cloudctl)
 ```sh
-wget -qO- http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/stein-ccio-openstack-juju-bundle.yaml | bash
+wget -qO- http://${ministack_SUBNET}.3/mini-stack/09_OpenStack_Cloud/aux/stein-ccio-openstack-juju-bundle.yaml | bash
 juju deploy /tmp/mini-stack-openstack-bundle.yaml --map-machines=existing --verbose --debug
 ```
 #### 07. Monitor Deploy (on cloudctl)
