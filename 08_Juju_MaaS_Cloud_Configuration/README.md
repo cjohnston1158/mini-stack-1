@@ -22,12 +22,14 @@ lxc exec cloudctl -- su -l ${ministack_uname} -c 'source /tmp/juju-enroll-maas-p
 ````
 #### 02. Build 'jujuctl' libvirt juju controller vm
 ````sh
+wget -qO- http://${ministack_SUBNET}.10/mini-stack/08_Juju_MaaS_Cloud_Configuration/aux/virt-inst-jujuctl-node.sh | bash
 ````
 #### 03. Import JujuCTL as MaaS Node
 ````sh
 lxc exec maasctl -- login-maas-cli
 lxc exec maasctl -- maas-nodes-discover
 ````
+#### 04. 
 ````sh
 ````
 ````sh
