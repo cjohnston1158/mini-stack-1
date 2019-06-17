@@ -35,6 +35,7 @@ lxc exec maasctl -- /bin/bash -c "wget -qO- http://${ministack_SUBNET}.3/mini-st
 ```
 #### 05. Add Juju Machines (on cloudctl)
 ```sh
+lxc ${ministack_USER} cloudctl
 for n in 01 02 03; do juju add-machine --constraints tags=mini-stack; done
 ```
 #### 06. Deploy OpenStack from Juju Bundle YAML File (on cloudctl)
