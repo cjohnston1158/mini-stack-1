@@ -17,7 +17,7 @@ Prerequisites:
 -------
 #### 01. Enroll MAAS as Juju Cloud Provider
 ````sh
-wget -qO- http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/add-maas-cloud-provider.sh | bash
+wget -qO- http://${ministack_SUBNET}.3/mini-stack/08_Juju_MaaS_Cloud_Configuration/aux/add-maas-cloud-provider.sh | bash
 lxc exec cloudctl -- su -l ${ministack_uname} -c 'source /tmp/juju-enroll-maas-provider.sh'
 ````
 #### 02. Test Cloud & Credentials
