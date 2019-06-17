@@ -14,12 +14,12 @@ Prerequisites:
 ![CCIO Hypervisor - OpenStack Prep](web/drawio/OpenStack-Prep.svg)
 
 -------
-#### 00. Virt-Install new vm's (on host)
+#### 00. Stage Virt-Install VM Standup Script (on host)
 ```
 wget -qO /tmp/virt-inst-stack-nodes http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/virt-inst-stack-nodes.sh
 ```
   - NOTE: Defaults set in script hardware profile section should be adjusted as required in /tmp/virt-inst-stack-nodes
-#### 01. Virt-Install new vm's (on host)
+#### 01. Run Virt-Install VM Standup Script (on host)
 ```
 source /tmp/virt-inst-stack-nodes
 ```
