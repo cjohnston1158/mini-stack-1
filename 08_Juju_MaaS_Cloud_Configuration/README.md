@@ -17,22 +17,30 @@ Prerequisites:
 -------
 #### 01. Enroll MAAS as Juju Cloud Provider
 ````sh
-wget -qO- http://10.9.8.3/mini-stack/8_OpenStack_Deploy/aux/add-maas-cloud-provider.sh | bash
+wget -qO- http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/add-maas-cloud-provider.sh | bash
 lxc exec cloudctl -- su -l ${ministack_uname} -c 'source /tmp/juju-enroll-maas-provider.sh'
 ````
-#### 02. Build 'jujuctl' libvirt juju controller vm
+#### 02. Test Cloud & Credentials
 ````sh
-wget -qO- http://${ministack_SUBNET}.10/mini-stack/08_Juju_MaaS_Cloud_Configuration/aux/virt-inst-jujuctl-node.sh | bash
+lxc exec cloudctl -- su -l ${ministack_USER} -c "juju clouds"
+lxc exec cloudctl -- su -l ${ministack_USER} -c "juju credentials"
 ````
-#### 03. Import JujuCTL as MaaS Node
+#### 04. Import JujuCTL as MaaS Node
 ````sh
 lxc exec maasctl -- login-maas-cli
 lxc exec maasctl -- maas-nodes-discover
 ````
-#### 04. 
+#### 03. Build 'jujuctl' libvirt juju controller vm
 ````sh
+wget -qO- http://${ministack_SUBNET}.3/mini-stack/08_Juju_MaaS_Cloud_Configuration/aux/virt-inst-jujuctl-node.sh | bash
 ````
+#### 05. Tag JujuCtl Libvirt VM
 ````sh
+wget -qO- http://${ministack_SUBNET}.3/mini-stack/08_Juju_MaaS_Cloud_Configuration/aux/maas-tag-nodes.sh | bash
+````
+#### 05. Bootstrap Juju Controller
+````sh
+lxc exec cloudctl -- su -l ${ministack_USER} -c 'juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "tags=jujuctl" maasctl jujuctl'
 ````
 #### 02. Create Juju Model (on cloudctl)
 ````sh
