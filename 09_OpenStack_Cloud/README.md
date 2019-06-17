@@ -33,15 +33,6 @@ lxc exec maasctl -- import-nodes-maas
 ```
 lxc exec maasctl -- /bin/bash -c "wget -qO- http://${ministack_SUBNET}.3/mini-stack/8_OpenStack_Deploy/aux/maas-tag-nodes | bash"
 ```
-#### 00. Enroll Juju MAAS Cloud Provider
-```sh
-wget -qO- http://10.9.8.3/mini-stack/8_OpenStack_Deploy/aux/add-maas-cloud-provider.sh | bash
-lxc exec cloudctl -- su -l ${ministack_uname} -c 'source /tmp/juju-enroll-maas-provider.sh'
-```
-#### 04. Create Juju Model (on cloudctl)
-```sh
-juju add-model mini-stack
-```
 #### 05. Add Juju Machines (on cloudctl)
 ```sh
 for n in 01 02 03; do juju add-machine --constraints tags=mini-stack; done
