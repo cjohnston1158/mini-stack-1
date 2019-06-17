@@ -1,6 +1,7 @@
 echo ">   Staging Cloudctl Profile ..."
 cat <<EOF >/tmp/lxd-profile-cloudctl.yaml
 config:
+  linux.kernel_modules: ip6table_filter,iptable_filter
   security.nesting: "true"
   security.privileged: "true"
   user.network-config: |
