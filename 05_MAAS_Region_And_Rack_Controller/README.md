@@ -24,8 +24,7 @@ lxc exec maasctl -- tail -f /var/log/cloud-init-output.log
   - NOTE: Build time is dependent on hardware & network specs, monitor logs until build is complete
 #### 03. Run MAAS Setup
 ````sh
-wget -qO-
-http://${ministack_SUBNET}.3/mini-stack/05_MAAS_Region_And_Rack_Controller/aux/run-setup-maas.sh | bash
+wget -qO- http://${ministack_SUBNET}.3/mini-stack/05_MAAS_Region_And_Rack_Controller/aux/run-setup-maas.sh | bash
 ````
 #### 04. Write Custom Userdata
 ````sh
