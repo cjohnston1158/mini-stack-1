@@ -20,7 +20,7 @@ Prerequisites:
 wget -qO- http://${ministack_SUBNET}.3/mini-stack/08_Juju_MaaS_Cloud_Configuration/aux/add-maas-cloud-provider.sh | bash
 lxc exec cloudctl -- su -l ${ministack_uname} -c 'source /tmp/juju-enroll-maas-provider.sh'
 ````
-#### 04. Import JujuCTL as MaaS Node
+#### 02. Import JujuCTL as MaaS Node
 ````sh
 lxc exec maasctl -- login-maas-cli
 lxc exec maasctl -- maas-nodes-discover
@@ -29,7 +29,7 @@ lxc exec maasctl -- maas-nodes-discover
 ````sh
 wget -qO- http://${ministack_SUBNET}.3/mini-stack/08_Juju_MaaS_Cloud_Configuration/aux/virt-inst-jujuctl-node.sh | bash
 ````
-#### 05. Tag JujuCtl Libvirt VM
+#### 04. Tag JujuCtl Libvirt VM
 ````sh
 wget -qO- http://${ministack_SUBNET}.3/mini-stack/08_Juju_MaaS_Cloud_Configuration/aux/maas-tag-nodes.sh | bash
 ````
