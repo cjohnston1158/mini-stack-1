@@ -39,14 +39,22 @@ config:
       - python-novaclient
       - python-nova-adminclient
       - python-neutronclient
+    users:
+      - name: ubuntu
+        shell: /bin/bash
+        sudo: ['ALL=(ALL) NOPASSWD:ALL']
+        ssh_import_id: ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
+      - name: ${ccio_SSH_UNAME}
+        shell: /bin/bash
+        sudo: ['ALL=(ALL) NOPASSWD:ALL']
+        ssh_import_id: ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
     runcmd:
       - [echo, "'CLOUDCTL-DBG: Start RUNCMD'"]
       - [echo, "CLOUDINIT-DBG: runcmd 0.0 - base prep"]
+      - [snap, install, juju, "--classic"]
       - [virsh, net-destroy, default]
       - [virsh, net-undefine, default]
       - [apt-get, autoremove, "-y"]
-      - [snap, install, juju, "--classic"]
-      - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
       - ["ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
       - [update-alternatives, "--set", "editor", "/usr/bin/vim.basic"]
       - [echo, "source /etc/ccio/mini-stack/profile", ">>", "/etc/skel/.bashrc"]
@@ -65,6 +73,7 @@ config:
       - [mkdir, "-p", "/etc/ccio/mini-stack"]
       - [git, clone, "https://github.com/containercraft/mini-stack.git", "/var/www/html/mini-stack"]
       - [ln, "-s", "/var/www/html/mini-stack", "/root/mini-stack"]
+      - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
       - [echo, "CLOUDINIT-DBG: runcmd 0.0 - cloud-config runcmd complete ... rebooting"]
       - [reboot]
 description: ccio mini-stack cloudctl container profile
