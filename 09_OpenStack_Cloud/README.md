@@ -90,6 +90,29 @@ openstack flavor create --public --ram 4096 --disk 32 --vcpus 4 --swap 0 m4.4med
 wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img -P ~/Downloads/
 openstack image create --public --disk-format raw --container-format bare --file ~/Downloads/bionic-server-cloudimg-amd64.img bionic-cloud-image
 ```
+#### 00. Create OS Key Pair
+```sh
+openstack keypair create --public-key ~/.ssh/id_rsa.pub default
+```
+#### 00. Create Internal Router & Network
+```sh
+openstack network create --share --enable --internal --mtu 1458 int_net
+openstack router create --enable edge
+openstack subnet create --dhcp --gateway 172.0.0.1 --dns-nameserver ${ministack_SUBNET}.10 --dns-nameserver 8.8.8.8 --subnet-range 172.0.0.0/24 --allocation-pool start=172.0.0.100,end=172.0.0.254 --network int_net int_subnet
+openstack router add subnet edge int_subnet
+openstack router set --external-gateway ext_net edge
+```
+#### 00. Launch Instance
+```sh
+openstack server create --flavor m2.2small --security-group $(openstack security group list -f value | sed -n 2p | awk '{print $1}') --image bionic-cloud-image --nic net-id=$(openstack network list -f value | awk '/int_net/{print $1}') --key-name default t01
+```
+#### 00. Attach Floating IP $
+```sh
+openstack floating ip create ext_net
+openstack floating ip list
+openstack server list
+openstack server add floating ip t01 10.10.0.43
+```
 
 
 - [Part 9 Kubernetes Deploy]
