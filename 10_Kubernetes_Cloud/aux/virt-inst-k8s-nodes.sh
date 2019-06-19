@@ -8,7 +8,7 @@ root_DISK=64   # in Gigabytes
 vm_RAM=16448   # in Megabytes
 vm_COUNT=03    # Set VM spawn count
 storage_POOL="/var/lib/libvirt/images"
-name_BASE="mini-stack"
+name_BASE="kubernetes"
 
 #################################################################################
 # If set to 'true' will disable sleep interval between spawn loops
