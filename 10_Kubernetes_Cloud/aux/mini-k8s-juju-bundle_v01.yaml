@@ -1,7 +1,7 @@
 ﻿series: bionic
 applications:
   easyrsa:
-    charm: 'cs:~containers/easyrsa-231'
+    charm: 'cs:~containers/easyrsa-254'
     num_units: 1
     constraints: root-disk=8192
     series: bionic
@@ -11,15 +11,15 @@ applications:
     to:
       - 'lxd:kubernetes-master/0'
   flannel:
-    charm: 'cs:~containers/flannel-398'
+    charm: 'cs:~containers/flannel-421'
     series: bionic
     annotations:
       gui-x: '450'
       gui-y: '750'
   kubeapi-load-balancer:
-    charm: 'cs:~containers/kubeapi-load-balancer-617'
+    charm: 'cs:~containers/kubeapi-load-balancer-648'
     num_units: 1
-    constraints: tags=mini-k8s arch=amd64 cpu-cores=4 mem=10240
+    constraints: tags=k8s
     expose: true
     series: bionic
     annotations:
@@ -28,11 +28,11 @@ applications:
     to:
       - 'lxd:kubernetes-master/1'
   etcd:
-    charm: 'cs:~containers/etcd-411'
+    charm: 'cs:~containers/etcd-432'
     num_units: 3
     options:
       channel: 3.2/stable
-    constraints: tags=mini-k8s arch=amd64 cpu-cores=4 mem=10240
+    constraints: tags=k8s
     series: bionic
     annotations:
       gui-x: '800'
@@ -42,9 +42,9 @@ applications:
       - 'lxd:kubernetes-master/1'
       - 'lxd:kubernetes-master/2'
   kubernetes-worker:
-    charm: 'cs:~containers/kubernetes-worker-508'
+    charm: 'cs:~containers/kubernetes-worker-550'
     num_units: 3
-    constraints: tags=mini-k8s arch=amd64 cpu-cores=4 mem=10240
+    constraints: tags=k8s
     expose: true
     series: bionic
     annotations:
@@ -55,7 +55,7 @@ applications:
       - '1'
       - '2'
   kubernetes-master:
-    charm: 'cs:~containers/kubernetes-master-642'
+    charm: 'cs:~containers/kubernetes-master-696'
     num_units: 3
     options:
       audit-policy: |-
@@ -158,7 +158,7 @@ applications:
                 ]
               }
             ]
-    constraints: tags=mini-k8s arch=amd64 cpu-cores=4 mem=10240
+    constraints: tags=k8s
     series: bionic
     annotations:
       gui-x: '800'
@@ -195,10 +195,10 @@ relations:
 machines:
   '0':
     series: bionic
-    constraints: tags=mini-k8s arch=amd64 cpu-cores=4 mem=10240
+    constraints: tags=k8s
   '1':
     series: bionic
-    constraints: tags=mini-k8s arch=amd64 cpu-cores=4 mem=10240
+    constraints: tags=k8s
   '2':
     series: bionic
-    constraints: tags=mini-k8s arch=amd64 cpu-cores=4 mem=10240
+    constraints: tags=k8s
