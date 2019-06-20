@@ -3,9 +3,9 @@
 #################################################################################
 # Hardware Profile
 vm_CPU=2
-#osd_DISK=64    # in Gigabytes
+#osd_DISK=64   # in Gigabytes
 root_DISK=64   # in Gigabytes
-vm_RAM=16448   # in Megabytes
+vm_RAM=4096    # in Megabytes
 vm_COUNT=03    # Set VM spawn count
 storage_POOL="/var/lib/libvirt/images"
 name_BASE="kubernetes"
@@ -32,7 +32,7 @@ virt-install \
     --network network=internal,model=virtio,mac=${eth0_HWADDRESS} \
     --network network=internal,model=virtio,mac=${eth1_HWADDRESS} \
     --network network=internal,model=virtio,mac=${eth2_HWADDRESS} \
-    --disk path=${storage_POOL}/${name_FULL}_vdc.qcow2,format=raw,bus=virtio,cache=unsafe,size=${osd_DISK}
+    --disk path=${storage_POOL}/${name_FULL}_vdc.qcow2,format=raw,bus=virtio,cache=unsafe,size=${root_DISK}
 
 # Prevent the VM from pxe booting to autodiscovery in maas
 sleep 1 && virsh destroy ${name_FULL}

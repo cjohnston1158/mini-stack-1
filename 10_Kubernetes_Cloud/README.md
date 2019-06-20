@@ -13,12 +13,42 @@ Prerequisites:
 - [Part 7 Juju MAAS Cloud]
 - [Part 8 OpenStack Deploy]
 
+
 ![CCIO Hypervisor - OpenStack Prep](web/drawio/OpenStack-Prep.svg)
 
 -------
 #### 01.
 ```
+wget -qO- http://${ministack_SUBNET}.3/mini-stack/10_Kubernetes_Cloud/aux/virt-inst-k8s-nodes.sh | bash
 ```
+```
+lxc exec maasctl -- maas-nodes-discover
+```
+```
+lxc exec maasctl -- /bin/bash -c "wget -qO- http://${ministack_SUBNET}.3/mini-stack/10_Kubernetes_Cloud/aux/maas-tag-nodes | bash"
+```
+```
+wget -qO /tmp/kubernetes.yaml http://${ministack_SUBNET}.3/mini-stack/10_Kubernetes_Cloud/aux/mini-k8s-juju-bundle_v01.yaml
+```
+```
+juju deploy /tmp/kubernetes.yaml --verbose --debug
+```
+```
+mkdir -p ~/.kube
+juju scp kubernetes-master/0:config ~/.kube/config
+snap install kubectl --classic
+kubectl cluster-info
+juju expose kubernetes-worker
+```
+https://10.10.0.46/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/cluster?namespace=default
+###### Credentials: [admin:admin]
+
+###### How To Ingress
+https://github.com/kubernetes-retired/contrib/tree/master/ingress/controllers/nginx/examples
+
+###### Kubernetes Storage
+https://ubuntu.com/kubernetes/docs/storage
+
 
 -------
 <!-- Markdown link & img dfn's -->

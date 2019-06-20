@@ -19,7 +19,7 @@ applications:
   kubeapi-load-balancer:
     charm: 'cs:~containers/kubeapi-load-balancer-648'
     num_units: 1
-    constraints: tags=k8s
+    constraints: tags=kubernetes
     expose: true
     series: bionic
     annotations:
@@ -32,7 +32,7 @@ applications:
     num_units: 3
     options:
       channel: 3.2/stable
-    constraints: tags=k8s
+    constraints: tags=kubernetes
     series: bionic
     annotations:
       gui-x: '800'
@@ -43,8 +43,9 @@ applications:
       - 'lxd:kubernetes-master/2'
   kubernetes-worker:
     charm: 'cs:~containers/kubernetes-worker-550'
+    expose: true
     num_units: 3
-    constraints: tags=k8s
+    constraints: tags=kubernetes
     expose: true
     series: bionic
     annotations:
@@ -158,7 +159,7 @@ applications:
                 ]
               }
             ]
-    constraints: tags=k8s
+    constraints: tags=kubernetes
     series: bionic
     annotations:
       gui-x: '800'
@@ -195,10 +196,10 @@ relations:
 machines:
   '0':
     series: bionic
-    constraints: tags=k8s
+    constraints: tags=kubernetes
   '1':
     series: bionic
-    constraints: tags=k8s
+    constraints: tags=kubernetes
   '2':
     series: bionic
-    constraints: tags=k8s
+    constraints: tags=kubernetes
