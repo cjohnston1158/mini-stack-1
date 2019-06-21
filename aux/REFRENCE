@@ -1,3 +1,5 @@
+maas admin boot-source-selections create 1 os="ubuntu" release="bionic" arches="amd64" subarches="hwe-18.04" labels="*"
+maas admin boot-resources import
 https://www.devtech101.com/2018/09/04/deploying-helm-tiller-prometheus-alertmanager-grafana-elasticsearch-on-your-kubernetes-cluster/    
 https://www.devtech101.com/2018/10/23/deploying-helm-tiller-prometheus-alertmanager-grafana-elasticsearch-on-your-kubernetes-cluster-part-2/    
 
