@@ -1,5 +1,5 @@
 # Part 08 -- Juju MAAS Cloud Provider
-###### Install MAAS Region & Rack Controllers on Open vSwitch Network
+###### Configure the host Libvirt daemon as a cloud virtual machine provider
 
 -------
 Prerequisites:
