@@ -11,9 +11,6 @@ Prerequisites:
 - [Part 05 MAAS Region And Rack Controller]
 - [Part 06 Install Libvirt/KVM on OVS Networks]
 - [Part 07 MAAS Libvirt POD Provider]
-- [Part 08 Juju MAAS Cloud Provider]
-- [Part 09 Build OpenStack Cloud]
-- [Part 10 Build Kubernetes Cloud]
 
 ![CCIO_Hypervisor - KVM-On-Open-vSwitch](web/drawio/MAAS-Region-And-Rack-Ctl-on-OVS-Sandbox.svg)
 
@@ -48,15 +45,6 @@ exit
 ````
 -------
 ## Next sections
-- [Part 00 Host System Prep]
-- [Part 01 Single Port Host OVS Network Config]
-- [Part 02 LXD On Open vSwitch Networks]
-- [Part 03 Build CloudCTL LXD Bastion]
-- [Part 04 LXD Network Gateway]
-- [Part 05 MAAS Region And Rack Controller]
-- [Part 06 Install Libvirt/KVM on OVS Networks]
-- [Part 07 MAAS Libvirt POD Provider]
-- [Part 08 Juju MAAS Cloud Provider]
 - [Part 09 Build OpenStack Cloud]
 - [Part 10 Build Kubernetes Cloud]
 
