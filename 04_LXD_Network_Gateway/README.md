@@ -1,4 +1,4 @@
-# Part 3 -- LXD Gateway & Firewall for Open vSwitch Network Isolation
+# Part 043 -- LXD Gateway for OpenvSwitch Network Isolation
 ###### Create a sandboxed network environment with OpenVSwitch and an LXD Gateway using the [Unofficial OpenWRT LXD Project](https://github.com/containercraft/openwrt-lxd)
 
 -------
