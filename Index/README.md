@@ -3,13 +3,10 @@
 ## [Part 00 Host System Prep]
 -------
 ## [Part 01 Single Port Host OVS Network Config]
-![Part 00 -- Host System Prep](../01_Single_Port_Host_OpenVSwitch_Config/web/drawio/single-port-ovs-host.svg)
+![Part 01 -- Single Port Host](../01_Single_Port_Host_OpenVSwitch_Config/web/drawio/single-port-ovs-host.svg)
 -------
-## [Part 1 -- Single Port Host Open vSwitch Network Configuration](../1_Single_Port_Host-Open_vSwitch_Network_Configuration)
-![Part 1 -- Single Port Host Open vSwitch Network Configuration](../1_Single_Port_Host-Open_vSwitch_Network_Configuration/web/drawio/single-port-ovs-host.svg)
--------
-## [Part 2 -- LXD On Open vSwitch Network](../2_LXD-On-OVS)
-![Part 2 -- LXD On Open vSwitch Network](../2_LXD-On-OVS/web/drawio/lxd-on-openvswitch.svg)
+## [Part 02 LXD On Open vSwitch Networks]
+![Part 02 LXD On Open vSwitch Networks](../02_LXD_On_OVS/web/drawio/lxd-on-openvswitch.svg)
 -------
 ## [Part 3 -- LXD Gateway & Firwall for Open vSwitch Network Isolation](../3_LXD_Network_Gateway)
 ![Part 3 -- LXD Gateway & Firwall for Open vSwitch Network Isolation](../3_LXD_Network_Gateway/web/drawio/lxd-gateway.svg)
@@ -30,7 +27,6 @@
 ![CCIO Hypervisor - JujuCTL Cloud Controller](../8_OpenStack_Deploy/web/drawio/OpenStack-Prep.svg)
 -------
 
-## [Part 02 LXD On Open vSwitch Networks]
 ## [Part 03 Build CloudCTL LXD Bastion]
 ## [Part 04 LXD Network Gateway]
 ## [Part 05 MAAS Region And Rack Controller]
