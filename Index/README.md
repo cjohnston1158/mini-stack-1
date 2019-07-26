@@ -3,7 +3,7 @@
 ## [Part 00 Host System Prep]
 -------
 ## [Part 01 Single Port Host OVS Network Config]
-![Part 00 -- Host System Prep](../00_Host_System_Prep/web/drawio/host_system_prep.svg)
+![Part 00 -- Host System Prep](../01_Single_Port_Host_OpenVSwitch_Config/web/drawio/single-port-ovs-host.svg)
 -------
 ## [Part 1 -- Single Port Host Open vSwitch Network Configuration](../1_Single_Port_Host-Open_vSwitch_Network_Configuration)
 ![Part 1 -- Single Port Host Open vSwitch Network Configuration](../1_Single_Port_Host-Open_vSwitch_Network_Configuration/web/drawio/single-port-ovs-host.svg)
