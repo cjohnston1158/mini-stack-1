@@ -158,7 +158,6 @@ source /tmp/internal-mgmt1-setup
 
 -------
 ## Next sections
-- [Part 01 Single Port Host OVS Network Config]
 - [Part 02 LXD On Open vSwitch Networks]
 - [Part 03 Build CloudCTL LXD Bastion]
 - [Part 04 LXD Network Gateway]
