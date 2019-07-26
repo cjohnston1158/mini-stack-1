@@ -1,5 +1,5 @@
 # Part 08 -- Juju MAAS Cloud Provider
-###### Configure the host Libvirt daemon as a cloud virtual machine provider
+###### Configure the host Libvirt daemon as an automated MAAS cloud virtual machine provider for JujuCTL
 
 -------
 Prerequisites:
