@@ -44,7 +44,7 @@ config:
         shell: /bin/bash
         sudo: ['ALL=(ALL) NOPASSWD:ALL']
         ssh_import_id: ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
-      - name: ${ccio_SSH_UNAME}
+      - name: ${ministack_UNAME}
         shell: /bin/bash
         sudo: ['ALL=(ALL) NOPASSWD:ALL']
         ssh_import_id: ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
