@@ -45,7 +45,6 @@ lxc start cloudctl ; sleep 4 ; lxc list
 #### OPT 02. CloudCTL is now accessible over RDP via it's IP address
 -------
 ## Next Sections 
-- [Part 03 Build CloudCTL LXD Bastion]
 - [Part 04 LXD Network Gateway]
 - [Part 05 MAAS Region And Rack Controller]
 - [Part 06 Install Libvirt/KVM on OVS Networks]
