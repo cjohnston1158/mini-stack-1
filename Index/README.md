@@ -18,7 +18,7 @@
 ![Part 05 MAAS Region And Rack Controller](../05_MAAS_Region_And_Rack_Controller/web/drawio/MAAS-Region-And-Rack-Ctl-on-OVS-Sandbox.svg)
 -------
 ## [Part 06 Install Libvirt/KVM on OVS Networks]
-![Part 06 Install Libvirt/KVM on OVS Networks](../06_Libvirt_On_Open_vSwitch/web/drawio/kvm-on-openvswitch.svg)
+![Part 06 Install Libvirt/KVM on OVS Networks](../06_Libvirt_On_Open_vSwitch/web/drawio/kvm-on-open-vswitch.svg)
 -------
 ## [Part 07 MAAS Libvirt POD Provider]
 ![Part 07 MAAS Libvirt POD Provider](../07_MAAS_Libvirt_Pod_Provider/web/drawio/maas-region-and-rack-ctl-on-ovs-sandbox.svg)
