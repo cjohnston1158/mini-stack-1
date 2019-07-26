@@ -29,7 +29,7 @@
 ![Part 09 Build OpenStack Cloud](../09_OpenStack_Cloud/web/drawio/OpenStack-Prep.svg)
 -------
 ## [Part 10 Build Kubernetes Cloud]
-![Part 10 Build Kubernetes Cloud](../10_Kubernetes_Cloud/web/drawio/k8s-undercloud.svg)
+![Part 10 Build Kubernetes Cloud](../10_Kubernetes_Cloud/web/drawio/k8s-build.svg)
 -------
 <!-- Markdown link & img dfn's -->
 [Part 00 Host System Prep]: ../00_Host_System_Prep
