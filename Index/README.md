@@ -26,7 +26,7 @@
 ## [Part 08 Juju MAAS Cloud Provider]
 -------
 ## [Part 09 Build OpenStack Cloud]
-![Part 07 MAAS Libvirt POD Provider](../07_MAAS_Libvirt_Pod_Provider/web/drawio/maas-region-and-rack-ctl-on-ovs-sandbox.svg)
+![Part 09 Build OpenStack Cloud](../09_OpenStack_Cloud/web/drawio/OpenStack-Prep.svg)
 -------
 ## [Part 10 Build Kubernetes Cloud]
 ![Part 10 Build Kubernetes Cloud](../10_Kubernetes_Cloud/web/drawio/k8s-undercloud.svg)
