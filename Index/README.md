@@ -1,6 +1,8 @@
 # Index:
-
+-------
 ## [Part 00 Host System Prep]
+-------
+## [Part 01 Single Port Host OVS Network Config]
 ![Part 00 -- Host System Prep](../00_Host_System_Prep/web/drawio/host_system_prep.svg)
 <br/>
 ## [Part 1 -- Single Port Host Open vSwitch Network Configuration](../1_Single_Port_Host-Open_vSwitch_Network_Configuration)
@@ -28,7 +30,6 @@
 ![CCIO Hypervisor - JujuCTL Cloud Controller](../8_OpenStack_Deploy/web/drawio/OpenStack-Prep.svg)
 <br/>
 
-## [Part 01 Single Port Host OVS Network Config]
 ## [Part 02 LXD On Open vSwitch Networks]
 ## [Part 03 Build CloudCTL LXD Bastion]
 ## [Part 04 LXD Network Gateway]
