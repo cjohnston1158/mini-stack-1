@@ -8,11 +8,11 @@
 ## [Part 02 LXD On Open vSwitch Networks]
 ![Part 02 LXD On Open vSwitch Networks](../02_LXD_On_OVS/web/drawio/lxd-on-openvswitch.svg)
 -------
-## [Part 3 -- LXD Gateway & Firwall for Open vSwitch Network Isolation](../3_LXD_Network_Gateway)
-![Part 3 -- LXD Gateway & Firwall for Open vSwitch Network Isolation](../3_LXD_Network_Gateway/web/drawio/lxd-gateway.svg)
+## [Part 03 Build CloudCTL LXD Bastion]
+![Part 03 Build CloudCTL LXD Bastion](../03_Cloud_Controller_Bastion/web/drawio/juju_maas_cloud_controller.svg)
 -------
-## [Part 4 -- KVM On Open vSwitch](../4_KVM_On_Open_vSwitch)
-![Part 4 -- KVM On Open vSwitch](../4_KVM_On_Open_vSwitch/web/drawio/kvm-on-open-vswitch.svg)
+## [Part 04 LXD Network Gateway]
+![Part 4 -- KVM On Open vSwitch](../04_LXD_Network_Gateway/web/drawio/lxd-gateway.svg)
 -------
 ## [Part 5 -- MAAS Region And Rack Server on OVS Sandbox](../5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch)
 ![Part 5 -- MAAS Region And Rack Server on OVS Sandbox](../5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/web/drawio/MAAS-Region-And-Rack-Ctl-on-OVS-Sandbox.svg)
@@ -27,8 +27,6 @@
 ![CCIO Hypervisor - JujuCTL Cloud Controller](../8_OpenStack_Deploy/web/drawio/OpenStack-Prep.svg)
 -------
 
-## [Part 03 Build CloudCTL LXD Bastion]
-## [Part 04 LXD Network Gateway]
 ## [Part 05 MAAS Region And Rack Controller]
 ## [Part 06 Install Libvirt/KVM on OVS Networks]
 ## [Part 07 MAAS Libvirt POD Provider]
