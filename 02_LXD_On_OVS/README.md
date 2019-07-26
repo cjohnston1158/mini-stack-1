@@ -65,7 +65,6 @@ lxc delete --force c01
 ````
 -------
 ## Next sections
-- [Part 02 LXD On Open vSwitch Networks]
 - [Part 03 Build CloudCTL LXD Bastion]
 - [Part 04 LXD Network Gateway]
 - [Part 05 MAAS Region And Rack Controller]
