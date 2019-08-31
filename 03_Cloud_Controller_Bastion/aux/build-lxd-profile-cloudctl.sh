@@ -72,6 +72,7 @@ config:
       - [rm, "/var/www/html/index.html"]
       - [mkdir, "-p", "/etc/ccio/mini-stack"]
       - [git, clone, "https://github.com/containercraft/mini-stack.git", "/var/www/html/mini-stack"]
+      - [ln, "-s", "/var/www/html/mini-stack", "/home/${ministack_UNAME}/mini-stack"]
       - [ln, "-s", "/var/www/html/mini-stack", "/root/mini-stack"]
       - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
       - [echo, "CLOUDINIT-DBG: runcmd 0.0 - cloud-config runcmd complete ... rebooting"]
