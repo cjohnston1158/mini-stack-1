@@ -295,16 +295,16 @@ config rule
 config include
 	option path '/etc/firewall.user'
 
-config redirect
-	option proto 'tcp'
-	option src 'lan'
-	option src_ip '!${ministack_SUBNET}.1'
-	option src_dport '80'
-	option dest 'lan'
-	option dest_ip '${ministack_SUBNET}.1'
-	option dest_port '3128'
-	option target 'DNAT'
-	option name 'squid-http-caching-proxy'
+#config redirect
+#	option proto 'tcp'
+#	option src 'lan'
+#	option src_ip '!${ministack_SUBNET}.1'
+#	option src_dport '80'
+#	option dest 'lan'
+#	option dest_ip '${ministack_SUBNET}.1'
+#	option dest_port '3128'
+#	option target 'DNAT'
+#	option name 'squid-http-caching-proxy'
 
 config redirect
 	option target 'DNAT'
@@ -356,16 +356,16 @@ config redirect
 	option dest_port '22'
 	option name 'mini-stack-host-ssh'
 
-config redirect
-	option proto 'tcp'
-	option src 'lan'
-	option src_ip '!${ministack_SUBNET}.1'
-	option src_dport '80'
-	option dest 'lan'
-	option dest_ip '${ministack_SUBNET}.1'
-	option dest_port '3128'
-	option target 'DNAT'
-	option name 'squid-http-caching-proxy'
+#config redirect
+#	option proto 'tcp'
+#	option src 'lan'
+#	option src_ip '!${ministack_SUBNET}.1'
+#	option src_dport '80'
+#	option dest 'lan'
+#	option dest_ip '${ministack_SUBNET}.1'
+#	option dest_port '3128'
+#	option target 'DNAT'
+#	option name 'squid-http-caching-proxy'
 
 config redirect
         option target 'DNAT'
